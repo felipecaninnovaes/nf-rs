@@ -19,6 +19,7 @@ pub mod objects {
         pub ind_tot: i64,
         pub x_ped: String,
         pub icms: Icms,
+        pub ipi: Ipi,
     }
     #[derive(Debug)]
     pub struct Icms {
@@ -29,6 +30,12 @@ pub mod objects {
         pub p_icms: f64,
         pub v_icms: f64,
     }
+    #[derive(Debug)]
+    pub struct Ipi {
+        pub c_enq: i64,
+        pub cst: i64,
+    }
+
     #[derive(Debug)]
     pub struct Pis {
         pub cst: i64,
