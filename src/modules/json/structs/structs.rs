@@ -34,6 +34,9 @@ pub mod objects {
     pub struct Ipi {
         pub c_enq: i64,
         pub cst: i64,
+        pub v_bc: f64,
+        pub p_ipi: i64,
+        pub v_ipi: i64,
     }
 
     #[derive(Debug)]
