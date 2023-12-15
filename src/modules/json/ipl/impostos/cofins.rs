@@ -23,4 +23,13 @@ impl Cofins {
         };
         return value;
     }
+
+    // pub fn constructor(&self) -> Cofins {
+    //     return Cofins {
+    //         cst: parse_value_to_i64(&self.cst),
+    //         v_bc: parse_value_to_f64(&self.v_bc),
+    //         p_cofins: parse_value_to_f64(&self.p_cofins),
+    //         v_cofins: parse_value_to_f64(&self.v_cofins),
+    //     };
+    // }
 }

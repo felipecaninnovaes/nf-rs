@@ -17,7 +17,6 @@ pub fn parse_value_to_i32(string: &Value) -> i32 {
     let data = serde_json::to_string(string)
         .expect("msg")
         .replace("\"", "");
-    println!("{}", &data);
     let result = match data.parse::<i32>() {
         Ok(n) => n,
         Err(_) => {
