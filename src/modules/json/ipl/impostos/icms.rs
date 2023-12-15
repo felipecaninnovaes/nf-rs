@@ -1,6 +1,5 @@
-pub mod icms {
-    use crate::modules::json::structs::impostos::impostos::Icms;
-    use crate::modules::util::parse_utils::utils::{parse_value_to_f64, parse_value_to_i64};
+    use crate::modules::json::structs::impostos::Icms;
+    use crate::modules::util::parse_utils::{parse_value_to_f64, parse_value_to_i64};
     use serde_json::Value;
     impl Icms {
         #[allow(dead_code)]
@@ -22,4 +21,3 @@ pub mod icms {
             return value;
         }
     }
-}

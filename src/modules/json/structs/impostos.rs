@@ -1,6 +1,4 @@
-pub mod impostos {
-
-    #[derive(Debug)]
+   #[derive(Debug)]
     pub struct Icms {
         pub orig: i64,
         pub cst: i64,
@@ -53,4 +51,3 @@ pub mod impostos {
         pub cofins: Cofins,
         pub icms_uf_dest: IcmsUfDest,
     }
-}
