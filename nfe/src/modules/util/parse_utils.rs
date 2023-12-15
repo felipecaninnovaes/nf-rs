@@ -1,12 +1,12 @@
 use serde_json::Value;
 pub fn parse_value_to_i64(string: &Value) -> i64 {
     let data = serde_json::to_string(string)
-        .expect("msg")
+        .expect("Failed to convert json in string on parse to i64 function")
         .replace("\"", "");
     let result = match data.parse::<i64>() {
         Ok(n) => n,
         Err(_) => {
-            println!("Failed to parse integer {}", string);
+            println!("Failed to parse i64 {}", string);
             0
         }
     };
@@ -15,12 +15,12 @@ pub fn parse_value_to_i64(string: &Value) -> i64 {
 #[allow(dead_code)]
 pub fn parse_value_to_i32(string: &Value) -> i32 {
     let data = serde_json::to_string(string)
-        .expect("msg")
+        .expect("Failed to convert json in string on parse to i32 function")
         .replace("\"", "");
     let result = match data.parse::<i32>() {
         Ok(n) => n,
         Err(_) => {
-            println!("Failed to parse integer");
+            println!("Failed to parse i32");
             0
         }
     };
@@ -29,12 +29,12 @@ pub fn parse_value_to_i32(string: &Value) -> i32 {
 
 pub fn parse_value_to_f64(string: &Value) -> f64 {
     let data = serde_json::to_string(string)
-        .expect("msg")
+        .expect("Failed to convert json in string on parse to f64 function")
         .replace("\"", "");
     let result = match data.parse::<f64>() {
         Ok(n) => n,
         Err(_) => {
-            println!("Failed to parse float");
+            println!("Failed to parse f64");
             0.0
         }
     };

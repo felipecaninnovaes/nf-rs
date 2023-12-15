@@ -1,5 +1,5 @@
-mod ipi;
-mod icms;
-mod pis;
 mod cofins;
+mod icms;
 mod icms_uf_dest;
+mod ipi;
+mod pis;

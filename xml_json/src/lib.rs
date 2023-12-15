@@ -8,7 +8,7 @@
  *=============================================================
 */
 
-mod json;
 mod core;
+mod json;
 mod utils;
 pub use json::{to_json_from_file, to_json_from_str};

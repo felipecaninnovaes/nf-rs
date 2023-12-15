@@ -2,8 +2,8 @@ use quick_xml::Reader;
 use serde::de::value::Error;
 use serde_json::Value;
 
-use super::utils::read_file;
 use super::core::read;
+use super::utils::read_file;
 
 /**
  * to_json() will take an input string and attempt to convert it into a form
