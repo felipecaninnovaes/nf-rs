@@ -9,14 +9,14 @@
         }
         #[allow(dead_code)]
         pub fn new(base: &Value) -> Icms {
-            let prod_icms = &base["imposto"][0]["ICMS"][0]["ICMS00"][0];
+            let prod_icms = &base["imposto"]["ICMS"]["ICMS00"];
             let value: Icms = Icms {
-                orig: parse_value_to_i64(&prod_icms["orig"][0]),
-                cst: parse_value_to_i64(&prod_icms["CST"][0]),
-                mod_bc: parse_value_to_i64(&prod_icms["modBC"][0]),
-                v_bc: parse_value_to_f64(&prod_icms["vBC"][0]),
-                p_icms: parse_value_to_f64(&prod_icms["pICMS"][0]),
-                v_icms: parse_value_to_f64(&prod_icms["vICMS"][0]),
+                orig: parse_value_to_i64(&prod_icms["orig"]),
+                cst: parse_value_to_i64(&prod_icms["CST"]),
+                mod_bc: parse_value_to_i64(&prod_icms["modBC"]),
+                v_bc: parse_value_to_f64(&prod_icms["vBC"]),
+                p_icms: parse_value_to_f64(&prod_icms["pICMS"]),
+                v_icms: parse_value_to_f64(&prod_icms["vICMS"]),
             };
             return value;
         }

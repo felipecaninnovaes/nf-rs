@@ -2,6 +2,8 @@ use crate::modules::json::structs::impostos::*;
 use crate::modules::json::structs::produtos::Produto;
 use serde_json::Value;
 
+use xml_json::{*};
+
 impl Produto {
     #[allow(dead_code)]
     pub fn empty() -> Vec<Produto> {
@@ -34,39 +36,38 @@ impl Produto {
     }
 
     pub fn new(file_path: &str) -> Vec<Produto> {
-        use crate::modules::util::files_utils::json_to_object;
         use crate::modules::util::parse_utils::{
             parse_value_to_f64, parse_value_to_i64, parse_value_to_string,
         };
         let mut result: Vec<Produto> = Vec::new();
-        let v = json_to_object(file_path.to_string());
+        let v = to_json_from_file(file_path).unwrap();
 
         let mut i = 0;
         loop {
-            let base = &v["nfeProc"]["NFe"][0]["infNFe"][0]["det"][i];
-            let prodid = &base["$"]["nItem"];
+            let base = &v["nfeProc"]["NFe"]["infNFe"]["det"][i];
+            let prodid = &base["@nItem"];
             if prodid == &Value::Null {
                 break;
             } else {
-                let dest_cnpj = &v["nfeProc"]["NFe"][0]["infNFe"][0]["dest"][0]["CNPJ"][0];
-                let prod = &base["prod"][0];
+                let dest_cnpj = &v["nfeProc"]["NFe"]["infNFe"]["dest"]["CNPJ"];
+                let prod = &base["prod"];
                 let produto = Produto {
                     n_item: parse_value_to_i64(&prodid),
-                    c_prod: parse_value_to_string(&prod["cProd"][0]),
-                    c_ean: parse_value_to_string(&prod["cEAN"][0]),
-                    x_prod: parse_value_to_string(&prod["xProd"][0]),
-                    ncm: parse_value_to_i64(&prod["NCM"][0]),
-                    cfop: parse_value_to_i64(&prod["CFOP"][0]),
-                    u_com: parse_value_to_string(&prod["uCom"][0]),
-                    q_com: parse_value_to_f64(&prod["qCom"][0]),
-                    v_un_com: parse_value_to_f64(&prod["vUnCom"][0]),
-                    v_prod: parse_value_to_f64(&prod["vProd"][0]),
-                    c_eantrib: parse_value_to_string(&prod["cEANTrib"][0]),
-                    u_trib: parse_value_to_string(&prod["uTrib"][0]),
-                    q_trib: parse_value_to_f64(&prod["qTrib"][0]),
-                    v_un_trib: parse_value_to_f64(&prod["vUnTrib"][0]),
-                    ind_tot: parse_value_to_i64(&prod["indTot"][0]),
-                    x_ped: parse_value_to_string(&prod["xPed"][0]),
+                    c_prod: parse_value_to_string(&prod["cProd"]),
+                    c_ean: parse_value_to_string(&prod["cEAN"]),
+                    x_prod: parse_value_to_string(&prod["xProd"]),
+                    ncm: parse_value_to_i64(&prod["NCM"]),
+                    cfop: parse_value_to_i64(&prod["CFOP"]),
+                    u_com: parse_value_to_string(&prod["uCom"]),
+                    q_com: parse_value_to_f64(&prod["qCom"]),
+                    v_un_com: parse_value_to_f64(&prod["vUnCom"]),
+                    v_prod: parse_value_to_f64(&prod["vProd"]),
+                    c_eantrib: parse_value_to_string(&prod["cEANTrib"]),
+                    u_trib: parse_value_to_string(&prod["uTrib"]),
+                    q_trib: parse_value_to_f64(&prod["qTrib"]),
+                    v_un_trib: parse_value_to_f64(&prod["vUnTrib"]),
+                    ind_tot: parse_value_to_i64(&prod["indTot"]),
+                    x_ped: parse_value_to_string(&prod["xPed"]),
                     impostos: Impostos {
                         icms: Icms::new(base),
                         ipi: Ipi::new(dest_cnpj, base),

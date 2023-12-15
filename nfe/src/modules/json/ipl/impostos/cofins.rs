@@ -14,12 +14,12 @@ impl Cofins {
     }
     #[allow(dead_code)]
     pub fn new(base: &Value) -> Cofins {
-        let prod_cofins = &base["imposto"][0]["COFINS"][0]["COFINSAliq"][0];
+        let prod_cofins = &base["imposto"]["COFINS"]["COFINSAliq"];
         let value: Cofins = Cofins {
-            cst: parse_value_to_i64(&prod_cofins["CST"][0]),
-            v_bc: parse_value_to_f64(&prod_cofins["vBC"][0]),
-            p_cofins: parse_value_to_f64(&prod_cofins["pCOFINS"][0]),
-            v_cofins: parse_value_to_f64(&prod_cofins["vCOFINS"][0]),
+            cst: parse_value_to_i64(&prod_cofins["CST"]),
+            v_bc: parse_value_to_f64(&prod_cofins["vBC"]),
+            p_cofins: parse_value_to_f64(&prod_cofins["pCOFINS"]),
+            v_cofins: parse_value_to_f64(&prod_cofins["vCOFINS"]),
         };
         return value;
     }

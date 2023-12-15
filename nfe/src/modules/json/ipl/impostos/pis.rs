@@ -16,12 +16,12 @@ impl Pis {
 
     #[allow(dead_code)]
     pub fn new(base: &Value) -> Pis {
-        let prod_pis = &base["imposto"][0]["PIS"][0]["PISAliq"][0];
+        let prod_pis = &base["imposto"]["PIS"]["PISAliq"];
         let value: Pis = Pis {
-            cst: parse_value_to_i64(&prod_pis["CST"][0]),
-            v_bc: parse_value_to_f64(&prod_pis["vBC"][0]),
-            p_pis: parse_value_to_f64(&prod_pis["pPIS"][0]),
-            v_pis: parse_value_to_f64(&prod_pis["vPIS"][0]),
+            cst: parse_value_to_i64(&prod_pis["CST"]),
+            v_bc: parse_value_to_f64(&prod_pis["vBC"]),
+            p_pis: parse_value_to_f64(&prod_pis["pPIS"]),
+            v_pis: parse_value_to_f64(&prod_pis["vPIS"]),
         };
         return value;
     }

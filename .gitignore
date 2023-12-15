@@ -1,2 +1,4 @@
 /target
-/nf-xml-files
+/nfe/target
+/xml_json/target
+/nfe/nf-xml-files-examples
