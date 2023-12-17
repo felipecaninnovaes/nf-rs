@@ -1,6 +1,7 @@
 use super::ender::Ender;
 
 #[allow(dead_code)]
+#[derive(Debug)]
 pub struct Dest {
     pub cnpj_cpf: i64,
     pub ie: i64,

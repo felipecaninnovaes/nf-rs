@@ -1,6 +1,7 @@
 use super::ender::Ender;
 
 #[allow(dead_code)]
+#[derive(Debug)]
 pub struct Emit {
     pub cnpj_cpf: i64,
     pub crt: i64,

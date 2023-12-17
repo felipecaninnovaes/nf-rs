@@ -1,3 +1,4 @@
+#[derive(Debug)]
 pub struct Ender {
     pub cep: i64,
     pub uf: String,

@@ -1,3 +1,4 @@
+use crate::modules::json::structs::dest::Dest;
 use crate::modules::json::structs::impostos::*;
 use crate::modules::json::structs::produtos::Produto;
 use serde_json::Value;
@@ -43,14 +44,15 @@ impl Produto {
         let v = to_json_from_file(file_path).unwrap();
 
         let mut i = 0;
+        let dest_cnpj = &v["nfeProc"]["NFe"]["infNFe"]["dest"]["CNPJ"];
+        Dest::new(&dest_cnpj, &v);
         loop {
-            let base = &v["nfeProc"]["NFe"]["infNFe"]["det"][i];
-            let prodid = &base["@nItem"];
+            let base_prod = &v["nfeProc"]["NFe"]["infNFe"]["det"][i];
+            let prodid = &base_prod["@nItem"];
             if prodid == &Value::Null {
                 break;
             } else {
-                let dest_cnpj = &v["nfeProc"]["NFe"]["infNFe"]["dest"]["CNPJ"];
-                let prod = &base["prod"];
+                let prod = &base_prod["prod"];
                 let produto = Produto {
                     n_item: parse_value_to_i64(&prodid),
                     c_prod: parse_value_to_string(&prod["cProd"]),
@@ -69,11 +71,11 @@ impl Produto {
                     ind_tot: parse_value_to_i64(&prod["indTot"]),
                     x_ped: parse_value_to_string(&prod["xPed"]),
                     impostos: Impostos {
-                        icms: Icms::new(base),
-                        ipi: Ipi::new(dest_cnpj, base),
-                        pis: Pis::new(base),
-                        cofins: Cofins::new(base),
-                        icms_uf_dest: IcmsUfDest::new(base),
+                        icms: Icms::new(base_prod),
+                        ipi: Ipi::new(dest_cnpj, base_prod),
+                        pis: Pis::new(base_prod),
+                        cofins: Cofins::new(base_prod),
+                        icms_uf_dest: IcmsUfDest::new(base_prod),
                     },
                 };
                 result.push(produto);
