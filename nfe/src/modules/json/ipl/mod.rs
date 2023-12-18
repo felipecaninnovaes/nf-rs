@@ -1,5 +1,6 @@
+mod dest;
+mod emit;
+mod ender;
 mod impostos;
 mod produto;
-mod dest;
-mod ender;
-mod emit;
+pub mod nfe;

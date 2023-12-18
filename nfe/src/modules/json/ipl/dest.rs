@@ -4,6 +4,7 @@ use crate::modules::util::parse_utils::{parse_value_to_i64, parse_value_to_strin
 use serde_json::Value;
 
 impl Dest {
+    #[allow(dead_code)]
     pub fn empty() -> Dest {
         let value: Dest = Dest {
             cnpj_cpf: 0,
@@ -16,6 +17,7 @@ impl Dest {
         return value;
     }
 
+    #[allow(dead_code)]
     pub fn new(dest_cnpj: &Value, base: &Value) -> Dest {
         let base_dest = &base["nfeProc"]["NFe"]["infNFe"]["dest"];
         if dest_cnpj != &Value::Null {
@@ -23,22 +25,22 @@ impl Dest {
                 cnpj_cpf: parse_value_to_i64(&base_dest["CNPJ"]),
                 ie: parse_value_to_i64(&base_dest["IE"]),
                 email: parse_value_to_string(&base_dest["email"]),
-                ender_dest: Ender::new(&base),
+                ender_dest: Ender::new_dest(&base),
                 ind_iedest: parse_value_to_i64(&base_dest["indIEDest"]),
                 x_nome: parse_value_to_string(&base_dest["xNome"]),
             };
-            println!("{:?}", result);
+            // println!("{:?}", result);
             return result;
         } else {
             let result: Dest = Dest {
                 cnpj_cpf: parse_value_to_i64(&base_dest["CPF"]),
                 ie: parse_value_to_i64(&base_dest["IE"]),
                 email: parse_value_to_string(&base_dest["email"]),
-                ender_dest: Ender::new(&base),
+                ender_dest: Ender::new_dest(&base),
                 ind_iedest: parse_value_to_i64(&base_dest["indIEDest"]),
                 x_nome: parse_value_to_string(&base_dest["xNome"]),
             };
-            println!("{:?}", result);
+            // println!("{:?}", result);
             return result;
         }
     }

@@ -1,4 +1,5 @@
 use crate::modules::json::structs::dest::Dest;
+use crate::modules::json::structs::emit::Emit;
 use crate::modules::json::structs::impostos::*;
 use crate::modules::json::structs::produtos::Produto;
 use serde_json::Value;
@@ -45,7 +46,7 @@ impl Produto {
 
         let mut i = 0;
         let dest_cnpj = &v["nfeProc"]["NFe"]["infNFe"]["dest"]["CNPJ"];
-        Dest::new(&dest_cnpj, &v);
+
         loop {
             let base_prod = &v["nfeProc"]["NFe"]["infNFe"]["det"][i];
             let prodid = &base_prod["@nItem"];
