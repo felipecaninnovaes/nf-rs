@@ -30,7 +30,7 @@ impl Emit {
             x_fant: parse_value_to_string(&base_emit["xFant"]),
             x_nome: parse_value_to_string(&base_emit["xNome"]),
         };
-        println!("{:?}", value);
+        // println!("{:?}", value);
         return value;
     }
 }

@@ -37,18 +37,16 @@ impl Produto {
         return vec![value];
     }
 
-    pub fn new(file_path: &str) -> Vec<Produto> {
+    pub fn new(base: &Value) -> Vec<Produto> {
         use crate::modules::util::parse_utils::{
             parse_value_to_f64, parse_value_to_i64, parse_value_to_string,
         };
         let mut result: Vec<Produto> = Vec::new();
-        let v = to_json_from_file(file_path).unwrap();
-
         let mut i = 0;
-        let dest_cnpj = &v["nfeProc"]["NFe"]["infNFe"]["dest"]["CNPJ"];
+        let dest_cnpj = &base["nfeProc"]["NFe"]["infNFe"]["dest"]["CNPJ"];
 
         loop {
-            let base_prod = &v["nfeProc"]["NFe"]["infNFe"]["det"][i];
+            let base_prod = &base["nfeProc"]["NFe"]["infNFe"]["det"][i];
             let prodid = &base_prod["@nItem"];
             if prodid == &Value::Null {
                 break;

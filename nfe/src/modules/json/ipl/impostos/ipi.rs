@@ -15,6 +15,7 @@ impl Ipi {
     }
     #[allow(dead_code)]
     pub fn new(dest_cnpj: &Value, base: &Value) -> Ipi {
+        
         let ipi = &base["imposto"]["IPI"];
         let ipi_cst_trib = &ipi["IPITrib"];
         let ipi_cst = &ipi["IPINT"];

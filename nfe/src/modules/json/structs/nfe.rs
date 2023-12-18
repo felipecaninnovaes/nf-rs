@@ -1,5 +1,5 @@
 use super::{emit::Emit, dest::Dest, produtos::Produto};
-
+#[derive(Debug)]
 pub struct Nfe {
     pub c_dv: i64,
     pub c_mun_fg: i64,

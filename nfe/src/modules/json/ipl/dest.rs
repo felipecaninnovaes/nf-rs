@@ -18,8 +18,9 @@ impl Dest {
     }
 
     #[allow(dead_code)]
-    pub fn new(dest_cnpj: &Value, base: &Value) -> Dest {
+    pub fn new(base: &Value) -> Dest {
         let base_dest = &base["nfeProc"]["NFe"]["infNFe"]["dest"];
+        let dest_cnpj = &base["nfeProc"]["NFe"]["infNFe"]["dest"]["CNPJ"];
         if dest_cnpj != &Value::Null {
             let result: Dest = Dest {
                 cnpj_cpf: parse_value_to_i64(&base_dest["CNPJ"]),
