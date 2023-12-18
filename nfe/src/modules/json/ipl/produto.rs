@@ -1,10 +1,6 @@
-use crate::modules::json::structs::dest::Dest;
-use crate::modules::json::structs::emit::Emit;
 use crate::modules::json::structs::impostos::*;
 use crate::modules::json::structs::produtos::Produto;
 use serde_json::Value;
-
-use xml_json::to_json_from_file;
 
 impl Produto {
     #[allow(dead_code)]

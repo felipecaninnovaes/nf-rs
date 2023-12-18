@@ -1,5 +1,4 @@
 mod modules;
-use modules::json::structs::produtos::Produto;
 
 use crate::modules::json::structs::nfe::Nfe;
 

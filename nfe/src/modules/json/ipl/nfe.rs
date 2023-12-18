@@ -3,6 +3,7 @@ use xml_json::to_json_from_file;
 use crate::modules::json::structs::{dest::Dest, emit::Emit, nfe::Nfe, produtos::Produto};
 
 impl Nfe {
+    #[allow(dead_code)]
     pub fn empty() -> Nfe {
         let value: Nfe = Nfe {
             c_dv: 0,
@@ -33,6 +34,7 @@ impl Nfe {
         return value;
     }
 
+    #[allow(dead_code)]
     pub fn new(file_path: &str) -> Nfe {
         use crate::modules::util::parse_utils::{
             parse_value_to_i32, parse_value_to_i64, parse_value_to_string,
