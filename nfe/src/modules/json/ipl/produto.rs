@@ -6,22 +6,22 @@ impl Produto {
     #[allow(dead_code)]
     pub fn empty() -> Vec<Produto> {
         let value: Produto = Produto {
-            n_item: 0,
-            c_prod: "".to_string(),
-            c_ean: "".to_string(),
-            x_prod: "".to_string(),
-            ncm: 0,
-            cfop: 0,
-            u_com: "".to_string(),
+            n_item: "Null".to_string(),
+            c_prod: "Null".to_string(),
+            c_ean: "Null".to_string(),
+            x_prod: "Null".to_string(),
+            ncm: "Null".to_string(),
+            cfop: "Null".to_string(),
+            u_com: "Null".to_string(),
             q_com: 0.0,
             v_un_com: 0.0,
             v_prod: 0.0,
-            c_eantrib: "".to_string(),
-            u_trib: "".to_string(),
+            c_eantrib: "Null".to_string(),
+            u_trib: "Null".to_string(),
             q_trib: 0.0,
             v_un_trib: 0.0,
-            ind_tot: 0,
-            x_ped: "".to_string(),
+            ind_tot: "Null".to_string(),
+            x_ped: "Null".to_string(),
             impostos: Impostos {
                 icms: Icms::empty(),
                 ipi: Ipi::empty(),
@@ -35,7 +35,7 @@ impl Produto {
 
     pub fn new(base: &Value) -> Vec<Produto> {
         use crate::modules::util::parse_utils::{
-            parse_value_to_f64, parse_value_to_i64, parse_value_to_string,
+            parse_value_to_f64, parse_value_to_string,
         };
         let mut result: Vec<Produto> = Vec::new();
         let mut i = 0;
@@ -49,12 +49,12 @@ impl Produto {
             } else {
                 let prod = &base_prod["prod"];
                 let produto = Produto {
-                    n_item: parse_value_to_i64(&prodid),
+                    n_item: parse_value_to_string(&prodid),
                     c_prod: parse_value_to_string(&prod["cProd"]),
                     c_ean: parse_value_to_string(&prod["cEAN"]),
                     x_prod: parse_value_to_string(&prod["xProd"]),
-                    ncm: parse_value_to_i64(&prod["NCM"]),
-                    cfop: parse_value_to_i64(&prod["CFOP"]),
+                    ncm: parse_value_to_string(&prod["NCM"]),
+                    cfop: parse_value_to_string(&prod["CFOP"]),
                     u_com: parse_value_to_string(&prod["uCom"]),
                     q_com: parse_value_to_f64(&prod["qCom"]),
                     v_un_com: parse_value_to_f64(&prod["vUnCom"]),
@@ -63,7 +63,7 @@ impl Produto {
                     u_trib: parse_value_to_string(&prod["uTrib"]),
                     q_trib: parse_value_to_f64(&prod["qTrib"]),
                     v_un_trib: parse_value_to_f64(&prod["vUnTrib"]),
-                    ind_tot: parse_value_to_i64(&prod["indTot"]),
+                    ind_tot: parse_value_to_string(&prod["indTot"]),
                     x_ped: parse_value_to_string(&prod["xPed"]),
                     impostos: Impostos {
                         icms: Icms::new(base_prod),

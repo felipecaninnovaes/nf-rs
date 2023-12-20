@@ -140,7 +140,7 @@ CREATE TABLE Produto (
     nitem varchar(50) NULL,
     cprod varchar(200)  NULL,
     cean varchar(200)  NULL,
-    xprod varchar(200)  NULL,
+    xprod varchar(400)  NULL,
     ncm varchar(50) NULL,
     cfop varchar(50) NULL,
     ucom varchar(200)  NULL,
