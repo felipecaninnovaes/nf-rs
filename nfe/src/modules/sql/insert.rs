@@ -1,27 +1,27 @@
-use crate::modules::json::structs::ender;
+use std::future::IntoFuture;
 
 use super::super::json::structs::ender::Ender;
 
-use super::connect::connect;
-use sqlx::{pool, prelude::FromRow, Pool, Postgres, Row};
-use std::error::Error;
 
-#[tokio::main]
-pub async fn get_idender(pool: &sqlx::PgPool, cep: i32, nro: i32) -> Result<(), Box<dyn Error>> {
-    let q = "SELECT idender FROM ender WHERE cep = $1 AND nro = $2";
+
+use std::error::Error;
+use sqlx::{Error as SqlxError, Row};
+
+// read enderid from database
+pub async fn get_idender(pool: &sqlx::PgPool, nro: &String, cep: &String) -> Result<i32, Box<dyn Error>> {
+    let q = "SELECT idender FROM ender WHERE nro = $1 AND cep = $2";
     let idender = sqlx::query(&q)
-        .bind(cep)
         .bind(nro)
-        .execute(pool)
-        .await?;
-    println!("{:?}", idender);
-    Ok(())
+        .bind(cep)
+        .fetch_one(pool).await?.get::<i32, _>(0);
+    Ok(idender)
 }
 
-pub async fn insert_ender(pool: &sqlx::PgPool, ender: &Ender) -> Result<(), Box<dyn Error>> {
-    let q = "INSERT INTO ender (idender, cep, uf, cmun, cpais, nro, xbairro, xcpl, xlgr, xmun) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
-    let idender = sqlx::query(&q)
-        .bind(2)
+
+pub async fn insert_ender(pool: &sqlx::PgPool, ender: Ender) -> Result<i32, Box<dyn Error>> {
+    let q = "INSERT INTO ender (idender, cep, uf, cmun, cpais, nro, xbairro, xcpl, xlgr, xmun) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING idender";
+    sqlx::query(&q)
+        .bind(3)
         .bind(&ender.cep)
         .bind(&ender.uf)
         .bind(&ender.c_mun)
@@ -33,5 +33,7 @@ pub async fn insert_ender(pool: &sqlx::PgPool, ender: &Ender) -> Result<(), Box<
         .bind(&ender.x_mun)
         .execute(pool) // Remove the extra reference
         .await?;
-    Ok(())
+
+    let Result = get_idender(pool, &ender.nro, &ender.cep).await?;
+    Ok(Result)
 }

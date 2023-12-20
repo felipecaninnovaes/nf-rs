@@ -2,7 +2,9 @@ pub mod modules;
 
 use std::error::Error; // Add missing import
 
-use modules::sql::{connect::connect, insert::get_idender};
+use modules::sql::insert::get_idender;
+
+// use modules::sql::{connect::connect, insert::get_idender};
 use crate::modules::{json::structs::nfe::Nfe, sql::insert::insert_ender};
 
 struct Ender {
@@ -22,24 +24,18 @@ struct Ender {
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> { // Update return type
     let input =
-        Nfe::new("nfe/nf-xml-files-examples/_NFe33231219300038000108550010026273031152863530.xml");
+        Nfe::new("nfe/nf-xml-files-examples/nfe-pessoa-fisica.xml");
     // println!("{:?}", input);
 
 
     let url = "postgres://admin:l11f06c10@postgres-development.homelab.felipecncloud.com/nfe";
     let pool = sqlx::PgPool::connect(url).await?;
 
-    sqlx::migrate!("./migrations").run(&pool).await?;
+    // sqlx::migrate!("./migrations").run(&pool).await?;
 
-    // insert_ender(&pool, &input.emit.ender_emit).await?;
-    get_idender(&pool, 20910180, 486);
+        let result = insert_ender(&pool, input.emit.ender_emit).await?;
+
+    // let result = get_idender(&pool, input.emit.ender_emit.nro, input.emit.ender_emit.cep).await?;
+    println!("{:?}", result);
     Ok(())
 }
-
-// async fn insert_ender_main(pool: &sqlx::PgPool, ender: &Ender) -> Result<(), Box<dyn Error>> {
-//     let q = "INSERT INTO ender (idender, cep, uf, cmun, cpais, nro, xbairro, xcpl, xlgr, xmun) VALUES ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10')";
-//     let idender = sqlx::query("INSERT INTO ender (idender, cep, uf, cmun, cpais, nro, xbairro, xcpl, xlgr, xmun) VALUES ('1', '2', '3', '4', '5', '6', '7', '8', '9', '10')")
-//         .execute(pool) // Remove the extra reference
-//         .await?;
-//     Ok(())
-// }
