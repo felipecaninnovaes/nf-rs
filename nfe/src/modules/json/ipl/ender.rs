@@ -6,11 +6,11 @@ impl Ender {
     #[allow(dead_code)]
     pub fn empty() -> Ender {
         let value: Ender = Ender {
-            cep: 0,
+            cep: "Null".to_string(),
             uf: "Null".to_string(),
-            c_mun: 0,
-            c_pais: 0,
-            nro: 0,
+            c_mun: "Null".to_string(),
+            c_pais: "Null".to_string(),
+            nro: "Null".to_string(),
             x_bairro: "Null".to_string(),
             x_cpl: "Null".to_string(),
             x_lgr: "Null".to_string(),
@@ -23,11 +23,11 @@ impl Ender {
     pub fn new_dest(base: &Value) -> Ender {
         let base_ender_dest = &base["nfeProc"]["NFe"]["infNFe"]["dest"]["enderDest"];
         let value: Ender = Ender {
-            cep: parse_value_to_i64(&base_ender_dest["CEP"]),
+            cep: parse_value_to_string(&base_ender_dest["CEP"]),
             uf: parse_value_to_string(&base_ender_dest["UF"]),
-            c_mun: parse_value_to_i64(&base_ender_dest["cMun"]),
-            c_pais: parse_value_to_i64(&base_ender_dest["cPais"]),
-            nro: parse_value_to_i64(&base_ender_dest["nro"]),
+            c_mun: parse_value_to_string(&base_ender_dest["cMun"]),
+            c_pais: parse_value_to_string(&base_ender_dest["cPais"]),
+            nro: parse_value_to_string(&base_ender_dest["nro"]),
             x_bairro: parse_value_to_string(&base_ender_dest["xBairro"]),
             x_cpl: parse_value_to_string(&base_ender_dest["xCpl"]),
             x_lgr: parse_value_to_string(&base_ender_dest["xLgr"]),
@@ -39,11 +39,11 @@ impl Ender {
     pub fn new_emit(base: &Value) -> Ender {
         let base_ender_emit = &base["nfeProc"]["NFe"]["infNFe"]["emit"]["enderEmit"];
         let value: Ender = Ender {
-            cep: parse_value_to_i64(&base_ender_emit["CEP"]),
+            cep: parse_value_to_string(&base_ender_emit["CEP"]),
             uf: parse_value_to_string(&base_ender_emit["UF"]),
-            c_mun: parse_value_to_i64(&base_ender_emit["cMun"]),
-            c_pais: parse_value_to_i64(&base_ender_emit["cPais"]),
-            nro: parse_value_to_i64(&base_ender_emit["nro"]),
+            c_mun: parse_value_to_string(&base_ender_emit["cMun"]),
+            c_pais: parse_value_to_string(&base_ender_emit["cPais"]),
+            nro: parse_value_to_string(&base_ender_emit["nro"]),
             x_bairro: parse_value_to_string(&base_ender_emit["xBairro"]),
             x_cpl: parse_value_to_string(&base_ender_emit["xCpl"]),
             x_lgr: parse_value_to_string(&base_ender_emit["xLgr"]),

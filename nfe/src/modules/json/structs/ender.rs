@@ -1,10 +1,10 @@
 #[derive(Debug)]
 pub struct Ender {
-    pub cep: i64,
+    pub cep: String,
     pub uf: String,
-    pub c_mun: i64,
-    pub c_pais: i64,
-    pub nro: i64,
+    pub c_mun: String,
+    pub c_pais: String,
+    pub nro: String,
     pub x_bairro: String,
     pub x_cpl: String,
     pub x_lgr: String,
