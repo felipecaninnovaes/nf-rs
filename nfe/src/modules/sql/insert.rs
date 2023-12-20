@@ -4,8 +4,7 @@ use crate::modules::json::structs::ender::Ender;
 use crate::modules::json::structs::nfe::Nfe;
 use crate::modules::json::structs::produtos::Produto;
 
-use crate::modules::json::structs::impostos::{*, self};
-use crate::modules::sql::insert;
+use crate::modules::json::structs::impostos::{*};
 
 use sqlx::Row;
 use std::error::Error;
