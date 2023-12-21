@@ -15,12 +15,6 @@ async fn main() -> Result<(), Box<dyn Error>> {
     let input =
         Nfe::new("nfe/nf-xml-files-examples/nfe-pessoa-juridica.xml");
 
-
-    // let url = "postgres://admin:l11f06c10@postgres-development.homelab.felipecncloud.com/nfe";
-    // let pool = sqlx::PgPool::connect(url).await?;
-
-    // sqlx::migrate!("./migrations").run(&pool).await?;
-
     let _pool = start_connection().await;
 
     let result = insert_nfe(&_pool, &input).await.expect("Error inserting nfe");
