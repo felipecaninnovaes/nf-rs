@@ -1,0 +1,218 @@
+<nfeProc versao="4.00"
+    xmlns="http://www.portalfiscal.inf.br/nfe">
+    <NFe xmlns="http://www.portalfiscal.inf.br/nfe">
+        <infNFe versao="4.00" Id="NFe00000000001">
+            <ide>
+                <cUF>33</cUF>
+                <cNF>00151204</cNF>
+                <natOp>NOTA DE TESTE</natOp>
+                <mod>55</mod>
+                <serie>4</serie>
+                <nNF>00000000001</nNF>
+                <dhEmi>2023-12-11T19:55:57-03:00</dhEmi>
+                <dhSaiEnt>2023-12-11T19:55:57-03:00</dhSaiEnt>
+                <tpNF>1</tpNF>
+                <idDest>2</idDest>
+                <cMunFG>3304557</cMunFG>
+                <tpImp>1</tpImp>
+                <tpEmis>1</tpEmis>
+                <cDV>3</cDV>
+                <tpAmb>1</tpAmb>
+                <finNFe>1</finNFe>
+                <indFinal>1</indFinal>
+                <indPres>2</indPres>
+                <indIntermed>0</indIntermed>
+                <procEmi>0</procEmi>
+                <verProc>Notamax 1.0</verProc>
+            </ide>
+            <emit>
+                <CNPJ>99999999999999</CNPJ>
+                <xNome>LOJA DE TESTE</xNome>
+                <xFant>LOJA DE TESTE</xFant>
+                <enderEmit>
+                    <xLgr>RUA DA LOJA TEST</xLgr>
+                    <nro>9999</nro>
+                    <xCpl>Compemento</xCpl>
+                    <xBairro>BAIRRO DA LOJA TEST</xBairro>
+                    <cMun>3304557</cMun>
+                    <xMun>Rio de Janeiro</xMun>
+                    <UF>RJ</UF>
+                    <CEP>9999999</CEP>
+                    <cPais>1058</cPais>
+                </enderEmit>
+                <IE>86607492</IE>
+                <IEST>819012855115</IEST>
+                <CRT>3</CRT>
+            </emit>
+            <dest>
+                <CPF>99999999999</CPF>
+                <xNome>CLIENTE PF DE TESTE</xNome>
+                <enderDest>
+                    <xLgr>RUA DO CLIENTE PF DE TESTE</xLgr>
+                    <nro>31</nro>
+                    <xBairro>BAIRRO DO CLIENTE PF DE TESTE</xBairro>
+                    <cMun>99999999</cMun>
+                    <xMun>Catanduva</xMun>
+                    <UF>SP</UF>
+                    <CEP>9999999</CEP>
+                    <cPais>1058</cPais>
+                </enderDest>
+                <indIEDest>9</indIEDest>
+                <email>email@test.com</email>
+            </dest>
+            <det nItem="1">
+                <prod>
+                    <cProd>SP56STLEN003</cProd>
+                    <cEAN>SEM GTIN</cEAN>
+                    <xProd>L HTK PROG SURF SMT FF 1.56 TIN</xProd>
+                    <NCM>90015000</NCM>
+                    <cBenef />
+                    <CFOP>6101</CFOP>
+                    <uCom>UN</uCom>
+                    <qCom>1.0000</qCom>
+                    <vUnCom>74.99000000</vUnCom>
+                    <vProd>74.99</vProd>
+                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <uTrib>UN</uTrib>
+                    <qTrib>1.0000</qTrib>
+                    <vUnTrib>74.99000000</vUnTrib>
+                    <indTot>1</indTot>
+                </prod>
+                <imposto>
+                    <ICMS>
+                        <ICMS00>
+                            <orig>5</orig>
+                            <CST>00</CST>
+                            <modBC>3</modBC>
+                            <vBC>74.99</vBC>
+                            <pICMS>12.0000</pICMS>
+                            <vICMS>9.00</vICMS>
+                        </ICMS00>
+                    </ICMS>
+                    <IPI>
+                        <cEnq>999</cEnq>
+                        <IPINT>
+                            <CST>51</CST>
+                        </IPINT>
+                    </IPI>
+                    <PIS>
+                        <PISAliq>
+                            <CST>01</CST>
+                            <vBC>65.99</vBC>
+                            <pPIS>1.6500</pPIS>
+                            <vPIS>1.09</vPIS>
+                        </PISAliq>
+                    </PIS>
+                    <COFINS>
+                        <COFINSAliq>
+                            <CST>01</CST>
+                            <vBC>65.99</vBC>
+                            <pCOFINS>7.6000</pCOFINS>
+                            <vCOFINS>5.02</vCOFINS>
+                        </COFINSAliq>
+                    </COFINS>
+                </imposto>
+            </det>
+            <total>
+                <ICMSTot>
+                    <vBC>74.99</vBC>
+                    <vICMS>9.00</vICMS>
+                    <vICMSDeson>0</vICMSDeson>
+                    <vFCPUFDest>0</vFCPUFDest>
+                    <vICMSUFDest>0</vICMSUFDest>
+                    <vICMSUFRemet>0</vICMSUFRemet>
+                    <vFCP>0</vFCP>
+                    <vBCST>0</vBCST>
+                    <vST>0</vST>
+                    <vFCPST>0</vFCPST>
+                    <vFCPSTRet>0</vFCPSTRet>
+                    <vProd>74.99</vProd>
+                    <vFrete>0</vFrete>
+                    <vSeg>0</vSeg>
+                    <vDesc>0</vDesc>
+                    <vII>0</vII>
+                    <vIPI>0</vIPI>
+                    <vIPIDevol>0</vIPIDevol>
+                    <vPIS>1.09</vPIS>
+                    <vCOFINS>5.02</vCOFINS>
+                    <vOutro>0</vOutro>
+                    <vNF>74.99</vNF>
+                </ICMSTot>
+            </total>
+            <transp>
+                <modFrete>0</modFrete>
+                <transporta>
+                    <CNPJ>10520136000186</CNPJ>
+                    <xNome>CARRIERS LOGISTICA E TRANSPORTE LTDA - 0001-86</xNome>
+                    <IE>206640314119</IE>
+                    <xEnder>AV</xEnder>
+                    <xMun>Barueri</xMun>
+                    <UF>SP</UF>
+                </transporta>
+                <vol>
+                    <qVol>3</qVol>
+                    <esp>UN</esp>
+                    <pesoL>0.023</pesoL>
+                    <pesoB>0.023</pesoB>
+                </vol>
+            </transp>
+            <pag>
+                <detPag>
+                    <tPag>03</tPag>
+                    <vPag>149.70</vPag>
+                    <card>
+                        <tpIntegra>1</tpIntegra>
+                        <CNPJ>01027058000191</CNPJ>
+                        <tBand>01</tBand>
+                        <cAut>347015</cAut>
+                    </card>
+                </detPag>
+            </pag>
+            <infAdic>
+                <infAdFisco>Pedido:  Trib aprox. R$ 20.13 Federal e R$ 29.94 Estadual. Fonte IBPT/empresometro.com.br  EC 87/2015 - Total UF ICMS Origem: R$0.00 - Total ICMS UF Destino: R$8.97 - Total FCP: R$0.00.</infAdFisco>
+                <infCpl>IE Substituto: 819012855115 A aceitacao desta mercadoria implica autorizacao do comprador ao vendedor para obter a restituicao dos tributos incidentes nesta venda, nos termos do art. 166 do CTN.</infCpl>
+            </infAdic>
+            <compra>
+                <xPed>999999999</xPed>
+            </compra>
+            <infRespTec>
+                <CNPJ>99999999999999</CNPJ>
+                <xContato>CONTATO</xContato>
+                <email>suporte@contato.com.br</email>
+                <fone>9999999999</fone>
+            </infRespTec>
+        </infNFe>
+        <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+            <SignedInfo>
+                <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+                <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1" />
+                <Reference URI="#Null">
+                    <Transforms>
+                        <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+                        <Transform Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+                    </Transforms>
+                    <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1" />
+                    <DigestValue>Null</DigestValue>
+                </Reference>
+            </SignedInfo>
+            <SignatureValue>Null</SignatureValue>
+            <KeyInfo>
+                <X509Data>
+                    <X509Certificate>Null</X509Certificate>
+                </X509Data>
+            </KeyInfo>
+        </Signature>
+    </NFe>
+    <protNFe versao="4.00">
+        <infProt>
+            <tpAmb>1</tpAmb>
+            <verAplic>SVRS202311101516</verAplic>
+            <chNFe>Null</chNFe>
+            <dhRecbto>2023-12-11T19:56:05-03:00</dhRecbto>
+            <nProt>Null</nProt>
+            <digVal>Null=</digVal>
+            <cStat>100</cStat>
+            <xMotivo>Autorizado o uso da NF-e</xMotivo>
+        </infProt>
+    </protNFe>
+</nfeProc>

@@ -1,5 +1,5 @@
 use super::{emit::Emit, dest::Dest, produtos::Produto};
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Nfe {
     pub c_dv: String,
     pub c_mun_fg: String,
