@@ -1,8 +1,23 @@
-mod modules;
+pub mod modules;
+
+use std::error::Error; // Add missing import
 
 use crate::modules::json::structs::nfe::Nfe;
+use dotenv::dotenv;
+use modules::sql::connection_postgres::start_connection;
+use modules::sql::insert::{insert_nfe, insert_produto};
 
-fn main() {
-    let input = Nfe::new("/home/felipecn/PROJECTS/nf-rs/nfe/nf-xml-files-examples/nfe-pessoa-fisica.xml");
-    println!("{:?}", input)
+#[tokio::main]
+async fn main() -> Result<(), Box<dyn Error>> {
+    dotenv().ok();
+
+    let input =
+        Nfe::new(std::env::var("NF_FILE_PATH").expect("NF_FILE_PATH must be set").as_str());
+    let _pool = start_connection().await;
+
+    let result = insert_nfe(&_pool, &input)
+        .await
+        .expect("Error inserting nfe");
+    let _ = insert_produto(&_pool, &input.produtos, &result).await;
+    Ok(())
 }

@@ -2,12 +2,12 @@ use crate::modules::json::structs::impostos::Impostos;
 
 #[derive(Debug)]
 pub struct Produto {
-    pub n_item: i64,
+    pub n_item: String,
     pub c_prod: String,
     pub c_ean: String,
     pub x_prod: String,
-    pub ncm: i64,
-    pub cfop: i64,
+    pub ncm: String,
+    pub cfop: String,
     pub u_com: String,
     pub q_com: f64,
     pub v_un_com: f64,
@@ -16,7 +16,7 @@ pub struct Produto {
     pub u_trib: String,
     pub q_trib: f64,
     pub v_un_trib: f64,
-    pub ind_tot: i64,
+    pub ind_tot: String,
     pub x_ped: String,
     pub impostos: Impostos,
 }
