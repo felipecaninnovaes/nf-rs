@@ -12,7 +12,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
     dotenv().ok();
 
     let input =
-        Nfe::new("nfe/nf-xml-files-examples/nfe-pessoa-juridica.xml");
+        Nfe::new(std::env::var("NF_FILE_PATH").expect("NF_FILE_PATH must be set").as_str());
     let _pool = start_connection().await;
 
     let result = insert_nfe(&_pool, &input)
