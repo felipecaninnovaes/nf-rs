@@ -45,7 +45,7 @@
                 <CRT>3</CRT>
             </emit>
             <dest>
-                <CPF>99999999999</CPF>
+                <CNPJ>99999999999</CNPJ>
                 <xNome>CLIENTE PF DE TESTE</xNome>
                 <enderDest>
                     <xLgr>RUA DO CLIENTE PF DE TESTE</xLgr>
@@ -62,53 +62,57 @@
             </dest>
             <det nItem="1">
                 <prod>
-                    <cProd>SP56STLEN003</cProd>
-                    <cEAN>SEM GTIN</cEAN>
-                    <xProd>L HTK PROG SURF SMT FF 1.56 TIN</xProd>
-                    <NCM>90015000</NCM>
+                    <cProd>000I0020NUD000M</cProd>
+                    <cEAN>7899625704614</cEAN>
+                    <xProd>ROUPA DE ALGUDAO</xProd>
+                    <NCM>62121000</NCM>
                     <cBenef />
-                    <CFOP>6101</CFOP>
+                    <CFOP>6102</CFOP>
                     <uCom>UN</uCom>
-                    <qCom>1.0000</qCom>
-                    <vUnCom>74.99000000</vUnCom>
-                    <vProd>74.99</vProd>
-                    <cEANTrib>SEM GTIN</cEANTrib>
+                    <qCom>10.0000</qCom>
+                    <vUnCom>61.43000000</vUnCom>
+                    <vProd>614.30</vProd>
+                    <cEANTrib>7899625704614</cEANTrib>
                     <uTrib>UN</uTrib>
-                    <qTrib>1.0000</qTrib>
-                    <vUnTrib>74.99000000</vUnTrib>
+                    <qTrib>10.0000</qTrib>
+                    <vUnTrib>61.43000000</vUnTrib>
+                    <vDesc>30.71</vDesc>
                     <indTot>1</indTot>
                 </prod>
                 <imposto>
                     <ICMS>
                         <ICMS00>
-                            <orig>5</orig>
+                            <orig>1</orig>
                             <CST>00</CST>
                             <modBC>3</modBC>
-                            <vBC>74.99</vBC>
-                            <pICMS>12.0000</pICMS>
-                            <vICMS>9.00</vICMS>
+                            <vBC>583.59</vBC>
+                            <pICMS>4.0000</pICMS>
+                            <vICMS>23.34</vICMS>
                         </ICMS00>
                     </ICMS>
                     <IPI>
                         <cEnq>999</cEnq>
-                        <IPINT>
-                            <CST>51</CST>
-                        </IPINT>
+                        <IPITrib>
+                            <CST>50</CST>
+                            <vBC>614.30</vBC>
+                            <pIPI>0</pIPI>
+                            <vIPI>0</vIPI>
+                        </IPITrib>
                     </IPI>
                     <PIS>
                         <PISAliq>
                             <CST>01</CST>
-                            <vBC>65.99</vBC>
+                            <vBC>560.25</vBC>
                             <pPIS>1.6500</pPIS>
-                            <vPIS>1.09</vPIS>
+                            <vPIS>9.24</vPIS>
                         </PISAliq>
                     </PIS>
                     <COFINS>
                         <COFINSAliq>
                             <CST>01</CST>
-                            <vBC>65.99</vBC>
+                            <vBC>560.25</vBC>
                             <pCOFINS>7.6000</pCOFINS>
-                            <vCOFINS>5.02</vCOFINS>
+                            <vCOFINS>42.58</vCOFINS>
                         </COFINSAliq>
                     </COFINS>
                 </imposto>

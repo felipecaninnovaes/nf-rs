@@ -1,10 +1,11 @@
 pub mod modules;
 use std::error::Error; // Add missing import
 pub mod run;
-use crate::run::nfe;
+
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn Error>> {
-    let _ = nfe();
+    // use crate::run::nfe;
+    // let _ = nfe();
     Ok(())
 }
 
@@ -323,48 +324,48 @@ mod tests {
             },
             produtos: vec![Produto {
                 n_item: "1".to_string(),
-                c_prod: "SP56STLEN003".to_string(),
-                c_ean: "SEM GTIN".to_string(),
-                x_prod: "L HTK PROG SURF SMT FF 1.56 TIN".to_string(),
-                ncm: "90015000".to_string(),
-                cfop: "6101".to_string(),
+                c_prod: "000I0020NUD000M".to_string(),
+                c_ean: "7899625704614".to_string(),
+                x_prod: "ROUPA DE ALGUDAO".to_string(),
+                ncm: "62121000".to_string(),
+                cfop: "6102".to_string(),
                 u_com: "UN".to_string(),
-                q_com: 1.0,
-                v_un_com: 74.99,
-                v_prod: 74.99,
-                c_eantrib: "SEM GTIN".to_string(),
+                q_com: 10.0,
+                v_un_com: 61.43,
+                v_prod: 614.3,
+                c_eantrib: "7899625704614".to_string(),
                 u_trib: "UN".to_string(),
-                q_trib: 1.0,
-                v_un_trib: 74.99,
+                q_trib: 10.0,
+                v_un_trib: 61.43,
                 ind_tot: "1".to_string(),
                 x_ped: "null".to_string(),
                 impostos: Impostos {
                     icms: Icms {
-                        orig: 5,
+                        orig: 1,
                         cst: 0,
                         mod_bc: 3,
-                        v_bc: 74.99,
-                        p_icms: 12.0,
-                        v_icms: 9.0,
+                        v_bc: 583.59,
+                        p_icms: 4.0,
+                        v_icms: 23.34,
                     },
                     ipi: Ipi {
-                        c_enq: 0,
-                        cst: 0,
-                        v_bc: 0.0,
+                        c_enq: 999,
+                        cst: 50,
+                        v_bc: 614.30,
                         p_ipi: 0,
                         v_ipi: 0,
                     },
                     pis: Pis {
                         cst: 1,
-                        v_bc: 65.99,
+                        v_bc: 560.25,
                         p_pis: 1.65,
-                        v_pis: 1.09,
+                        v_pis: 9.24,
                     },
                     cofins: Cofins {
                         cst: 1,
-                        v_bc: 65.99,
+                        v_bc: 560.25,
                         p_cofins: 7.6,
-                        v_cofins: 5.02,
+                        v_cofins: 42.58,
                     },
                     icms_uf_dest: IcmsUfDest {
                         v_bcufdest: 0.0,
