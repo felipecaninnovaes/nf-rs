@@ -16,6 +16,6 @@ pub fn to_json_from_str(xml: &str) -> Result<Value, Error> {
 }
 
 pub fn to_json_from_file(xml_file: &str) -> Result<Value, Error> {
-    let reader = to_json_from_str(&read_file(xml_file.to_string())).unwrap();
+    let reader = to_json_from_str(&read_file(xml_file).unwrap()).expect("Error converting xml to json");
     Ok(reader)
 }

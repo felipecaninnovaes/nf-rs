@@ -4,13 +4,12 @@ use serde_json::Value;
 impl Cofins {
     #[allow(dead_code)]
     pub fn empty() -> Cofins {
-        let value: Cofins = Cofins {
+        Cofins {
             cst: 0,
             v_bc: 0.0,
             p_cofins: 0.0,
             v_cofins: 0.0,
-        };
-        return value;
+        }
     }
     #[allow(dead_code)]
     pub fn new(base: &Value) -> Cofins {

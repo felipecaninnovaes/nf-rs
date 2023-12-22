@@ -4,14 +4,13 @@ use serde_json::Value;
 impl Ipi {
     #[allow(dead_code)]
     pub fn empty() -> Ipi {
-        let value: Ipi = Ipi {
+        Ipi {
             c_enq: 0,
             cst: 0,
             v_bc: 0.0,
             p_ipi: 0,
             v_ipi: 0,
-        };
-        return value;
+        }
     }
     #[allow(dead_code)]
     pub fn new(dest_cnpj: &Value, base: &Value) -> Ipi {

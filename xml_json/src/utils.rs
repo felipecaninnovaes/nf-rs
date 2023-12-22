@@ -1,24 +1,18 @@
-pub use std::fs::File;
-pub use std::io::{self, BufRead};
-use std::path::Path;
+use std::fs::File;
+use std::io::{self, BufRead};
 
-fn read_lines<P>(filename: P) -> io::Result<io::Lines<io::BufReader<File>>>
-where
-    P: AsRef<Path>,
-{
-    let file = File::open(filename)?;
-    Ok(io::BufReader::new(file).lines())
-}
-
-pub fn read_file(file: String) -> String {
+pub fn read_file(file: &str) -> io::Result<String> {
     let mut result = String::new();
 
-    if let Ok(lines) = read_lines(file) {
-        for line in lines {
-            if let Ok(line_value) = line {
-                result.push_str(&line_value);
-            }
-        }
+    let lines = read_lines(file)?;
+    for line in lines {
+        result.push_str(&line?);
     }
-    return result;
+
+    Ok(result)
+}
+
+fn read_lines(file: &str) -> io::Result<io::Lines<io::BufReader<File>>> {
+    let file = File::open(file)?;
+    Ok(io::BufReader::new(file).lines())
 }

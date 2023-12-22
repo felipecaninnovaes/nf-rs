@@ -12,7 +12,7 @@ impl Emit {
             crt: parse_value_to_string(&base_emit["CRT"]),
             ie: parse_value_to_string(&base_emit["IE"]),
             iest: parse_value_to_string(&base_emit["IEST"]),
-            ender_emit: Ender::new_emit(&base),
+            ender_emit: Ender::new_emit(base),
             x_fant: parse_value_to_string(&base_emit["xFant"]),
             x_nome: parse_value_to_string(&base_emit["xNome"]),
         }

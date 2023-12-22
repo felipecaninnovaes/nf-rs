@@ -5,7 +5,7 @@ use serde_json::Value;
 impl Produto {
     #[allow(dead_code)]
     pub fn empty() -> Vec<Produto> {
-        let value: Produto = Produto {
+        vec![Produto {
             n_item: "Null".to_string(),
             c_prod: "Null".to_string(),
             c_ean: "Null".to_string(),
@@ -29,8 +29,7 @@ impl Produto {
                 cofins: Cofins::empty(),
                 icms_uf_dest: IcmsUfDest::empty(),
             },
-        };
-        return vec![value];
+        }]
     }
 
     pub fn new(base: &Value) -> Vec<Produto> {
@@ -93,11 +92,11 @@ impl Produto {
                     ind_tot: parse_value_to_string(&prod["indTot"]),
                     x_ped: parse_value_to_string(&prod["xPed"]),
                     impostos: Impostos {
-                        icms: Icms::new(&det),
-                        ipi: Ipi::new(dest_cnpj, &det),
-                        pis: Pis::new(&det),
-                        cofins: Cofins::new(&det),
-                        icms_uf_dest: IcmsUfDest::new(&det),
+                        icms: Icms::new(det),
+                        ipi: Ipi::new(dest_cnpj, det),
+                        pis: Pis::new(det),
+                        cofins: Cofins::new(det),
+                        icms_uf_dest: IcmsUfDest::new(det),
                     },
                 };
                 result.push(produto);
