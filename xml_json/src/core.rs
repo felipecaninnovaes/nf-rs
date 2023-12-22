@@ -43,25 +43,9 @@ pub fn read(reader: &mut Reader<&[u8]>, depth: u64) -> Value {
                     /*
                      * nodes with attributes need to be handled special
                      */
-                    if !attrs.is_empty() {
-                        if child.is_string() {
-                            attrs.insert("#text".to_string(), child);
-                        }
-
-                        if let Ok(attrs) = serde_json::to_value(attrs) {
-                            node.insert(name, attrs);
-                        }
-                    } else if let Some(existing) = node.remove(&name) {
-                        let mut entries: Vec<Value> = vec![];
-
-                        if existing.is_array() {
-                            let existing = existing.as_array().unwrap();
-                            entries.extend(existing.iter().cloned());
-                        } else {
-                            entries.push(existing);
-                        }
+                    if let Some(existing) = node.remove(&name) {
+                        let mut entries = existing.as_array().map_or_else(|| vec![existing.clone()], |arr| arr.clone());
                         entries.push(child);
-
                         node.insert(name, Value::Array(entries));
                     } else {
                         node.insert(name, child);
