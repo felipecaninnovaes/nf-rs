@@ -21,7 +21,7 @@ impl Dest {
         let base_dest = &base["nfeProc"]["NFe"]["infNFe"]["dest"];
         let dest_cnpj = &base_dest["CNPJ"];
         let cnpj_cpf = if dest_cnpj != &Value::Null {
-            parse_value_to_string(&dest_cnpj)
+            parse_value_to_string(dest_cnpj)
         } else {
             parse_value_to_string(&base_dest["CPF"])
         };
@@ -30,7 +30,7 @@ impl Dest {
             cnpj_cpf,
             ie: parse_value_to_string(&base_dest["IE"]),
             email: parse_value_to_string(&base_dest["email"]),
-            ender_dest: Ender::new_dest(&base),
+            ender_dest: Ender::new_dest(base),
             ind_iedest: parse_value_to_string(&base_dest["indIEDest"]),
             x_nome: parse_value_to_string(&base_dest["xNome"]),
         };

@@ -13,7 +13,7 @@ async fn main() -> Result<(), Box<dyn Error>> {
 
     let input =
         Nfe::new("nfe/nf-xml-files-examples/nfe-pessoa-juridica.xml");
-    // println!("{:?}", input);
+    println!("{:?}", input);
     let _pool = start_connection().await;
 
     let result = insert_nfe(&_pool, &input)

@@ -7,7 +7,7 @@ use serde_json::{Map, Value};
 pub struct Error {}
 
 /// Função para ler o XML e converter para JSON.
-pub fn read(reader: &mut Reader<&[u8]>, depth: u64) -> Value {
+pub fn read(reader: &mut Reader<&[u8]>, _depth: u64) -> Value {
     let mut buf = Vec::new();
     let mut values = Vec::new();
     let mut node = Map::new();
@@ -16,26 +16,24 @@ pub fn read(reader: &mut Reader<&[u8]>, depth: u64) -> Value {
         match reader.read_event_into(&mut buf) {
             Ok(Event::Start(ref e)) => {
                 if let Ok(name) = String::from_utf8(e.name().into_inner().to_vec()) {
-                    let mut child = read(reader, depth + 1);
+                    let mut child = read(reader, _depth + 1);
                     let mut attrs = Map::new();
 
-                    for attr in e.attributes() {
-                        if let Ok(attr) = attr {
-                            let key = String::from_utf8(attr.key.into_inner().to_vec());
-                            let value = String::from_utf8(attr.value.to_vec());
+                    for attr in e.attributes().flatten() {
+                        let key = String::from_utf8(attr.key.into_inner().to_vec());
+                        let value = String::from_utf8(attr.value.to_vec());
 
-                            // Only bother adding the attribute if both key and value are valid utf8
-                            if let (Ok(key), Ok(value)) = (key, value) {
-                                let key = format!("@{}", key);
-                                let value = Value::String(value);
+                        // Only bother adding the attribute if both key and value are valid utf8
+                        if let (Ok(key), Ok(value)) = (key, value) {
+                            let key = format!("@{}", key);
+                            let value = Value::String(value);
 
-                                // If the child is already an object, that's where the insert
-                                // should happen
-                                if child.is_object() {
-                                    child.as_object_mut().unwrap().insert(key, value);
-                                } else {
-                                    attrs.insert(key, value);
-                                }
+                            // If the child is already an object, that's where the insert
+                            // should happen
+                            if child.is_object() {
+                                child.as_object_mut().unwrap().insert(key, value);
+                            } else {
+                                attrs.insert(key, value);
                             }
                         }
                     }
@@ -43,9 +41,25 @@ pub fn read(reader: &mut Reader<&[u8]>, depth: u64) -> Value {
                     /*
                      * nodes with attributes need to be handled special
                      */
-                    if let Some(existing) = node.remove(&name) {
-                        let mut entries = existing.as_array().map_or_else(|| vec![existing.clone()], |arr| arr.clone());
+                    if !attrs.is_empty() {
+                        if child.is_string() {
+                            attrs.insert("#text".to_string(), child);
+                        }
+
+                        if let Ok(attrs) = serde_json::to_value(attrs) {
+                            node.insert(name, attrs);
+                        }
+                    } else if let Some(existing) = node.remove(&name) {
+                        let mut entries: Vec<Value> = vec![];
+
+                        if existing.is_array() {
+                            let existing = existing.as_array().unwrap();
+                            entries.extend(existing.iter().cloned());
+                        } else {
+                            entries.push(existing);
+                        }
                         entries.push(child);
+
                         node.insert(name, Value::Array(entries));
                     } else {
                         node.insert(name, child);
