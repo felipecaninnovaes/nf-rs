@@ -22,29 +22,26 @@ pub fn read(reader: &mut Reader<&[u8]>, depth: u64) -> Value {
                     let mut attrs = Map::new();
                     debug!("{} children: {:?}", name, child);
 
-                    let _ = e
-                        .attributes()
-                        .map(|a| {
-                            if let Ok(attr) = a {
-                                let key = String::from_utf8(attr.key.into_inner().to_vec());
-                                let value = String::from_utf8(attr.value.to_vec());
+                    for attr in e.attributes() {
+                        if let Ok(attr) = attr {
+                            let key = String::from_utf8(attr.key.into_inner().to_vec());
+                            let value = String::from_utf8(attr.value.to_vec());
 
-                                // Only bother adding the attribute if both key and value are valid utf8
-                                if let (Ok(key), Ok(value)) = (key, value) {
-                                    let key = format!("@{}", key);
-                                    let value = Value::String(value);
+                            // Only bother adding the attribute if both key and value are valid utf8
+                            if let (Ok(key), Ok(value)) = (key, value) {
+                                let key = format!("@{}", key);
+                                let value = Value::String(value);
 
-                                    // If the child is already an object, that's where the insert
-                                    // should happen
-                                    if child.is_object() {
-                                        child.as_object_mut().unwrap().insert(key, value);
-                                    } else {
-                                        attrs.insert(key, value);
-                                    }
+                                // If the child is already an object, that's where the insert
+                                // should happen
+                                if child.is_object() {
+                                    child.as_object_mut().unwrap().insert(key, value);
+                                } else {
+                                    attrs.insert(key, value);
                                 }
                             }
-                        })
-                        .collect::<Vec<_>>();
+                        }
+                    }
 
                     /*
                      * nodes with attributes need to be handled special
@@ -57,16 +54,13 @@ pub fn read(reader: &mut Reader<&[u8]>, depth: u64) -> Value {
                         if let Ok(attrs) = serde_json::to_value(attrs) {
                             node.insert(name, attrs);
                         }
-                    } else if node.contains_key(&name) {
+                    } else if let Some(existing) = node.remove(&name) {
                         debug!("Node contains `{}` already, need to convert to array", name);
-                        let (_, mut existing) = node.remove_entry(&name).unwrap();
                         let mut entries: Vec<Value> = vec![];
 
                         if existing.is_array() {
-                            let existing = existing.as_array_mut().unwrap();
-                            while !existing.is_empty() {
-                                entries.push(existing.remove(0));
-                            }
+                            let existing = existing.as_array().unwrap();
+                            entries.extend(existing.iter().cloned());
                         } else {
                             entries.push(existing);
                         }
