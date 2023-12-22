@@ -5,7 +5,7 @@ use crate::modules::json::structs::{dest::Dest, emit::Emit, nfe::Nfe, produtos::
 impl Nfe {
     #[allow(dead_code)]
     pub fn empty() -> Nfe {
-        let value: Nfe = Nfe {
+        Nfe {
             c_dv: "Null".to_string(),
             c_mun_fg: "Null".to_string(),
             c_nf: "Null".to_string(),
@@ -30,8 +30,7 @@ impl Nfe {
             emit: Emit::empty(),
             dest: Dest::empty(),
             produtos: Produto::empty(),
-        };
-        return value;
+        }
     }
 
     #[allow(dead_code)]
@@ -66,6 +65,6 @@ impl Nfe {
             dest: Dest::new(&base),
             produtos: Produto::new(&base),
         };
-        return value;
+        value
     }
 }

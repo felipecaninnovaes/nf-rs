@@ -22,7 +22,7 @@ impl Ender {
     #[allow(dead_code)]
     pub fn new_dest(base: &Value) -> Ender {
         let base_ender_dest = &base["nfeProc"]["NFe"]["infNFe"]["dest"]["enderDest"];
-        let value: Ender = Ender {
+        let value = Ender {
             cep: parse_value_to_string(&base_ender_dest["CEP"]),
             uf: parse_value_to_string(&base_ender_dest["UF"]),
             c_mun: parse_value_to_string(&base_ender_dest["cMun"]),
@@ -33,12 +33,12 @@ impl Ender {
             x_lgr: parse_value_to_string(&base_ender_dest["xLgr"]),
             x_mun: parse_value_to_string(&base_ender_dest["xMun"]),
         };
-        // println!("{:?}", value);
-        return value;
+        value
     }
+
     pub fn new_emit(base: &Value) -> Ender {
         let base_ender_emit = &base["nfeProc"]["NFe"]["infNFe"]["emit"]["enderEmit"];
-        let value: Ender = Ender {
+        let value = Ender {
             cep: parse_value_to_string(&base_ender_emit["CEP"]),
             uf: parse_value_to_string(&base_ender_emit["UF"]),
             c_mun: parse_value_to_string(&base_ender_emit["cMun"]),
@@ -49,7 +49,6 @@ impl Ender {
             x_lgr: parse_value_to_string(&base_ender_emit["xLgr"]),
             x_mun: parse_value_to_string(&base_ender_emit["xMun"]),
         };
-        // println!("{:?}", value);
-        return value;
+        value
     }
 }

@@ -15,32 +15,26 @@ impl Ipi {
     }
     #[allow(dead_code)]
     pub fn new(dest_cnpj: &Value, base: &Value) -> Ipi {
-        
         let ipi = &base["imposto"]["IPI"];
         let ipi_cst_trib = &ipi["IPITrib"];
         let ipi_cst = &ipi["IPINT"];
-        if dest_cnpj != &Value::Null {
-            if ipi_cst_trib != &Value::Null {
-                let result = Ipi {
-                    c_enq: parse_value_to_i64(&ipi["cEnq"]),
-                    cst: parse_value_to_i64(&ipi_cst_trib["CST"]),
-                    v_bc: parse_value_to_f64(&ipi_cst_trib["vBC"]),
-                    p_ipi: parse_value_to_i64(&ipi_cst_trib["pIPI"]),
-                    v_ipi: parse_value_to_i64(&ipi_cst_trib["vIPI"]),
-                };
-                return result;
-            } else {
-                let result = Ipi {
-                    c_enq: parse_value_to_i64(&ipi["cEnq"]),
-                    cst: parse_value_to_i64(&ipi_cst["CST"]),
-                    v_bc: 0.0,
-                    p_ipi: 0,
-                    v_ipi: 0,
-                };
-                return result;
-            }
-        } else {
-            return Ipi::empty();
+
+        match (dest_cnpj, ipi_cst_trib) {
+            (&Value::Null, _) => Ipi::empty(),
+            (_, &Value::Null) => Ipi {
+                c_enq: parse_value_to_i64(&ipi["cEnq"]),
+                cst: parse_value_to_i64(&ipi_cst["CST"]),
+                v_bc: 0.0,
+                p_ipi: 0,
+                v_ipi: 0,
+            },
+            _ => Ipi {
+                c_enq: parse_value_to_i64(&ipi["cEnq"]),
+                cst: parse_value_to_i64(&ipi_cst_trib["CST"]),
+                v_bc: parse_value_to_f64(&ipi_cst_trib["vBC"]),
+                p_ipi: parse_value_to_i64(&ipi_cst_trib["pIPI"]),
+                v_ipi: parse_value_to_i64(&ipi_cst_trib["vIPI"]),
+            },
         }
     }
 }

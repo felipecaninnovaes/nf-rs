@@ -51,3 +51,7 @@ pub fn parse_value_to_string(string: &Value) -> String {
     };
     return result;
 }
+
+pub fn print_type_of<T>(_: &T) {
+    println!("{}", std::any::type_name::<T>())
+}

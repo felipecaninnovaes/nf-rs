@@ -4,7 +4,7 @@ use crate::modules::json::structs::ender::Ender;
 use crate::modules::json::structs::nfe::Nfe;
 use crate::modules::json::structs::produtos::Produto;
 
-use crate::modules::json::structs::impostos::{*};
+use crate::modules::json::structs::impostos::{Cofins, Icms, IcmsUfDest, Ipi, Pis};
 
 use sqlx::Row;
 use std::error::Error;
@@ -16,12 +16,11 @@ pub async fn get_idender(
     cep: &String,
 ) -> Result<i32, Box<dyn Error>> {
     let q = "SELECT idender FROM ender WHERE nro = $1 AND cep = $2";
-    let idender = sqlx::query(&q)
+    let idender = sqlx::query_scalar(&q)
         .bind(nro)
         .bind(cep)
         .fetch_one(pool)
-        .await?
-        .get::<i32, _>(0);
+        .await?;
     Ok(idender)
 }
 
@@ -109,7 +108,10 @@ pub async fn get_iddest(pool: &sqlx::PgPool, cpf_cnpj: &String) -> Result<i32, B
 pub async fn insert_dest(pool: &sqlx::PgPool, dest: &Dest) -> Result<i32, i32> {
     match get_iddest(pool, &dest.cnpj_cpf).await {
         Ok(iddest) => {
-            println!("Destinatario já existe no banco de dados DestID: {}", iddest);
+            println!(
+                "Destinatario já existe no banco de dados DestID: {}",
+                iddest
+            );
             return Ok(iddest);
         }
         Err(_) => {
@@ -193,7 +195,11 @@ pub async fn insert_nfe(pool: &sqlx::PgPool, nfe: &Nfe) -> Result<i32, i32> {
 }
 
 // get id from produto
-pub async fn get_idproduto(pool: &sqlx::PgPool, nitem: &String, idnfe: &i32) -> Result<i32, Box<dyn Error>> {
+pub async fn get_idproduto(
+    pool: &sqlx::PgPool,
+    nitem: &String,
+    idnfe: &i32,
+) -> Result<i32, Box<dyn Error>> {
     let q = "SELECT idproduto FROM produto WHERE nitem = $1 AND nfeidnfe = $2";
     // let idnfe_i32 = idnfe.parse::<i32>().unwrap();
     let idproduto = sqlx::query(&q)
@@ -204,15 +210,26 @@ pub async fn get_idproduto(pool: &sqlx::PgPool, nitem: &String, idnfe: &i32) -> 
         .get::<i32, _>(0);
     Ok(idproduto)
 }
+
 // insert produto into database
-pub async fn insert_produto(pool: &sqlx::PgPool, produto: &Vec<Produto>, idnfe: &i32) -> Result<(), i32> {
+pub async fn insert_produto(
+    pool: &sqlx::PgPool,
+    produto: &Vec<Produto>,
+    idnfe: &i32,
+) -> Result<(), i32> {
     for p in produto {
         // println!("{:?}", p);
         match get_idproduto(pool, &p.n_item, &idnfe).await {
             Ok(idproduto) => {
-                insert_cofins(pool, &p.impostos.cofins, &idproduto).await.unwrap();
-                insert_icmsufdest(pool, &p.impostos.icms_uf_dest, &idproduto).await.unwrap();
-                insert_icms(pool, &p.impostos.icms, &idproduto).await.unwrap();
+                insert_cofins(pool, &p.impostos.cofins, &idproduto)
+                    .await
+                    .unwrap();
+                insert_icmsufdest(pool, &p.impostos.icms_uf_dest, &idproduto)
+                    .await
+                    .unwrap();
+                insert_icms(pool, &p.impostos.icms, &idproduto)
+                    .await
+                    .unwrap();
                 insert_ipi(pool, &p.impostos.ipi, &idproduto).await.unwrap();
                 insert_pis(pool, &p.impostos.pis, &idproduto).await.unwrap();
                 println!("Produto {} já existe no banco de dados", idproduto);
@@ -243,9 +260,15 @@ pub async fn insert_produto(pool: &sqlx::PgPool, produto: &Vec<Produto>, idnfe: 
                     .get::<i32, _>(0);
 
                 // insert impostos
-                insert_cofins(pool, &p.impostos.cofins, &idproduto).await.unwrap();
-                insert_icmsufdest(pool, &p.impostos.icms_uf_dest, &idproduto).await.unwrap();
-                insert_icms(pool, &p.impostos.icms, &idproduto).await.unwrap();
+                insert_cofins(pool, &p.impostos.cofins, &idproduto)
+                    .await
+                    .unwrap();
+                insert_icmsufdest(pool, &p.impostos.icms_uf_dest, &idproduto)
+                    .await
+                    .unwrap();
+                insert_icms(pool, &p.impostos.icms, &idproduto)
+                    .await
+                    .unwrap();
                 insert_ipi(pool, &p.impostos.ipi, &idproduto).await.unwrap();
                 insert_pis(pool, &p.impostos.pis, &idproduto).await.unwrap();
             }
@@ -255,7 +278,7 @@ pub async fn insert_produto(pool: &sqlx::PgPool, produto: &Vec<Produto>, idnfe: 
 }
 
 // get id from cofins
-pub async fn get_idcofins(pool: &sqlx::PgPool, idproduto: &i32,) -> Result<i32, Box<dyn Error>> {
+pub async fn get_idcofins(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box<dyn Error>> {
     let q = "SELECT idcofins FROM cofins WHERE produtoidproduto = $1";
     let idcofins = sqlx::query(&q)
         .bind(idproduto)
@@ -266,11 +289,18 @@ pub async fn get_idcofins(pool: &sqlx::PgPool, idproduto: &i32,) -> Result<i32, 
 }
 
 // insert cofins into database
-pub async fn insert_cofins(pool: &sqlx::PgPool, cofins: &Cofins, idproduto: &i32) -> Result<(), i32> {
+pub async fn insert_cofins(
+    pool: &sqlx::PgPool,
+    cofins: &Cofins,
+    idproduto: &i32,
+) -> Result<(), i32> {
     let q = "INSERT INTO cofins (cst, vbc, pcofins, vcofins, produtoidproduto) VALUES ($1, $2, $3, $4, $5)";
     match get_idcofins(pool, &idproduto).await {
         Ok(idcofins) => {
-            println!("Cofins do produto com o ID: {} já existe no banco de dados", idcofins);
+            println!(
+                "Cofins do produto com o ID: {} já existe no banco de dados",
+                idcofins
+            );
         }
         Err(_) => {
             sqlx::query(&q)
@@ -288,7 +318,7 @@ pub async fn insert_cofins(pool: &sqlx::PgPool, cofins: &Cofins, idproduto: &i32
 }
 
 // get id from icmsufdest
-pub async fn get_idicmsufdest(pool: &sqlx::PgPool, idproduto: &i32,) -> Result<i32, Box<dyn Error>> {
+pub async fn get_idicmsufdest(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box<dyn Error>> {
     let q = "SELECT idicmsufdest FROM icmsufdest WHERE produtoidproduto = $1";
     let idicmsufdest = sqlx::query(&q)
         .bind(idproduto)
@@ -299,11 +329,18 @@ pub async fn get_idicmsufdest(pool: &sqlx::PgPool, idproduto: &i32,) -> Result<i
 }
 
 // insert icmsufdest into database
-pub async fn insert_icmsufdest(pool: &sqlx::PgPool, icmsufdest: &IcmsUfDest, idproduto: &i32) -> Result<(), i32> {
+pub async fn insert_icmsufdest(
+    pool: &sqlx::PgPool,
+    icmsufdest: &IcmsUfDest,
+    idproduto: &i32,
+) -> Result<(), i32> {
     let q = "INSERT INTO icmsufdest (vbcufdest, vbcfcpufdest, pfcpufdest, picmsufdest, picmsinter, picmsinterpart, vfcpufdest, vicmsufdest, vicmsufremet, produtoidproduto) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
     match get_idicmsufdest(pool, &idproduto).await {
         Ok(idicmsufdest) => {
-            println!("IcmsUfDest do produto com o ID: {} já existe no banco de dados", idicmsufdest);
+            println!(
+                "IcmsUfDest do produto com o ID: {} já existe no banco de dados",
+                idicmsufdest
+            );
         }
         Err(_) => {
             sqlx::query(&q)
@@ -326,7 +363,7 @@ pub async fn insert_icmsufdest(pool: &sqlx::PgPool, icmsufdest: &IcmsUfDest, idp
 }
 
 // get id from icms
-pub async fn get_idicms(pool: &sqlx::PgPool, idproduto: &i32,) -> Result<i32, Box<dyn Error>> {
+pub async fn get_idicms(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box<dyn Error>> {
     let q = "SELECT idicms FROM icms WHERE produtoidproduto = $1";
     let idicms = sqlx::query(&q)
         .bind(idproduto)
@@ -341,7 +378,10 @@ pub async fn insert_icms(pool: &sqlx::PgPool, icms: &Icms, idproduto: &i32) -> R
     let q = "INSERT INTO icms (orig, cst, modbc, vbc, picms, vicms, produtoidproduto) VALUES ($1, $2, $3, $4, $5, $6, $7)";
     match get_idicms(pool, &idproduto).await {
         Ok(idicms) => {
-            println!("Icms do produto com o ID: {} já existe no banco de dados", idicms);
+            println!(
+                "Icms do produto com o ID: {} já existe no banco de dados",
+                idicms
+            );
         }
         Err(_) => {
             sqlx::query(&q)
@@ -361,7 +401,7 @@ pub async fn insert_icms(pool: &sqlx::PgPool, icms: &Icms, idproduto: &i32) -> R
 }
 
 // get id from ipi
-pub async fn get_idipi(pool: &sqlx::PgPool, idproduto: &i32,) -> Result<i32, Box<dyn Error>> {
+pub async fn get_idipi(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box<dyn Error>> {
     let q = "SELECT idipi FROM ipi WHERE produtoidproduto = $1";
     let idipi = sqlx::query(&q)
         .bind(idproduto)
@@ -376,7 +416,10 @@ pub async fn insert_ipi(pool: &sqlx::PgPool, ipi: &Ipi, idproduto: &i32) -> Resu
     let q = "INSERT INTO ipi (cenq, cst, vbc, pipi, vipi, produtoidproduto) VALUES ($1, $2, $3, $4, $5, $6)";
     match get_idipi(pool, &idproduto).await {
         Ok(idipi) => {
-            println!("Ipi do produto com o ID: {} já existe no banco de dados", idipi);
+            println!(
+                "Ipi do produto com o ID: {} já existe no banco de dados",
+                idipi
+            );
         }
         Err(_) => {
             sqlx::query(&q)
@@ -395,7 +438,7 @@ pub async fn insert_ipi(pool: &sqlx::PgPool, ipi: &Ipi, idproduto: &i32) -> Resu
 }
 
 // get id from pis
-pub async fn get_idpis(pool: &sqlx::PgPool, idproduto: &i32,) -> Result<i32, Box<dyn Error>> {
+pub async fn get_idpis(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box<dyn Error>> {
     let q = "SELECT idpis FROM pis WHERE produtoidproduto = $1";
     let idpis = sqlx::query(&q)
         .bind(idproduto)
@@ -410,7 +453,10 @@ pub async fn insert_pis(pool: &sqlx::PgPool, pis: &Pis, idproduto: &i32) -> Resu
     let q = "INSERT INTO pis (cst, vbc, ppis, vpis, produtoidproduto) VALUES ($1, $2, $3, $4, $5)";
     match get_idpis(pool, &idproduto).await {
         Ok(idpis) => {
-            println!("Pis do produto com o ID: {} já existe no banco de dados", idpis);
+            println!(
+                "Pis do produto com o ID: {} já existe no banco de dados",
+                idpis
+            );
         }
         Err(_) => {
             sqlx::query(&q)
