@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testes>
+    <teste id="1">
+        <nome>Teste 1</nome>
+        <resultado>Passou</resultado>
+    </teste>
+    <teste id="2">
+        <nome>Teste 2</nome>
+        <resultado>Falhou</resultado>
+    </teste>
+</testes>
