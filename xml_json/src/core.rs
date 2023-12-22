@@ -1,18 +1,16 @@
-extern crate serde_json;
-
-use log::*;
 use quick_xml::events::Event;
 use quick_xml::Reader;
 use serde_json::{Map, Value};
 
+/// Estrutura de erro.
 #[derive(Debug)]
 pub struct Error {}
 
+/// Função para ler o XML e converter para JSON.
 pub fn read(reader: &mut Reader<&[u8]>, depth: u64) -> Value {
     let mut buf = Vec::new();
     let mut values = Vec::new();
     let mut node = Map::new();
-    debug!("Parsing at depth: {}", depth);
 
     loop {
         match reader.read_event_into(&mut buf) {
@@ -20,7 +18,6 @@ pub fn read(reader: &mut Reader<&[u8]>, depth: u64) -> Value {
                 if let Ok(name) = String::from_utf8(e.name().into_inner().to_vec()) {
                     let mut child = read(reader, depth + 1);
                     let mut attrs = Map::new();
-                    debug!("{} children: {:?}", name, child);
 
                     for attr in e.attributes() {
                         if let Ok(attr) = attr {
@@ -55,7 +52,6 @@ pub fn read(reader: &mut Reader<&[u8]>, depth: u64) -> Value {
                             node.insert(name, attrs);
                         }
                     } else if let Some(existing) = node.remove(&name) {
-                        debug!("Node contains `{}` already, need to convert to array", name);
                         let mut entries: Vec<Value> = vec![];
 
                         if existing.is_array() {
@@ -90,10 +86,7 @@ pub fn read(reader: &mut Reader<&[u8]>, depth: u64) -> Value {
         }
     }
 
-    debug!("values to return: {:?}", values);
     if !node.is_empty() {
-        // If we had collected some text along the way, that needs to be inserted
-        // so we don't lose it
         let mut index = 0;
         let mut has_text = false;
         for value in values.iter() {
@@ -107,13 +100,12 @@ pub fn read(reader: &mut Reader<&[u8]>, depth: u64) -> Value {
         if has_text {
             node.insert("#text".to_string(), values.remove(index));
         }
-        debug!("returning node instead: {:?}", node);
-        return serde_json::to_value(&node).expect("Failed to #to_value() a node!");
-    }
-
-    match values.len() {
-        0 => Value::Null,
-        1 => values.pop().unwrap(),
-        _ => Value::Array(values),
+        serde_json::to_value(&node).expect("Failed to #to_value() a node!")
+    } else {
+        match values.len() {
+            0 => Value::Null,
+            1 => values.pop().unwrap(),
+            _ => Value::Array(values),
+        }
     }
 }
