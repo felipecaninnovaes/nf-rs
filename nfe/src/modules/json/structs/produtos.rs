@@ -1,6 +1,6 @@
 use crate::modules::json::structs::impostos::Impostos;
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Produto {
     pub n_item: String,
     pub c_prod: String,

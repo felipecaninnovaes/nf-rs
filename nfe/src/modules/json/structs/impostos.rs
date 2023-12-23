@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Icms {
     pub orig: i64,
     pub cst: i64,
@@ -8,7 +8,7 @@ pub struct Icms {
     pub v_icms: f64,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Ipi {
     pub c_enq: i64,
     pub cst: i64,
@@ -17,21 +17,21 @@ pub struct Ipi {
     pub v_ipi: i64,
 }
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Pis {
     pub cst: i64,
     pub v_bc: f64,
     pub p_pis: f64,
     pub v_pis: f64,
 }
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Cofins {
     pub cst: i64,
     pub v_bc: f64,
     pub p_cofins: f64,
     pub v_cofins: f64,
 }
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct IcmsUfDest {
     pub v_bcufdest: f64,
     pub v_bcfcpufdest: f64,
@@ -43,7 +43,7 @@ pub struct IcmsUfDest {
     pub v_icmsufdest: f64,
     pub v_icmsufremet: f64,
 }
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Impostos {
     pub icms: Icms,
     pub ipi: Ipi,
