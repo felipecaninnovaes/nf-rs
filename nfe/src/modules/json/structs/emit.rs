@@ -1,7 +1,7 @@
 use super::ender::Ender;
 
 #[allow(dead_code)]
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Emit {
     pub cnpj_cpf: String,
     pub crt: String,
