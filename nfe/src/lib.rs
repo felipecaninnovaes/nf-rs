@@ -1,13 +1,10 @@
 
-#![feature(test)]
 pub mod modules; // Add crate attribute to enable unstable library feature 'test'
 pub mod run;
 
 #[cfg(test)]
 
 mod tests {
-    extern crate test;
-    use test::Bencher;
     use crate::modules::json::structs::dest::Dest;
     use crate::modules::json::structs::emit::Emit;
     use crate::modules::json::structs::ender::Ender;
@@ -379,14 +376,5 @@ mod tests {
             }],
         };
         assert_eq!(input, expected);
-    }
-    #[bench]
-    fn nfe_vec_products_bench(b: &mut Bencher) {
-        b.iter(|| Nfe::new("tests/data/1.xml"));
-    }
-
-    #[bench]
-    fn nfe_single_products_bench(b: &mut Bencher) {
-        b.iter(|| Nfe::new("tests/data/2.xml"));
     }
 }
