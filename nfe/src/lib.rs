@@ -270,7 +270,7 @@ mod tests {
             ind_intermed: "0".to_string(),
             ind_pres: "2".to_string(),
             mod_nfe: "55".to_string(),
-            n_nf: "00000000001".to_string(),
+            n_nf: "00000000002".to_string(),
             nat_op: "NOTA DE TESTE".to_string(),
             proc_emi: "0".to_string(),
             serie: "4".to_string(),
