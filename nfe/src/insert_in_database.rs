@@ -8,11 +8,11 @@ use crate::modules::sql::connection_postgres::start_connection;
 
 #[tokio::main]
 #[allow(dead_code)]
-pub async fn insert_in_database(){
+pub async fn insert_in_database(path: &str) {
     dotenv().ok();
     let _pool = start_connection().await;
 
-    let values = list_folder("nfe/tests/data").expect("Error reading folder");
+    let values = list_folder(path).expect("Error reading folder");
 
     for value in values {
         let input = Nfe::new(&value);

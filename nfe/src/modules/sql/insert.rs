@@ -160,7 +160,7 @@ pub async fn insert_nfe(pool: &sqlx::PgPool, nfe: &Nfe) -> Result<i32, i32> {
             Ok(idnfe)
         }
         Err(_) => {
-            let q = "INSERT INTO nfe (cdv, cmunfg, cnf, cuf, dhemi, dhsaient, finnfe, iddest, indfinal, indintermed, indpres, modnfe, nnf, natop, procemi, serie, tpamb, tpemis, tpimp, tpnf, verproc, emitidemit, destiddest) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23) RETURNING idnfe";
+            let q = "INSERT INTO nfe (cdv, cmunfg, cnf, cuf, dhemi, dhsaient, finnfe, iddest, indfinal, indintermed, indpres, modnfe, nnf, natop, procemi, serie, tpamb, tpemis, tpimp, tpnf, verproc, nftotal, emitidemit, destiddest) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24) RETURNING idnfe";
             let idnfe = sqlx::query(q)
                 .bind(&nfe.c_dv)
                 .bind(&nfe.c_mun_fg)
@@ -183,6 +183,7 @@ pub async fn insert_nfe(pool: &sqlx::PgPool, nfe: &Nfe) -> Result<i32, i32> {
                 .bind(&nfe.tp_imp)
                 .bind(&nfe.tp_nf)
                 .bind(&nfe.ver_proc)
+                .bind(nfe.nf_total)
                 .bind(idemit)
                 .bind(iddest)
                 .fetch_one(pool)

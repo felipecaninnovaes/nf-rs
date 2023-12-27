@@ -47,6 +47,7 @@ mod tests {
             tp_imp: "1".to_string(),
             tp_nf: "1".to_string(),
             ver_proc: "Notamax 1.0".to_string(),
+            nf_total: 149.70,
             emit: Emit {
                 cnpj_cpf: "99999999999999".to_string(),
                 crt: "3".to_string(),
@@ -289,6 +290,7 @@ mod tests {
             tp_imp: "1".to_string(),
             tp_nf: "1".to_string(),
             ver_proc: "Notamax 1.0".to_string(),
+            nf_total: 74.99,
             emit: Emit {
                 cnpj_cpf: "99999999999999".to_string(),
                 crt: "3".to_string(),
