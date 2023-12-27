@@ -17,6 +17,6 @@ pub fn list_folder(folder: &str) -> io::Result<Vec<String>> {
     Ok(files)
 }
 
-pub fn remove_file(caminho: &str) -> std::io::Result<()> {
-    fs::remove_file(caminho)
+pub fn remove_file(path: &str) -> std::io::Result<()> {
+    fs::remove_file(path)
 }
