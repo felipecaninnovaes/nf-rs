@@ -22,6 +22,7 @@ pub struct Nfe {
     pub tp_imp: String,
     pub tp_nf: String,
     pub ver_proc: String,
+    pub nf_total: f64,
     pub emit: Emit,
     pub dest: Dest,
     pub produtos: Vec<Produto>,
