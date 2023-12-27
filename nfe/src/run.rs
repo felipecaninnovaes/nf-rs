@@ -1,32 +1,25 @@
 use crate::modules::json::structs::nfe::Nfe;
+use crate::modules::util::read_folder::listar_arquivos;
 use dotenv::dotenv;
 use crate::modules::sql::insert::{insert_nfe, insert_produto};
 use crate::modules::sql::connection_postgres::start_connection;
-use std::error::Error;
+// use std::error::Error;
 
-pub fn nfe() -> Result<(), Box<dyn Error>> {
-    dotenv().ok();
-    
-    let input = Nfe::new(
-        std::env::var("NF_FILE_PATH")
-            .expect("NF_FILE_PATH must be set")
-            .as_str(),
-    );
-    
-    println!("{:?}", input);
-    
-    // let _ = database(input).await;
-    
-    Ok(())
-}
 
 #[tokio::main]
 #[allow(dead_code)]
-async fn database(input: Nfe) {
+pub async fn database(){
+    dotenv().ok();
     let _pool = start_connection().await;
 
-    let result = insert_nfe(&_pool, &input)
-        .await
-        .expect("Error inserting nfe");
-    let _ = insert_produto(&_pool, &input.produtos, &result).await;
+    let values = listar_arquivos("nfe/tests/data").expect("Erro ao listar arquivos");
+
+    for value in values {
+        let input = Nfe::new(&value);
+        println!("{:?}", input);
+        let result = insert_nfe(&_pool, &input)
+            .await
+            .expect("Error inserting nfe");
+        let _ = insert_produto(&_pool, &input.produtos, &result).await;
+    }
 }
