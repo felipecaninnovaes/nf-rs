@@ -118,6 +118,7 @@ CREATE TABLE Nfe (
     tpimp varchar(50) NULL,
     tpnf varchar(50) NULL,
     verproc varchar(100)  NULL,
+    nftotal decimal(12,2)  NULL,
     EmitidEmit int NOT NULL,
     DestidDest int NOT NULL,
     CONSTRAINT Nfepk PRIMARY KEY (idNfe)
