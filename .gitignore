@@ -3,3 +3,4 @@
 /xml_json/target
 /nfe/nf-xml-files-examples
 .env
+/web_api/public/uploads/*

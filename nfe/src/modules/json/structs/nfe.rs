@@ -1,4 +1,5 @@
 use super::{emit::Emit, dest::Dest, produtos::Produto};
+use serde::{Serialize, Deserialize};
 #[derive(Debug, PartialEq)]
 pub struct Nfe {
     pub c_dv: String,
@@ -26,4 +27,32 @@ pub struct Nfe {
     pub emit: Emit,
     pub dest: Dest,
     pub produtos: Vec<Produto>,
+}
+#[derive(Debug, Serialize, Deserialize)]
+pub struct NfeSelect {
+    pub nfeidnfe: i32,
+    pub c_dv: String,
+    pub c_mun_fg: String,
+    pub c_nf: String,
+    pub c_uf: String,
+    pub dh_emi: String,
+    pub dh_sai_ent: String,
+    pub fin_nfe: String,
+    pub id_dest: String,
+    pub ind_final: String,
+    pub ind_intermed: String,
+    pub ind_pres: String,
+    pub mod_nfe: String,
+    pub n_nf: String,
+    pub nat_op: String,
+    pub proc_emi: String,
+    pub serie: String,
+    pub tp_amb: String,
+    pub tp_emis: String,
+    pub tp_imp: String,
+    pub tp_nf: String,
+    pub ver_proc: String,
+    pub nf_total: String,
+    pub emit: i32,
+    pub dest: i32,
 }
