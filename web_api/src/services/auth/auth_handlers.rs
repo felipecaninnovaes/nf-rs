@@ -4,11 +4,17 @@ use dotenv::dotenv;
 use nfe::modules::sql::connection_postgres::start_connection;
 use sqlx::{Pool, Postgres};
 use uuid::Uuid;
+use serde::Serialize;
 
 use crate::services::utils::api_error::APIError;
 
 use super::{struct_user::{CreateUserModel, LoginUserModel, LoginUserResponseModel}, jwt::encode_jwt};
 
+#[derive(Debug, Serialize)]
+pub struct ErrorResponse {
+    pub status: &'static str,
+    pub message: String,
+}
 
 pub async fn create_user(Json(user): Json<CreateUserModel>) -> impl IntoResponse {
     dotenv().ok();

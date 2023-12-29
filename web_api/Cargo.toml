@@ -7,14 +7,15 @@ edition = "2021"
 
 [dependencies]
 tokio = { version = "1.35.1", features = ["full"] }
-axum = { version = "0.7.2", features = ["multipart"]}
+axum = { version = "0.7.3", features = ["multipart"]}
+axum-extra = { version = "0.9.1", features = ["cookie"] }
 serde_json = "1.0.108"
 serde = { version = "1.0.193", features = ["derive"] }
 dotenv = "0.15.0"
 tower-http = {version = "0.5.0", features = ["cors"]}
-uuid = { version = "1.6.1", features = ["v4"] }
-chrono = "0.4.31"
-sqlx = { version = "0.7.3", features = ["postgres", "runtime-tokio-rustls", "uuid"] }
+uuid = { version = "1.6.1", features = ["serde","v4"] }
+chrono = {version ="0.4.31", features = ["serde"] }
+sqlx = { version = "0.7.3", features = ["postgres", "runtime-tokio-rustls", "uuid", "time"] }
 
 
 nfe = { path = "../nfe" }

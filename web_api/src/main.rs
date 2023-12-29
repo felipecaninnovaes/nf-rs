@@ -2,14 +2,14 @@ use axum::{
     extract::DefaultBodyLimit, // Add missing import statements
     http::Method,
     routing::{get, post},
-    Router, Extension,
+    Router, Extension, middleware,
 };
 use dotenv::dotenv;
 use nfe::modules::sql::connection_postgres::start_connection;
 use tower_http::cors::{Any, CorsLayer};
 
 mod services;
-use services::{nfe::{upload::upload, get::{get_all_nfe, get_nfe_by_emit, get_nfe_by_dest}}, auth::auth_handlers::create_user};
+use services::{nfe::{upload::upload, get::{get_all_nfe, get_nfe_by_emit, get_nfe_by_dest}}, utils::guard::guard};
 
 mod routes;
 
@@ -31,6 +31,7 @@ async fn main() {
         .route("/api/nfe/emit/:id", get(get_nfe_by_emit))
         .route("/api/nfe/dest/:id", get(get_nfe_by_dest))
         .route("/api/nfe/upload", post(upload))
+        // .route_layer(middleware::from_fn(guard))
         .merge(routes::auth_routes::auth_routes())
         .layer(cors)
         .layer(Extension(_pool))
