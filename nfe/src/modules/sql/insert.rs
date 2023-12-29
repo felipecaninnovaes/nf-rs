@@ -9,13 +9,13 @@ use crate::modules::json::structs::impostos::{Cofins, Icms, IcmsUfDest, Ipi, Pis
 use sqlx::Row;
 use std::error::Error;
 
-// read enderid from database
+// read enderid from nfe_database
 pub async fn get_idender(
     pool: &sqlx::PgPool,
     nro: &String,
     cep: &String,
 ) -> Result<i32, Box<dyn Error>> {
-    let q = "SELECT idender FROM ender WHERE nro = $1 AND cep = $2";
+    let q = "SELECT nfe_idender FROM nfe_ender WHERE nro = $1 AND cep = $2";
     let idender = sqlx::query_scalar(q)
         .bind(nro)
         .bind(cep)
@@ -24,14 +24,14 @@ pub async fn get_idender(
     Ok(idender)
 }
 
-// insert ender into database
+// insert ender into nfe_database
 pub async fn insert_ender(pool: &sqlx::PgPool, ender: &Ender) -> Result<i32, i32> {
     match get_idender(pool, &ender.nro, &ender.cep).await {
         Ok(idender) => {
             Ok(idender)
         }
         Err(_) => {
-            let q = "INSERT INTO ender (cep, uf, cmun, cpais, nro, xbairro, xcpl, xlgr, xmun) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING idender";
+            let q = "INSERT INTO nfe_ender (cep, uf, cmun, cpais, nro, xbairro, xcpl, xlgr, xmun) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING nfe_idender";
             let idender = sqlx::query(q)
                 .bind(&ender.cep)
                 .bind(&ender.uf)
@@ -53,9 +53,9 @@ pub async fn insert_ender(pool: &sqlx::PgPool, ender: &Ender) -> Result<i32, i32
     // Ok(Result)
 }
 
-// get id from emit
+// get id from nfe_emit
 pub async fn get_idemit(pool: &sqlx::PgPool, cnpj_cpf: &String) -> Result<i32, Box<dyn Error>> {
-    let q = "SELECT idemit FROM emit WHERE cnpjcpf = $1";
+    let q = "SELECT nfe_idemit FROM nfe_emit WHERE cnpjcpf = $1";
     let iddest = sqlx::query(q)
         .bind(cnpj_cpf)
         .fetch_one(pool)
@@ -65,7 +65,7 @@ pub async fn get_idemit(pool: &sqlx::PgPool, cnpj_cpf: &String) -> Result<i32, B
     Ok(iddest)
 }
 
-// insert emit into database
+// insert emit into nfe_database
 pub async fn insert_emit(pool: &sqlx::PgPool, emit: &Emit) -> Result<i32, i32> {
     match get_idemit(pool, &emit.cnpj_cpf).await {
         Ok(idemit) => {
@@ -73,7 +73,7 @@ pub async fn insert_emit(pool: &sqlx::PgPool, emit: &Emit) -> Result<i32, i32> {
         }
         Err(_) => {
             let idender = insert_ender(pool, &emit.ender_emit).await.unwrap();
-            let q = "INSERT INTO emit (cnpjcpf, crt, ie, iest, xfant, xnome, enderidender) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING idemit";
+            let q = "INSERT INTO nfe_emit (cnpjcpf, crt, ie, iest, xfant, xnome, nfe_idender) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING nfe_idemit";
             let idemit = sqlx::query(q)
                 .bind(&emit.cnpj_cpf)
                 .bind(&emit.crt)
@@ -93,9 +93,9 @@ pub async fn insert_emit(pool: &sqlx::PgPool, emit: &Emit) -> Result<i32, i32> {
     // Ok(Result)
 }
 
-// get id from dest
+// get id from nfe_dest
 pub async fn get_iddest(pool: &sqlx::PgPool, cpf_cnpj: &String) -> Result<i32, Box<dyn Error>> {
-    let q = "SELECT iddest FROM dest WHERE cnpjcpf = $1";
+    let q = "SELECT nfe_iddest FROM nfe_dest WHERE cnpjcpf = $1";
     let iddest = sqlx::query(q)
         .bind(cpf_cnpj)
         .fetch_one(pool)
@@ -104,7 +104,7 @@ pub async fn get_iddest(pool: &sqlx::PgPool, cpf_cnpj: &String) -> Result<i32, B
     Ok(iddest)
 }
 
-// insert dest into database
+// insert dest into nfe_database
 pub async fn insert_dest(pool: &sqlx::PgPool, dest: &Dest) -> Result<i32, i32> {
     match get_iddest(pool, &dest.cnpj_cpf).await {
         Ok(iddest) => {
@@ -116,7 +116,7 @@ pub async fn insert_dest(pool: &sqlx::PgPool, dest: &Dest) -> Result<i32, i32> {
         }
         Err(_) => {
             let idender = insert_ender(pool, &dest.ender_dest).await.unwrap();
-            let q = "INSERT INTO dest (cnpjcpf , ie, email, indiedest,xnome, enderidender) VALUES ($1, $2, $3, $4, $5, $6) RETURNING iddest";
+            let q = "INSERT INTO nfe_dest (cnpjcpf , ie, email, indiedest,xnome, nfe_idender) VALUES ($1, $2, $3, $4, $5, $6) RETURNING nfe_iddest";
             let iddest = sqlx::query(q)
                 .bind(&dest.cnpj_cpf)
                 .bind(&dest.ie)
@@ -141,7 +141,7 @@ pub async fn get_nfeid(
     nnf: &String,
     idemit: &i32,
 ) -> Result<i32, Box<dyn Error>> {
-    let q = "SELECT idnfe FROM nfe WHERE nnf = $1 AND emitidemit = $2";
+    let q = "SELECT nfe_idnfe FROM nfe WHERE nnf = $1 AND nfe_idemit = $2";
     let idnfe = sqlx::query(q)
         .bind(nnf)
         .bind(idemit)
@@ -151,7 +151,7 @@ pub async fn get_nfeid(
     Ok(idnfe)
 }
 
-// insert nfe into database
+// insert nfe into nfe_database
 pub async fn insert_nfe(pool: &sqlx::PgPool, nfe: &Nfe) -> Result<i32, i32> {
     let idemit = insert_emit(pool, &nfe.emit).await.unwrap();
     let iddest = insert_dest(pool, &nfe.dest).await.unwrap();
@@ -160,7 +160,7 @@ pub async fn insert_nfe(pool: &sqlx::PgPool, nfe: &Nfe) -> Result<i32, i32> {
             Ok(idnfe)
         }
         Err(_) => {
-            let q = "INSERT INTO nfe (cdv, cmunfg, cnf, cuf, dhemi, dhsaient, finnfe, iddest, indfinal, indintermed, indpres, modnfe, nnf, natop, procemi, serie, tpamb, tpemis, tpimp, tpnf, verproc, nftotal, emitidemit, destiddest) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24) RETURNING idnfe";
+            let q = "INSERT INTO nfe (cdv, cmunfg, cnf, cuf, dhemi, dhsaient, finnfe, iddest, indfinal, indintermed, indpres, modnfe, nnf, natop, procemi, serie, tpamb, tpemis, tpimp, tpnf, verproc, nftotal, nfe_idemit, nfe_iddest) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24) RETURNING idnfe";
             let idnfe = sqlx::query(q)
                 .bind(&nfe.c_dv)
                 .bind(&nfe.c_mun_fg)
@@ -195,13 +195,13 @@ pub async fn insert_nfe(pool: &sqlx::PgPool, nfe: &Nfe) -> Result<i32, i32> {
     }
 }
 
-// get id from produto
+// get id from nfe_produto
 pub async fn get_idproduto(
     pool: &sqlx::PgPool,
     nitem: &String,
     idnfe: &i32,
 ) -> Result<i32, Box<dyn Error>> {
-    let q = "SELECT idproduto FROM produto WHERE nitem = $1 AND nfeidnfe = $2";
+    let q = "SELECT nfe_idproduto FROM nfe_produto WHERE nitem = $1 AND idnfe = $2";
     // let idnfe_i32 = idnfe.parse::<i32>().unwrap();
     let idproduto = sqlx::query(q)
         .bind(nitem)
@@ -212,7 +212,7 @@ pub async fn get_idproduto(
     Ok(idproduto)
 }
 
-// insert produto into database
+// insert produto into nfe_database
 pub async fn insert_produto(
     pool: &sqlx::PgPool,
     produto: &Vec<Produto>,
@@ -236,7 +236,7 @@ pub async fn insert_produto(
                 println!("Produto {} já existe no banco de dados", idproduto);
             }
             Err(_) => {
-                let q = "INSERT INTO produto (nitem, cprod, cean, xprod, ncm, cfop, ucom, qcom, vuncom, vprod, ceantrib, utrib, qtrib, vuntrib, indtot, xped, nfeidnfe) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,$16, $17) RETURNING idproduto";
+                let q = "INSERT INTO nfe_produto (nitem, cprod, cean, xprod, ncm, cfop, ucom, qcom, vuncom, vprod, ceantrib, utrib, qtrib, vuntrib, indtot, xped, idnfe) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,$16, $17) RETURNING nfe_idproduto";
                 let idproduto = sqlx::query(q)
                     .bind(&p.n_item)
                     .bind(&p.c_prod)
@@ -278,9 +278,9 @@ pub async fn insert_produto(
     Ok(())
 }
 
-// get id from cofins
+// get id from nfe_cofins
 pub async fn get_idcofins(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box<dyn Error>> {
-    let q = "SELECT idcofins FROM cofins WHERE produtoidproduto = $1";
+    let q = "SELECT nfe_idcofins FROM nfe_cofins WHERE nfe_idproduto = $1";
     let idcofins = sqlx::query(q)
         .bind(idproduto)
         .fetch_one(pool)
@@ -289,13 +289,13 @@ pub async fn get_idcofins(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, B
     Ok(idcofins)
 }
 
-// insert cofins into database
+// insert cofins into nfe_database
 pub async fn insert_cofins(
     pool: &sqlx::PgPool,
     cofins: &Cofins,
     idproduto: &i32,
 ) -> Result<(), i32> {
-    let q = "INSERT INTO cofins (cst, vbc, pcofins, vcofins, produtoidproduto) VALUES ($1, $2, $3, $4, $5)";
+    let q = "INSERT INTO nfe_cofins (cst, vbc, pcofins, vcofins, nfe_idproduto) VALUES ($1, $2, $3, $4, $5)";
     match get_idcofins(pool, idproduto).await {
         Ok(idcofins) => {
             println!(
@@ -318,9 +318,9 @@ pub async fn insert_cofins(
     Ok(())
 }
 
-// get id from icmsufdest
+// get id from nfe_icmsufdest
 pub async fn get_idicmsufdest(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box<dyn Error>> {
-    let q = "SELECT idicmsufdest FROM icmsufdest WHERE produtoidproduto = $1";
+    let q = "SELECT nfe_idicmsufdest FROM nfe_icmsufdest WHERE nfe_idproduto = $1";
     let idicmsufdest = sqlx::query(q)
         .bind(idproduto)
         .fetch_one(pool)
@@ -329,13 +329,13 @@ pub async fn get_idicmsufdest(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i3
     Ok(idicmsufdest)
 }
 
-// insert icmsufdest into database
+// insert icmsufdest into nfe_database
 pub async fn insert_icmsufdest(
     pool: &sqlx::PgPool,
     icmsufdest: &IcmsUfDest,
     idproduto: &i32,
 ) -> Result<(), i32> {
-    let q = "INSERT INTO icmsufdest (vbcufdest, vbcfcpufdest, pfcpufdest, picmsufdest, picmsinter, picmsinterpart, vfcpufdest, vicmsufdest, vicmsufremet, produtoidproduto) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
+    let q = "INSERT INTO nfe_icmsufdest (vbcufdest, vbcfcpufdest, pfcpufdest, picmsufdest, picmsinter, picmsinterpart, vfcpufdest, vicmsufdest, vicmsufremet, nfe_idproduto) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)";
     match get_idicmsufdest(pool, idproduto).await {
         Ok(idicmsufdest) => {
             println!(
@@ -363,9 +363,9 @@ pub async fn insert_icmsufdest(
     Ok(())
 }
 
-// get id from icms
+// get id from nfe_icms
 pub async fn get_idicms(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box<dyn Error>> {
-    let q = "SELECT idicms FROM icms WHERE produtoidproduto = $1";
+    let q = "SELECT nfe_idicms FROM nfe_icms WHERE nfe_idproduto = $1";
     let idicms = sqlx::query(q)
         .bind(idproduto)
         .fetch_one(pool)
@@ -374,9 +374,9 @@ pub async fn get_idicms(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box
     Ok(idicms)
 }
 
-// insert icms into database
+// insert icms into nfe_database
 pub async fn insert_icms(pool: &sqlx::PgPool, icms: &Icms, idproduto: &i32) -> Result<(), i32> {
-    let q = "INSERT INTO icms (orig, cst, modbc, vbc, picms, vicms, produtoidproduto) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+    let q = "INSERT INTO nfe_icms (orig, cst, modbc, vbc, picms, vicms, nfe_idproduto) VALUES ($1, $2, $3, $4, $5, $6, $7)";
     match get_idicms(pool, idproduto).await {
         Ok(idicms) => {
             println!(
@@ -401,9 +401,9 @@ pub async fn insert_icms(pool: &sqlx::PgPool, icms: &Icms, idproduto: &i32) -> R
     Ok(())
 }
 
-// get id from ipi
+// get id from nfe_ipi
 pub async fn get_idipi(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box<dyn Error>> {
-    let q = "SELECT idipi FROM ipi WHERE produtoidproduto = $1";
+    let q = "SELECT nfe_idipi FROM nfe_ipi WHERE nfe_idproduto = $1";
     let idipi = sqlx::query(q)
         .bind(idproduto)
         .fetch_one(pool)
@@ -412,9 +412,9 @@ pub async fn get_idipi(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box<
     Ok(idipi)
 }
 
-// insert ipi into database
+// insert ipi into nfe_database
 pub async fn insert_ipi(pool: &sqlx::PgPool, ipi: &Ipi, idproduto: &i32) -> Result<(), i32> {
-    let q = "INSERT INTO ipi (cenq, cst, vbc, pipi, vipi, produtoidproduto) VALUES ($1, $2, $3, $4, $5, $6)";
+    let q = "INSERT INTO nfe_ipi (cenq, cst, vbc, pipi, vipi, nfe_idproduto) VALUES ($1, $2, $3, $4, $5, $6)";
     match get_idipi(pool, idproduto).await {
         Ok(idipi) => {
             println!(
@@ -438,9 +438,9 @@ pub async fn insert_ipi(pool: &sqlx::PgPool, ipi: &Ipi, idproduto: &i32) -> Resu
     Ok(())
 }
 
-// get id from pis
+// get id from nfe_pis
 pub async fn get_idpis(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box<dyn Error>> {
-    let q = "SELECT idpis FROM pis WHERE produtoidproduto = $1";
+    let q = "SELECT nfe_idpis FROM nfe_pis WHERE nfe_idproduto = $1";
     let idpis = sqlx::query(q)
         .bind(idproduto)
         .fetch_one(pool)
@@ -449,9 +449,9 @@ pub async fn get_idpis(pool: &sqlx::PgPool, idproduto: &i32) -> Result<i32, Box<
     Ok(idpis)
 }
 
-// insert pis into database
+// insert pis into nfe_database
 pub async fn insert_pis(pool: &sqlx::PgPool, pis: &Pis, idproduto: &i32) -> Result<(), i32> {
-    let q = "INSERT INTO pis (cst, vbc, ppis, vpis, produtoidproduto) VALUES ($1, $2, $3, $4, $5)";
+    let q = "INSERT INTO nfe_pis (cst, vbc, ppis, vpis, nfe_idproduto) VALUES ($1, $2, $3, $4, $5)";
     match get_idpis(pool, idproduto).await {
         Ok(idpis) => {
             println!(

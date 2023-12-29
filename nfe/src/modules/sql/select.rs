@@ -18,38 +18,23 @@ pub async fn get_products_id_from_nfe(
 // get all nfe
 pub async fn all_nfe(pool: &sqlx::PgPool) -> Result<String, Box<dyn Error>> {
     let q = "SELECT * FROM nfe";
-    let mut v: Vec<NfeSelect> = Vec::new();
-
-    for row in sqlx::query(q).fetch_all(pool).await? {
-        let row: NfeSelect = NfeSelect {
-            nfeidnfe: row.get(0),
-            c_dv: row.get(1),
-            c_mun_fg: row.get(2),
-            c_nf: row.get(3),
-            c_uf: row.get(4),
-            dh_emi: row.get(5),
-            dh_sai_ent: row.get(6),
-            fin_nfe: row.get(7),
-            id_dest: row.get(8),
-            ind_final: row.get(9),
-            ind_intermed: row.get(10),
-            ind_pres: row.get(11),
-            mod_nfe: row.get(12),
-            n_nf: row.get(13),
-            nat_op: row.get(14),
-            proc_emi: row.get(15),
-            serie: row.get(16),
-            tp_amb: row.get(17),
-            tp_emis: row.get(18),
-            tp_imp: row.get(19),
-            tp_nf: row.get(20),
-            ver_proc: row.get(21),
-            nf_total: row.get(22),
-            emit: row.get(23),
-            dest: row.get(24),
-        };
-        v.push(row);
-    }
-    let json = serde_json::to_string(&v)?;
+    let res = sqlx::query_as::<_, NfeSelect>(q).fetch_all(pool).await?;
+    let json = serde_json::to_string(&res)?;
     Ok(json)
+}
+
+// get nfe by emit
+pub async fn nfe_by_emit(pool: &sqlx::PgPool, emit: &i32) -> Result<String, Box<dyn Error>> {
+    let q = "SELECT * FROM nfe WHERE nfe_idemit = $1";
+    let res = sqlx::query_as::<_, NfeSelect>(q).bind(emit).fetch_all(pool).await?;    // for row in sqlx::query(q).bind(emit).fetch_all(pool).await? {
+        let json = serde_json::to_string(&res)?;
+        Ok(json)
+}
+
+// get nfe by dest
+pub async fn nfe_by_dest(pool: &sqlx::PgPool, dest: &i32) -> Result<String, Box<dyn Error>> {
+    let q = "SELECT * FROM nfe WHERE nfe_iddest = $1";
+    let res = sqlx::query_as::<_, NfeSelect>(q).bind(dest).fetch_all(pool).await?;    // for row in sqlx::query(q).bind(dest).fetch_all(pool).await? {
+        let json = serde_json::to_string(&res)?;
+        Ok(json)
 }

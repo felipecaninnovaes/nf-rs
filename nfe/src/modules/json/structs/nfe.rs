@@ -1,5 +1,6 @@
 use super::{emit::Emit, dest::Dest, produtos::Produto};
 use serde::{Serialize, Deserialize};
+use sqlx::prelude::FromRow;
 #[derive(Debug, PartialEq)]
 pub struct Nfe {
     pub c_dv: String,
@@ -28,31 +29,31 @@ pub struct Nfe {
     pub dest: Dest,
     pub produtos: Vec<Produto>,
 }
-#[derive(Debug, Serialize, Deserialize)]
+#[derive(Debug, Serialize, Deserialize, FromRow)]
 pub struct NfeSelect {
-    pub nfeidnfe: i32,
-    pub c_dv: String,
-    pub c_mun_fg: String,
-    pub c_nf: String,
-    pub c_uf: String,
-    pub dh_emi: String,
-    pub dh_sai_ent: String,
-    pub fin_nfe: String,
-    pub id_dest: String,
-    pub ind_final: String,
-    pub ind_intermed: String,
-    pub ind_pres: String,
-    pub mod_nfe: String,
-    pub n_nf: String,
-    pub nat_op: String,
-    pub proc_emi: String,
+    pub idnfe: i32,
+    pub cdv: String,
+    pub cmunfg: String,
+    pub cnf: String,
+    pub cuf: String,
+    pub dhemi: String,
+    pub dhsaient: String,
+    pub finnfe: String,
+    pub iddest: String,
+    pub indfinal: String,
+    pub indintermed: String,
+    pub indpres: String,
+    pub modnfe: String,
+    pub nnf: String,
+    pub natop: String,
+    pub procemi: String,
     pub serie: String,
-    pub tp_amb: String,
-    pub tp_emis: String,
-    pub tp_imp: String,
-    pub tp_nf: String,
-    pub ver_proc: String,
-    pub nf_total: String,
-    pub emit: i32,
-    pub dest: i32,
+    pub tpamb: String,
+    pub tpemis: String,
+    pub tpimp: String,
+    pub tpnf: String,
+    pub verproc: String,
+    pub nftotal: String,
+    pub nfe_idemit: i32,
+    pub nfe_iddest: i32,
 }

@@ -1,10 +1,9 @@
 use crate::modules::json::structs::nfe::Nfe;
+use crate::modules::sql::connection_postgres::start_connection;
+use crate::modules::sql::insert::{insert_nfe, insert_produto};
 use crate::modules::util::read_folder::{list_folder, remove_file};
 use dotenv::dotenv;
-use crate::modules::sql::insert::{insert_nfe, insert_produto};
-use crate::modules::sql::connection_postgres::start_connection;
 // use std::error::Error;
-
 
 #[allow(dead_code, unused_variables)]
 pub async fn insert_in_database(path: &str) {
