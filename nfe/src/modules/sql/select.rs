@@ -1,13 +1,12 @@
-
+use crate::modules::json::structs::nfe::NfeSelect;
 use sqlx::Row;
 use std::error::Error;
-use crate::modules::json::structs::nfe::NfeSelect;
-
-
-
 
 // get vec products id from a nfe
-pub async fn get_products_id_from_nfe(pool: &sqlx::PgPool, nfeid: &i32) -> Result<Vec<i32>, Box<dyn Error>> {
+pub async fn get_products_id_from_nfe(
+    pool: &sqlx::PgPool,
+    nfeid: &i32,
+) -> Result<Vec<i32>, Box<dyn Error>> {
     let q = "SELECT idproduto FROM produto WHERE nfeidnfe = $1";
     let mut v: Vec<i32> = Vec::new();
     for row in sqlx::query(q).bind(nfeid).fetch_all(pool).await? {
@@ -17,7 +16,7 @@ pub async fn get_products_id_from_nfe(pool: &sqlx::PgPool, nfeid: &i32) -> Resul
 }
 
 // get all nfe
-pub async fn get_all_nfe(pool: &sqlx::PgPool) -> Result<String, Box<dyn Error>> {
+pub async fn all_nfe(pool: &sqlx::PgPool) -> Result<String, Box<dyn Error>> {
     let q = "SELECT * FROM nfe";
     let mut v: Vec<NfeSelect> = Vec::new();
 
