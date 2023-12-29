@@ -1,2 +1,3 @@
-pub mod upload;
-pub mod get;
+pub mod auth;
+pub mod nfe;
+pub mod utils;

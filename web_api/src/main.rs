@@ -2,17 +2,22 @@ use axum::{
     extract::DefaultBodyLimit, // Add missing import statements
     http::Method,
     routing::{get, post},
-    Router,
+    Router, Extension,
 };
 use dotenv::dotenv;
+use nfe::modules::sql::connection_postgres::start_connection;
 use tower_http::cors::{Any, CorsLayer};
 
 mod services;
-use services::{upload::upload, get::{get_all_nfe, get_nfe_by_emit, get_nfe_by_dest}};
+use services::{nfe::{upload::upload, get::{get_all_nfe, get_nfe_by_emit, get_nfe_by_dest}}, auth::auth_handlers::create_user};
+
+mod routes;
 
 #[tokio::main]
 async fn main() {
     dotenv().ok();
+
+    let _pool = start_connection().await;
 
     let cors = CorsLayer::new()
         // allow `GET` and `POST` when accessing the resource
@@ -25,8 +30,10 @@ async fn main() {
         .route("/api/nfe", get(get_all_nfe))
         .route("/api/nfe/emit/:id", get(get_nfe_by_emit))
         .route("/api/nfe/dest/:id", get(get_nfe_by_dest))
-        .route("/api/upload/nfe", post(upload))
+        .route("/api/nfe/upload", post(upload))
+        .merge(routes::auth_routes::auth_routes())
         .layer(cors)
+        .layer(Extension(_pool))
         .layer(DefaultBodyLimit::disable());
 
     // run our app with hyper, listening globally on port 3000

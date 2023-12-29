@@ -1,14 +1,15 @@
 -- Created by Vertabelo (http://vertabelo.com)
 -- Last modification date: 2023-12-19 17:00:00.113
 
--- CREATE TABLE user (
---     iduser serial  NOT NULL,
---     fistname varchar(100) NULL,
---     secondname varchar(100)  NULL,
---     email varchar(200)  NULL,
---     userpassword varchar(100)  NULL,
---     CONSTRAINT Cofinspk PRIMARY KEY (iduser)
--- );
+CREATE TABLE users (
+    iduser uuid  NOT NULL,
+    firstname varchar(100) NULL,
+    secondname varchar(100)  NULL,
+    email varchar(200)  NULL,
+    password varchar(100)  NULL,
+    created_at date  NULL,
+    CONSTRAINT Userspk PRIMARY KEY (iduser)
+);
 
 -- tables
 -- Table: Cofins

@@ -21,7 +21,7 @@ pub async fn get_nfe_by_emit(path: Path<i32>) -> impl IntoResponse {
     let pool = start_connection().await;
 
     let json = nfe_by_emit(&pool, &path).await.unwrap();
-
+    
     (StatusCode::OK, json)
 }
 
