@@ -33,7 +33,7 @@ pub async fn guard(
                 .get(header::AUTHORIZATION)
                 .and_then(|auth_header| auth_header.to_str().ok())
                 .and_then(|auth_value| {
-                    auth_value.strip_prefix("Bearer ").map(|value| value.to_owned())
+                    auth_value.strip_prefix("nfemanager.token ").map(|value| value.to_owned())
                 })
         });
 

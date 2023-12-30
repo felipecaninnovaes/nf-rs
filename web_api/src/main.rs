@@ -31,7 +31,7 @@ async fn main() {
         .route("/api/nfe/emit/:id", get(get_nfe_by_emit))
         .route("/api/nfe/dest/:id", get(get_nfe_by_dest))
         .route("/api/nfe/upload", post(upload))
-        // .route_layer(middleware::from_fn(guard))
+        .route_layer(middleware::from_fn(guard))
         .merge(routes::auth_routes::auth_routes())
         .layer(cors)
         .layer(Extension(_pool))
