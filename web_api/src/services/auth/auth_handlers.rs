@@ -8,7 +8,7 @@ use serde::Serialize;
 
 use crate::services::utils::api_error::APIError;
 
-use super::{struct_user::{CreateUserModel, LoginUserModel, LoginUserResponseModel}, jwt::encode_jwt};
+use super::{struct_user::{CreateUserModel, LoginUserModel, LoginUserResponseModel, LoginTockenCheckModel}, jwt::encode_jwt};
 
 #[derive(Debug, Serialize)]
 pub struct ErrorResponse {
@@ -40,12 +40,12 @@ pub async fn login_user_post(
     Json(user_data): Json<LoginUserModel>
 ) -> Result<Json<LoginUserResponseModel>,APIError> {
 
-    let q = "SELECT email, password FROM users WHERE email = $1 AND password = $2";
-    let user = sqlx::query_as::<_, LoginUserModel>(q).bind(user_data.email).bind(user_data.password).fetch_one(&_pool).await.map_err(|_| APIError { message: "Failed to login".to_owned(), status_code: StatusCode::UNAUTHORIZED, error_code: Some(41) })?;
+    let q = "SELECT email, firstname FROM users WHERE email = $1 AND password = $2";
+    let user = sqlx::query_as::<_, LoginTockenCheckModel>(q).bind(user_data.email).bind(user_data.password).fetch_one(&_pool).await.map_err(|_| APIError { message: "Failed to login".to_owned(), status_code: StatusCode::UNAUTHORIZED, error_code: Some(41) })?;
 
-    let token = encode_jwt(user.email)
+    let token = encode_jwt(user.email.clone())
     .map_err(|_| APIError { message: "Failed to login".to_owned(), status_code: StatusCode::UNAUTHORIZED, error_code: Some(41) })?;
 
-    Ok(Json(LoginUserResponseModel { token }))
+    Ok(Json(LoginUserResponseModel {firstname: user.firstname, email: user.email, token}))
 
 }

@@ -35,12 +35,14 @@ pub struct LoginUserModel{
 
 #[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
 pub struct LoginTockenCheckModel{
+    pub email: String,
     pub firstname: String,
-    pub email: String 
 }
 
 #[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
 pub struct LoginUserResponseModel{
+    pub firstname: String,
+    pub email: String,
     pub token: String
 }
 
