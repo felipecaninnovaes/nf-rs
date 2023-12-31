@@ -26,15 +26,21 @@ pub async fn all_nfe(pool: &sqlx::PgPool) -> Result<String, Box<dyn Error>> {
 // get nfe by emit
 pub async fn nfe_by_emit(pool: &sqlx::PgPool, emit: &i32) -> Result<String, Box<dyn Error>> {
     let q = "SELECT * FROM nfe WHERE nfe_idemit = $1";
-    let res = sqlx::query_as::<_, NfeSelect>(q).bind(emit).fetch_all(pool).await?;    // for row in sqlx::query(q).bind(emit).fetch_all(pool).await? {
-        let json = serde_json::to_string(&res)?;
-        Ok(json)
+    let res = sqlx::query_as::<_, NfeSelect>(q)
+        .bind(emit)
+        .fetch_all(pool)
+        .await?; // for row in sqlx::query(q).bind(emit).fetch_all(pool).await? {
+    let json = serde_json::to_string(&res)?;
+    Ok(json)
 }
 
 // get nfe by dest
 pub async fn nfe_by_dest(pool: &sqlx::PgPool, dest: &i32) -> Result<String, Box<dyn Error>> {
     let q = "SELECT * FROM nfe WHERE nfe_iddest = $1";
-    let res = sqlx::query_as::<_, NfeSelect>(q).bind(dest).fetch_all(pool).await?;    // for row in sqlx::query(q).bind(dest).fetch_all(pool).await? {
-        let json = serde_json::to_string(&res)?;
-        Ok(json)
+    let res = sqlx::query_as::<_, NfeSelect>(q)
+        .bind(dest)
+        .fetch_all(pool)
+        .await?; // for row in sqlx::query(q).bind(dest).fetch_all(pool).await? {
+    let json = serde_json::to_string(&res)?;
+    Ok(json)
 }

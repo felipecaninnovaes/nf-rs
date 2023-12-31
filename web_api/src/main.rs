@@ -1,15 +1,23 @@
 use axum::{
     extract::DefaultBodyLimit, // Add missing import statements
     http::Method,
+    middleware,
     routing::{get, post},
-    Router, Extension, middleware,
+    Extension,
+    Router,
 };
 use dotenv::dotenv;
 use nfe::modules::sql::connection_postgres::start_connection;
 use tower_http::cors::{Any, CorsLayer};
 
 mod services;
-use services::{nfe::{upload::upload, get::{get_all_nfe, get_nfe_by_emit, get_nfe_by_dest}}, utils::guard::guard};
+use services::{
+    nfe::{
+        get::{get_all_nfe, get_nfe_by_dest, get_nfe_by_emit},
+        upload::upload,
+    },
+    utils::guard::guard,
+};
 
 mod routes;
 
@@ -23,7 +31,8 @@ async fn main() {
         // allow `GET` and `POST` when accessing the resource
         .allow_methods([Method::GET, Method::POST])
         // allow requests from any origin
-        .allow_origin(Any);
+        .allow_origin(Any)
+        .allow_headers(Any);
 
     // build our application with a single route
     let app = Router::new()
