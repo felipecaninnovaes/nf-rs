@@ -17,11 +17,19 @@ pub async fn get_products_id_from_nfe(
 
 // get all nfe
 pub async fn all_nfe(pool: &sqlx::PgPool) -> Result<String, Box<dyn Error>> {
-    let q = "SELECT * FROM nfe";
+    let q = "SELECT * FROM nfe INNER JOIN nfe_emit ON nfe.nfe_idemit = nfe_emit.nfe_idemit INNER JOIN nfe_dest ON nfe.nfe_iddest = nfe_dest.nfe_iddest";
     let res = sqlx::query_as::<_, NfeSelect>(q).fetch_all(pool).await?;
+    let res2 = sqlx::query(q).fetch_all(pool).await?;
+    println!("{:?}", res);
     let json = serde_json::to_string(&res)?;
     Ok(json)
 }
+// pub async fn all_nfe(pool: &sqlx::PgPool) -> Result<String, Box<dyn Error>> {
+//     let q = "SELECT * FROM nfe";
+//     let res = sqlx::query_as::<_, NfeSelect>(q).fetch_all(pool).await?;
+//     let json = serde_json::to_string(&res)?;
+//     Ok(json)
+// }
 
 // get nfe by emit
 pub async fn nfe_by_emit(pool: &sqlx::PgPool, emit: &i32) -> Result<String, Box<dyn Error>> {

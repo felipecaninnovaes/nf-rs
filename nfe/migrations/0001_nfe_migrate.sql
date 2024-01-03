@@ -1,6 +1,6 @@
--- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-12-19 17:00:00.113
 
+-- tables
+-- Table: cofins
 CREATE TABLE users (
     iduser uuid  NOT NULL,
     firstname varchar(100) NULL,
@@ -11,242 +11,239 @@ CREATE TABLE users (
     CONSTRAINT Userspk PRIMARY KEY (iduser)
 );
 
--- tables
--- Table: Cofins
-CREATE TABLE nfe_Cofins (
-    nfe_idCofins serial  NOT NULL,
-    cst varchar(50) NULL,
-    vbc decimal(12,2)  NULL,
-    pcofins decimal(12,2)  NULL,
-    vcofins decimal(12,2)  NULL,
-    nfe_idProduto int NOT NULL,
-    CONSTRAINT Cofinspk PRIMARY KEY (nfe_idCofins)
+-- Table: cofins
+CREATE TABLE nfe_cofins (
+    cofins_idcofins serial  NOT NULL,
+    cofins_cst varchar(50) NULL,
+    cofins_vbc decimal(12,2)  NULL,
+    cofins_pcofins decimal(12,2)  NULL,
+    cofins_vcofins decimal(12,2)  NULL,
+    cofins_idproduto int NOT NULL,
+    CONSTRAINT cofinspk PRIMARY KEY (cofins_idcofins)
 );
 
--- Table: Dest
-CREATE TABLE nfe_Dest (
-    nfe_idDest serial  NOT NULL,
-    cnpjcpf varchar(50) NULL,
-    ie varchar(50) NULL,
-    email varchar(200)  NULL,
-    indiedest varchar(50) NULL,
-    xnome varchar(200)  NULL,
-    nfe_idEnder int NOT NULL,
-    CONSTRAINT Destpk PRIMARY KEY (nfe_idDest)
+-- Table: dest
+CREATE TABLE nfe_dest (
+    dest_iddest serial  NOT NULL,
+    dest_cnpjcpf varchar(50) NULL,
+    dest_ie varchar(50) NULL,
+    dest_email varchar(200)  NULL,
+    dest_indiedest varchar(50) NULL,
+    dest_xnome varchar(200)  NULL,
+    dest_idender int NOT NULL,
+    CONSTRAINT destpk PRIMARY KEY (dest_iddest)
 );
 
--- Table: Emit
-CREATE TABLE nfe_Emit (
-    nfe_idEmit serial  NOT NULL,
-    cnpjcpf varchar(50) NULL,
-    crt varchar(50) NULL,
-    ie varchar(50) NULL,
-    iest varchar(50) NULL,
-    xfant varchar(200)  NULL,
-    xnome varchar(200)  NULL,
-    nfe_idEnder int NOT NULL,
-    CONSTRAINT Eestpk PRIMARY KEY (nfe_idEmit)
+-- Table: emit
+CREATE TABLE nfe_emit (
+    emit_idemit serial  NOT NULL,
+    emit_cnpjcpf varchar(50) NULL,
+    emit_crt varchar(50) NULL,
+    emit_ie varchar(50) NULL,
+    emit_iest varchar(50) NULL,
+    emit_xfant varchar(200)  NULL,
+    emit_xnome varchar(200)  NULL,
+    emit_idender int NOT NULL,
+    CONSTRAINT Eestpk PRIMARY KEY (emit_idemit)
 );
 
--- Table: Ender
-CREATE TABLE nfe_Ender (
-    nfe_idEnder serial NOT NULL,
-    cep varchar(50) NULL,
-    uf varchar(4)  NULL,
-    cmun varchar(50) NULL,
-    cpais varchar(50) NULL,
-    nro varchar(50) NULL,
-    xbairro varchar(400)  NULL,
-    xcpl varchar(100)  NULL,
-    xlgr varchar(400)  NULL,
-    xmun varchar(200)  NULL,
-    CONSTRAINT Enderpk PRIMARY KEY (nfe_idEnder)
+-- Table: ender
+CREATE TABLE nfe_ender (
+    ender_idender serial NOT NULL,
+    ender_cep varchar(50) NULL,
+    ender_uf varchar(4)  NULL,
+    ender_cmun varchar(50) NULL,
+    ender_cpais varchar(50) NULL,
+    ender_nro varchar(50) NULL,
+    ender_xbairro varchar(400)  NULL,
+    ender_xcpl varchar(100)  NULL,
+    ender_xlgr varchar(400)  NULL,
+    ender_xmun varchar(200)  NULL,
+    CONSTRAINT enderpk PRIMARY KEY (ender_idender)
 );
 
--- Table: Icms
-CREATE TABLE nfe_Icms (
-    nfe_idIcms serial  NOT NULL,
-    orig varchar(50) NULL,
-    cst varchar(50) NULL,
-    modbc varchar(50) NULL,
-    vbc decimal(12,2)  NULL,
-    picms decimal(12,2)  NULL,
-    vicms decimal(12,2)  NULL,
-    nfe_idProduto int NOT NULL,
-    CONSTRAINT Icmspk PRIMARY KEY (nfe_idIcms)
+-- Table: icms
+CREATE TABLE nfe_icms (
+    icms_idicms serial  NOT NULL,
+    icms_orig varchar(50) NULL,
+    icms_cst varchar(50) NULL,
+    icms_modbc varchar(50) NULL,
+    icms_vbc decimal(12,2)  NULL,
+    icms_picms decimal(12,2)  NULL,
+    icms_vicms decimal(12,2)  NULL,
+    icms_idproduto int NOT NULL,
+    CONSTRAINT icmspk PRIMARY KEY (icms_idicms)
 );
 
--- Table: IcmsUfDest
-CREATE TABLE nfe_IcmsUfDest (
-    nfe_idIcmsufdest serial  NOT NULL,
-    vbcufdest decimal(12,2)  NULL,
-    vbcfcpufdest decimal(12,2)  NULL,
-    pfcpufdest decimal(12,2)  NULL,
-    picmsufdest decimal(12,2)  NULL,
-    picmsinter decimal(12,2)  NULL,
-    picmsinterpart decimal(12,2)  NULL,
-    vfcpufdest decimal(12,2)  NULL,
-    vicmsufdest decimal(12,2)  NULL,
-    vicmsufremet decimal(12,2)  NULL,
-    nfe_idProduto int NOT NULL,
-    CONSTRAINT IcmsUfDestpk PRIMARY KEY (nfe_idIcmsufdest)
+-- Table: icmsufdest
+CREATE TABLE nfe_icmsufdest (
+    icms_uf_idicmsufdest serial  NOT NULL,
+    icms_uf_vbcufdest decimal(12,2)  NULL,
+    icms_uf_vbcfcpufdest decimal(12,2)  NULL,
+    icms_uf_pfcpufdest decimal(12,2)  NULL,
+    icms_uf_picmsufdest decimal(12,2)  NULL,
+    icms_uf_picmsinter decimal(12,2)  NULL,
+    icms_uf_picmsinterpart decimal(12,2)  NULL,
+    icms_uf_vfcpufdest decimal(12,2)  NULL,
+    icms_uf_vicmsufdest decimal(12,2)  NULL,
+    icms_uf_vicmsufremet decimal(12,2)  NULL,
+    icms_uf_idproduto int NOT NULL,
+    CONSTRAINT icmsufdestpk PRIMARY KEY (icms_uf_idicmsufdest)
 );
 
--- Table: Ipi
-CREATE TABLE nfe_Ipi (
-    nfe_idIpi serial  NOT NULL,
-    cenq varchar(50) NULL,
-    cst varchar(50) NULL,
-    vbc decimal(12,2)  NULL,
-    pipi varchar(50) NULL,
-    vipi varchar(50) NULL,
-    nfe_idProduto int NOT NULL,
-    CONSTRAINT Ipipk PRIMARY KEY (nfe_idIpi)
+-- Table: ipi
+CREATE TABLE nfe_ipi (
+    ipi_idipi serial  NOT NULL,
+    ipi_cenq varchar(50) NULL,
+    ipi_cst varchar(50) NULL,
+    ipi_vbc decimal(12,2)  NULL,
+    ipi_pipi varchar(50) NULL,
+    ipi_vipi varchar(50) NULL,
+    ipi_idproduto int NOT NULL,
+    CONSTRAINT ipipk PRIMARY KEY (ipi_idipi)
 );
 
--- Table: Nfe
-CREATE TABLE Nfe (
-    idNfe serial  NOT NULL,
-    cdv varchar(50) NULL,
-    cmunfg varchar(50) NULL,
-    cnf varchar(50) NULL,
-    cuf varchar(50) NULL,
-    dhemi varchar(100)  NULL,
-    dhsaient varchar(100)  NULL,
-    finnfe varchar(50) NULL,
-    iddest varchar(50) NULL,
-    indfinal varchar(50) NULL,
-    indintermed varchar(50) NULL,
-    indpres varchar(50) NULL,
-    modnfe varchar(50) NULL,
-    nnf varchar(50) NOT NULL,
-    natop varchar(100)  NULL,
-    procemi varchar(50) NULL,
-    serie varchar(50) NULL,
-    tpamb varchar(50) NULL,
-    tpemis varchar(50) NULL,
-    tpimp varchar(50) NULL,
-    tpnf varchar(50) NULL,
-    verproc varchar(100)  NULL,
-    nftotal varchar(100)  NULL,
-    nfe_idEmit int NOT NULL,
-    nfe_idDest int NOT NULL,
-    CONSTRAINT Nfepk PRIMARY KEY (idNfe)
+-- Table: nfe
+CREATE TABLE nfe (
+    nfe_idnfe serial  NOT NULL,
+    nfe_cdv varchar(50) NULL,
+    nfe_cmunfg varchar(50) NULL,
+    nfe_cnf varchar(50) NULL,
+    nfe_cuf varchar(50) NULL,
+    nfe_dhemi varchar(100)  NULL,
+    nfe_dhsaient varchar(100)  NULL,
+    nfe_finnfe varchar(50) NULL,
+    nfe_nfe_iddest varchar(50) NULL,
+    nfe_indfinal varchar(50) NULL,
+    nfe_indintermed varchar(50) NULL,
+    nfe_indpres varchar(50) NULL,
+    nfe_modnfe varchar(50) NULL,
+    nfe_nnf varchar(50) NOT NULL,
+    nfe_natop varchar(100)  NULL,
+    nfe_procemi varchar(50) NULL,
+    nfe_serie varchar(50) NULL,
+    nfe_tpamb varchar(50) NULL,
+    nfe_tpemis varchar(50) NULL,
+    nfe_tpimp varchar(50) NULL,
+    nfe_tpnf varchar(50) NULL,
+    nfe_verproc varchar(100)  NULL,
+    nfe_nftotal varchar(100)  NULL,
+    nfe_idemit int NOT NULL,
+    nfe_iddest int NOT NULL,
+    CONSTRAINT nfepk PRIMARY KEY (nfe_idnfe)
 );
 
--- Table: Pis
-CREATE TABLE nfe_Pis (
-    nfe_idPis serial  NOT NULL,
-    cst varchar(50) NULL,
-    vbc decimal(12,2)  NULL,
-    ppis decimal(12,2)  NULL,
-    vpis decimal(12,2)  NULL,
-    nfe_idProduto int NOT NULL,
-    CONSTRAINT Pispk PRIMARY KEY (nfe_idPis)
+-- Table: pis
+CREATE TABLE nfe_pis (
+    pis_idpis serial  NOT NULL,
+    pis_cst varchar(50) NULL,
+    pis_vbc decimal(12,2)  NULL,
+    pis_ppis decimal(12,2)  NULL,
+    pis_vpis decimal(12,2)  NULL,
+    pis_idproduto int NOT NULL,
+    CONSTRAINT pispk PRIMARY KEY (pis_idpis)
 );
 
--- Table: Produto
-CREATE TABLE nfe_Produto (
-    nfe_idProduto serial  NOT NULL,
-    nitem varchar(50) NULL,
-    cprod varchar(200)  NULL,
-    cean varchar(200)  NULL,
-    xprod varchar(400)  NULL,
-    ncm varchar(50) NULL,
-    cfop varchar(50) NULL,
-    ucom varchar(200)  NULL,
-    qcom decimal(12,2)  NULL,
-    vuncom decimal(12,2)  NULL,
-    vprod decimal(12,2)  NULL,
-    ceantrib varchar(200)  NULL,
-    utrib varchar(200)  NULL,
-    qtrib decimal(12,2)  NULL,
-    vuntrib decimal(12,2)  NULL,
-    indtot varchar(50) NULL,
-    xped varchar(200)  NULL,
-    idNfe int  NULL,
-    CONSTRAINT Produtopk PRIMARY KEY (nfe_idProduto)
+-- Table: produto
+CREATE TABLE nfe_produto (
+    produto_idproduto serial  NOT NULL,
+    produto_nitem varchar(50) NULL,
+    produto_cprod varchar(200)  NULL,
+    produto_cean varchar(200)  NULL,
+    produto_xprod varchar(400)  NULL,
+    produto_ncm varchar(50) NULL,
+    produto_cfop varchar(50) NULL,
+    produto_ucom varchar(200)  NULL,
+    produto_qcom decimal(12,2)  NULL,
+    produto_vuncom decimal(12,2)  NULL,
+    produto_vprod decimal(12,2)  NULL,
+    produto_ceantrib varchar(200)  NULL,
+    produto_utrib varchar(200)  NULL,
+    produto_qtrib decimal(12,2)  NULL,
+    produto_vuntrib decimal(12,2)  NULL,
+    produto_indtot varchar(50) NULL,
+    produto_xped varchar(200)  NULL,
+    produto_idnfe int  NULL,
+    CONSTRAINT produtopk PRIMARY KEY (produto_idproduto)
 );
-
 -- foreign keys
--- Reference: CofinsProduto (table: Cofins)
-ALTER TABLE nfe_Cofins ADD CONSTRAINT CofinsProduto
-    FOREIGN KEY (nfe_idProduto)
-    REFERENCES nfe_Produto (nfe_idProduto)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+-- Reference: cofinsproduto (table: cofins)
+ALTER TABLE nfe_cofins ADD CONSTRAINT cofinsproduto
+    FOREIGN KEY (cofins_idproduto)
+    REFERENCES nfe_produto (produto_idproduto)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ;
 
--- Reference: DestEnder (table: Dest)
-ALTER TABLE nfe_Dest ADD CONSTRAINT DestEnder
-    FOREIGN KEY (nfe_idEnder)
-    REFERENCES nfe_Ender (nfe_idEnder)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+-- Reference: destender (table: dest)
+ALTER TABLE nfe_dest ADD CONSTRAINT destender
+    FOREIGN KEY (dest_idender)
+    REFERENCES nfe_ender (ender_idender)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ;
 
--- Reference: EmitEnder (table: Emit)
-ALTER TABLE nfe_Emit ADD CONSTRAINT EmitEnder
-    FOREIGN KEY (nfe_idEnder)
-    REFERENCES nfe_Ender (nfe_idEnder)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+-- Reference: emitender (table: emit)
+ALTER TABLE nfe_emit ADD CONSTRAINT emitender
+    FOREIGN KEY (emit_idender)
+    REFERENCES nfe_ender (ender_idender)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ;
 
--- Reference: IcmsUfDestProduto (table: IcmsUfDest)
-ALTER TABLE nfe_IcmsUfDest ADD CONSTRAINT IcmsUfDestProduto
-    FOREIGN KEY (nfe_idProduto)
-    REFERENCES nfe_Produto (nfe_idProduto)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+-- Reference: icmsufdestproduto (table: icmsufdest)
+ALTER TABLE nfe_icmsufdest ADD CONSTRAINT icmsufdestproduto
+    FOREIGN KEY (icms_uf_idproduto)
+    REFERENCES nfe_produto (produto_idproduto)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ;
 
--- Reference: IcmsProduto (table: Icms)
-ALTER TABLE nfe_Icms ADD CONSTRAINT IcmsProduto
-    FOREIGN KEY (nfe_idProduto)
-    REFERENCES nfe_Produto (nfe_idProduto)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+-- Reference: icmsproduto (table: icms)
+ALTER TABLE nfe_icms ADD CONSTRAINT icmsproduto
+    FOREIGN KEY (icms_idproduto)
+    REFERENCES nfe_produto (produto_idproduto)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ;
 
--- Reference: IpiProduto (table: Ipi)
-ALTER TABLE nfe_Ipi ADD CONSTRAINT IpiProduto
-    FOREIGN KEY (nfe_idProduto)
-    REFERENCES nfe_Produto (nfe_idProduto)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+-- Reference: ipiproduto (table: ipi)
+ALTER TABLE nfe_ipi ADD CONSTRAINT ipiproduto
+    FOREIGN KEY (ipi_idproduto)
+    REFERENCES nfe_produto (produto_idproduto)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ;
 
--- Reference: NfeDest (table: Nfe)
-ALTER TABLE Nfe ADD CONSTRAINT NfeDest
-    FOREIGN KEY (nfe_idDest)
-    REFERENCES nfe_Dest (nfe_idDest)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+-- Reference: nfedest (table: nfe)
+ALTER TABLE nfe ADD CONSTRAINT nfedest
+    FOREIGN KEY (nfe_iddest)
+    REFERENCES nfe_dest (dest_iddest)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ;
 
--- Reference: NfeEmit (table: Nfe)
-ALTER TABLE Nfe ADD CONSTRAINT NfeEmit
-    FOREIGN KEY (nfe_idEmit)
-    REFERENCES nfe_Emit (nfe_idEmit)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+-- Reference: nfeemit (table: nfe)
+ALTER TABLE nfe ADD CONSTRAINT nfeemit
+    FOREIGN KEY (nfe_idemit)
+    REFERENCES nfe_emit (emit_idemit)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ;
 
--- Reference: PisProduto (table: Pis)
-ALTER TABLE nfe_Pis ADD CONSTRAINT PisProduto
-    FOREIGN KEY (nfe_idProduto)
-    REFERENCES nfe_Produto (nfe_idProduto)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+-- Reference: pisproduto (table: pis)
+ALTER TABLE nfe_pis ADD CONSTRAINT pisproduto
+    FOREIGN KEY (pis_idproduto)
+    REFERENCES nfe_produto (produto_idproduto)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ;
 
--- Reference: ProdutoNfe (table: Produto)
-ALTER TABLE nfe_Produto ADD CONSTRAINT ProdutoNfe
-    FOREIGN KEY (idNfe)
-    REFERENCES Nfe (idNfe)  
-    NOT DEFERRABLE 
-    INITIALLY IMMEDIATE
+-- Reference: produtonfe (table: produto)
+ALTER TABLE nfe_produto ADD CONSTRAINT produtonfe
+    FOREIGN KEY (produto_idnfe)
+    REFERENCES nfe (nfe_idnfe)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
 ;
-
 -- End of file.

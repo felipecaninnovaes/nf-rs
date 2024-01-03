@@ -1,5 +1,5 @@
-use super::{emit::Emit, dest::Dest, produtos::Produto};
-use serde::{Serialize, Deserialize};
+use super::{dest::Dest, emit::Emit, produtos::Produto};
+use serde::{Deserialize, Serialize};
 use sqlx::prelude::FromRow;
 #[derive(Debug, PartialEq)]
 pub struct Nfe {
@@ -54,6 +54,14 @@ pub struct NfeSelect {
     pub tpnf: String,
     pub verproc: String,
     pub nftotal: String,
-    pub nfe_idemit: i32,
+    pub cnpjcpf: String,
+    pub crt: String,
+    pub iest: String,
+    pub xfant: String,
     pub nfe_iddest: i32,
+    pub ie: String,
+    pub email: String,
+    pub indiedest: String,
+    pub xnome: String,
+    pub nfe_idender: i32,
 }
