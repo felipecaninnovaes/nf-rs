@@ -6,15 +6,15 @@ impl IcmsUfDest {
     #[allow(dead_code)]
     pub fn empty() -> IcmsUfDest {
         IcmsUfDest {
-            v_bcufdest: 0.0,
-            v_bcfcpufdest: 0.0,
-            p_fcpufdest: 0.0,
-            p_icmsufdest: 0.0,
-            p_icmsinter: 0.0,
-            p_icmsinter_part: 0.0,
-            v_fcpufdest: 0.0,
-            v_icmsufdest: 0.0,
-            v_icmsufremet: 0.0,
+            icms_uf_vbcufdest: 0.0,
+            icms_uf_vbcfcpufdest: 0.0,
+            icms_uf_pfcpufdest: 0.0,
+            icms_uf_picmsufdest: 0.0,
+            icms_uf_picmsinter: 0.0,
+            icms_uf_picmsinterpart: 0.0,
+            icms_uf_vfcpufdest: 0.0,
+            icms_uf_vicmsufdest: 0.0,
+            icms_uf_vicmsufremet: 0.0,
         }
     }
 
@@ -23,15 +23,15 @@ impl IcmsUfDest {
         match &base["imposto"]["ICMSUFDest"] {
             Value::Null => IcmsUfDest::empty(),
             prod_icms_uf_dest => IcmsUfDest {
-                v_bcufdest: parse_value_to_f64(&prod_icms_uf_dest["vBCUFDest"]),
-                v_bcfcpufdest: parse_value_to_f64(&prod_icms_uf_dest["vBCFCPUFDest"]),
-                p_fcpufdest: parse_value_to_f64(&prod_icms_uf_dest["pFCPUFDest"]),
-                p_icmsufdest: parse_value_to_f64(&prod_icms_uf_dest["pICMSUFDest"]),
-                p_icmsinter: parse_value_to_f64(&prod_icms_uf_dest["pICMSInter"]),
-                p_icmsinter_part: parse_value_to_f64(&prod_icms_uf_dest["pICMSInterPart"]),
-                v_fcpufdest: parse_value_to_f64(&prod_icms_uf_dest["vFCPUFDest"]),
-                v_icmsufdest: parse_value_to_f64(&prod_icms_uf_dest["vICMSUFDest"]),
-                v_icmsufremet: parse_value_to_f64(&prod_icms_uf_dest["vICMSUFRemet"]),
+                icms_uf_vbcufdest: parse_value_to_f64(&prod_icms_uf_dest["vBCUFDest"]),
+                icms_uf_vbcfcpufdest: parse_value_to_f64(&prod_icms_uf_dest["vBCFCPUFDest"]),
+                icms_uf_pfcpufdest: parse_value_to_f64(&prod_icms_uf_dest["pFCPUFDest"]),
+                icms_uf_picmsufdest: parse_value_to_f64(&prod_icms_uf_dest["pICMSUFDest"]),
+                icms_uf_picmsinter: parse_value_to_f64(&prod_icms_uf_dest["pICMSInter"]),
+                icms_uf_picmsinterpart: parse_value_to_f64(&prod_icms_uf_dest["pICMSInterPart"]),
+                icms_uf_vfcpufdest: parse_value_to_f64(&prod_icms_uf_dest["vFCPUFDest"]),
+                icms_uf_vicmsufdest: parse_value_to_f64(&prod_icms_uf_dest["vICMSUFDest"]),
+                icms_uf_vicmsufremet: parse_value_to_f64(&prod_icms_uf_dest["vICMSUFRemet"]),
             }
         }
     }

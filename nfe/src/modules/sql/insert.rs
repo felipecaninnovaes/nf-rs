@@ -26,20 +26,20 @@ pub async fn get_idender(
 
 // insert ender into nfe_database
 pub async fn insert_ender(pool: &sqlx::PgPool, ender: &Ender) -> Result<i32, i32> {
-    match get_idender(pool, &ender.nro, &ender.cep).await {
+    match get_idender(pool, &ender.ender_nro, &ender.ender_cep).await {
         Ok(idender) => Ok(idender),
         Err(_) => {
             let q = "INSERT INTO nfe_ender (ender_cep, ender_uf, ender_cmun, ender_cpais, ender_nro, ender_xbairro, ender_xcpl, ender_xlgr, ender_xmun) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING ender_idender";
             let idender = sqlx::query(q)
-                .bind(&ender.cep)
-                .bind(&ender.uf)
-                .bind(&ender.c_mun)
-                .bind(&ender.c_pais)
-                .bind(&ender.nro)
-                .bind(&ender.x_bairro)
-                .bind(&ender.x_cpl)
-                .bind(&ender.x_lgr)
-                .bind(&ender.x_mun)
+                .bind(&ender.ender_cep)
+                .bind(&ender.ender_uf)
+                .bind(&ender.ender_cmun)
+                .bind(&ender.ender_cpais)
+                .bind(&ender.ender_nro)
+                .bind(&ender.ender_xbairro)
+                .bind(&ender.ender_xcpl)
+                .bind(&ender.ender_xlgr)
+                .bind(&ender.ender_xmun)
                 .fetch_one(pool)
                 .await
                 .unwrap()
@@ -65,18 +65,18 @@ pub async fn get_idemit(pool: &sqlx::PgPool, cnpj_cpf: &String) -> Result<i32, B
 
 // insert emit into nfe_database
 pub async fn insert_emit(pool: &sqlx::PgPool, emit: &Emit) -> Result<i32, i32> {
-    match get_idemit(pool, &emit.cnpj_cpf).await {
+    match get_idemit(pool, &emit.emit_cnpjcpf).await {
         Ok(idemit) => Ok(idemit),
         Err(_) => {
             let idender = insert_ender(pool, &emit.ender_emit).await.unwrap();
             let q = "INSERT INTO nfe_emit (emit_cnpjcpf, emit_crt, emit_ie, emit_iest, emit_xfant, emit_xnome, emit_idender ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING emit_idemit";
             let idemit = sqlx::query(q)
-                .bind(&emit.cnpj_cpf)
-                .bind(&emit.crt)
-                .bind(&emit.ie)
-                .bind(&emit.iest)
-                .bind(&emit.x_fant)
-                .bind(&emit.x_nome)
+                .bind(&emit.emit_cnpjcpf)
+                .bind(&emit.emit_crt)
+                .bind(&emit.emit_ie)
+                .bind(&emit.emit_iest)
+                .bind(&emit.emit_xfant)
+                .bind(&emit.emit_xnome)
                 .bind(idender)
                 .fetch_one(pool)
                 .await
@@ -102,7 +102,7 @@ pub async fn get_iddest(pool: &sqlx::PgPool, cpf_cnpj: &String) -> Result<i32, B
 
 // insert dest into nfe_database
 pub async fn insert_dest(pool: &sqlx::PgPool, dest: &Dest) -> Result<i32, i32> {
-    match get_iddest(pool, &dest.cnpj_cpf).await {
+    match get_iddest(pool, &dest.dest_cnpjcpf).await {
         Ok(iddest) => {
             println!(
                 "Destinatario já existe no banco de dados DestID: {}",
@@ -111,14 +111,14 @@ pub async fn insert_dest(pool: &sqlx::PgPool, dest: &Dest) -> Result<i32, i32> {
             Ok(iddest)
         }
         Err(_) => {
-            let idender = insert_ender(pool, &dest.ender_dest).await.unwrap();
+            let idender = insert_ender(pool, &dest.dest_ender).await.unwrap();
             let q = "INSERT INTO nfe_dest (dest_cnpjcpf, dest_ie, dest_email, dest_indiedest, dest_xnome, dest_idender) VALUES ($1, $2, $3, $4, $5, $6) RETURNING dest_iddest";
             let iddest = sqlx::query(q)
-                .bind(&dest.cnpj_cpf)
-                .bind(&dest.ie)
-                .bind(&dest.email)
-                .bind(&dest.ind_iedest)
-                .bind(&dest.x_nome)
+                .bind(&dest.dest_cnpjcpf)
+                .bind(&dest.dest_ie)
+                .bind(&dest.dest_email)
+                .bind(&dest.dest_indiedest)
+                .bind(&dest.dest_xnome)
                 .bind(idender)
                 .fetch_one(pool)
                 .await
@@ -299,10 +299,10 @@ pub async fn insert_cofins(
         }
         Err(_) => {
             sqlx::query(q)
-                .bind(cofins.cst)
-                .bind(cofins.v_bc)
-                .bind(cofins.p_cofins)
-                .bind(cofins.v_cofins)
+                .bind(cofins.cofins_cst)
+                .bind(cofins.cofins_vbc)
+                .bind(cofins.cofins_pcofins)
+                .bind(cofins.cofins_vcofins)
                 .bind(idproduto)
                 .execute(pool)
                 .await
@@ -339,15 +339,15 @@ pub async fn insert_icmsufdest(
         }
         Err(_) => {
             sqlx::query(q)
-                .bind(icmsufdest.v_bcufdest)
-                .bind(icmsufdest.v_bcfcpufdest)
-                .bind(icmsufdest.p_fcpufdest)
-                .bind(icmsufdest.p_icmsufdest)
-                .bind(icmsufdest.p_icmsinter)
-                .bind(icmsufdest.p_icmsinter_part)
-                .bind(icmsufdest.v_fcpufdest)
-                .bind(icmsufdest.v_icmsufdest)
-                .bind(icmsufdest.v_icmsufremet)
+                .bind(icmsufdest.icms_uf_vbcufdest)
+                .bind(icmsufdest.icms_uf_vbcfcpufdest)
+                .bind(icmsufdest.icms_uf_pfcpufdest)
+                .bind(icmsufdest.icms_uf_picmsufdest)
+                .bind(icmsufdest.icms_uf_picmsinter)
+                .bind(icmsufdest.icms_uf_picmsinterpart)
+                .bind(icmsufdest.icms_uf_vfcpufdest)
+                .bind(icmsufdest.icms_uf_vicmsufdest)
+                .bind(icmsufdest.icms_uf_vicmsufremet)
                 .bind(idproduto)
                 .execute(pool)
                 .await
@@ -380,12 +380,12 @@ pub async fn insert_icms(pool: &sqlx::PgPool, icms: &Icms, idproduto: &i32) -> R
         }
         Err(_) => {
             sqlx::query(q)
-                .bind(icms.orig)
-                .bind(icms.cst)
-                .bind(icms.mod_bc)
-                .bind(icms.v_bc)
-                .bind(icms.p_icms)
-                .bind(icms.v_icms)
+                .bind(icms.icms_orig)
+                .bind(icms.icms_cst)
+                .bind(icms.icms_modbc)
+                .bind(icms.icms_vbc)
+                .bind(icms.icms_picms)
+                .bind(icms.icms_vicms)
                 .bind(idproduto)
                 .execute(pool)
                 .await
@@ -418,11 +418,11 @@ pub async fn insert_ipi(pool: &sqlx::PgPool, ipi: &Ipi, idproduto: &i32) -> Resu
         }
         Err(_) => {
             sqlx::query(q)
-                .bind(ipi.c_enq)
-                .bind(ipi.cst)
-                .bind(ipi.v_bc)
-                .bind(ipi.p_ipi)
-                .bind(ipi.v_ipi)
+                .bind(ipi.ipi_cenq)
+                .bind(ipi.ipi_cst)
+                .bind(ipi.ipi_vbc)
+                .bind(ipi.ipi_pipi)
+                .bind(ipi.ipi_vipi)
                 .bind(idproduto)
                 .execute(pool)
                 .await
@@ -455,10 +455,10 @@ pub async fn insert_pis(pool: &sqlx::PgPool, pis: &Pis, idproduto: &i32) -> Resu
         }
         Err(_) => {
             sqlx::query(q)
-                .bind(pis.cst)
-                .bind(pis.v_bc)
-                .bind(pis.p_pis)
-                .bind(pis.v_pis)
+                .bind(pis.pis_cst)
+                .bind(pis.pis_vbc)
+                .bind(pis.pis_ppis)
+                .bind(pis.pis_vpis)
                 .bind(idproduto)
                 .execute(pool)
                 .await

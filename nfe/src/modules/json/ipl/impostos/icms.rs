@@ -6,12 +6,12 @@ impl Icms {
     #[allow(dead_code)]
     pub fn empty() -> Icms {
         Icms {
-            orig: 0,
-            cst: 0,
-            mod_bc: 0,
-            v_bc: 0.0,
-            p_icms: 0.0,
-            v_icms: 0.0,
+            icms_orig: 0,
+            icms_cst: 0,
+            icms_modbc: 0,
+            icms_vbc: 0.0,
+            icms_picms: 0.0,
+            icms_vicms: 0.0,
         }
     }
 
@@ -19,12 +19,12 @@ impl Icms {
     pub fn new(base: &Value) -> Icms {
         let prod_icms = &base["imposto"]["ICMS"]["ICMS00"];
         Icms {
-            orig: parse_value_to_i64(&prod_icms["orig"]),
-            cst: parse_value_to_i64(&prod_icms["CST"]),
-            mod_bc: parse_value_to_i64(&prod_icms["modBC"]),
-            v_bc: parse_value_to_f64(&prod_icms["vBC"]),
-            p_icms: parse_value_to_f64(&prod_icms["pICMS"]),
-            v_icms: parse_value_to_f64(&prod_icms["vICMS"]),
+            icms_orig: parse_value_to_i64(&prod_icms["orig"]),
+            icms_cst: parse_value_to_i64(&prod_icms["CST"]),
+            icms_modbc: parse_value_to_i64(&prod_icms["modBC"]),
+            icms_vbc: parse_value_to_f64(&prod_icms["vBC"]),
+            icms_picms: parse_value_to_f64(&prod_icms["pICMS"]),
+            icms_vicms: parse_value_to_f64(&prod_icms["vICMS"]),
         }
     }
 }

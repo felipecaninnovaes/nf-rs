@@ -6,10 +6,10 @@ impl Pis {
     #[allow(dead_code)]
     pub fn empty() -> Pis {
         Pis {
-            cst: 0,
-            v_bc: 0.0,
-            p_pis: 0.0,
-            v_pis: 0.0,
+            pis_cst: 0,
+            pis_vbc: 0.0,
+            pis_ppis: 0.0,
+            pis_vpis: 0.0,
         }
     }
 
@@ -17,10 +17,10 @@ impl Pis {
     pub fn new(base: &Value) -> Pis {
         let prod_pis = &base["imposto"]["PIS"]["PISAliq"];
         Pis {
-            cst: parse_value_to_i64(&prod_pis["CST"]),
-            v_bc: parse_value_to_f64(&prod_pis["vBC"]),
-            p_pis: parse_value_to_f64(&prod_pis["pPIS"]),
-            v_pis: parse_value_to_f64(&prod_pis["vPIS"]),
+            pis_cst: parse_value_to_i64(&prod_pis["CST"]),
+            pis_vbc: parse_value_to_f64(&prod_pis["vBC"]),
+            pis_ppis: parse_value_to_f64(&prod_pis["pPIS"]),
+            pis_vpis: parse_value_to_f64(&prod_pis["vPIS"]),
         }
     }
 }
