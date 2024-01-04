@@ -1,12 +1,12 @@
 #[derive(Debug, PartialEq)]
 pub struct Ender {
-    pub cep: String,
-    pub uf: String,
-    pub c_mun: String,
-    pub c_pais: String,
-    pub nro: String,
-    pub x_bairro: String,
-    pub x_cpl: String,
-    pub x_lgr: String,
-    pub x_mun: String,
+    pub ender_cep: String,
+    pub ender_uf: String,
+    pub ender_cmun: String,
+    pub ender_cpais: String,
+    pub ender_nro: String,
+    pub ender_xbairro: String,
+    pub ender_xcpl: String,
+    pub ender_xlgr: String,
+    pub ender_xmun: String,
 }

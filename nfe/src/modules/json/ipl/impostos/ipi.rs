@@ -5,11 +5,11 @@ impl Ipi {
     #[allow(dead_code)]
     pub fn empty() -> Ipi {
         Ipi {
-            c_enq: 0,
-            cst: 0,
-            v_bc: 0.0,
-            p_ipi: 0,
-            v_ipi: 0,
+            ipi_cenq: 0,
+            ipi_cst: 0,
+            ipi_vbc: 0.0,
+            ipi_pipi: 0,
+            ipi_vipi: 0,
         }
     }
     #[allow(dead_code)]
@@ -21,18 +21,18 @@ impl Ipi {
         match (dest_cnpj, ipi_cst_trib) {
             (&Value::Null, _) => Ipi::empty(),
             (_, &Value::Null) => Ipi {
-                c_enq: parse_value_to_i64(&ipi["cEnq"]),
-                cst: parse_value_to_i64(&ipi_cst["CST"]),
-                v_bc: 0.0,
-                p_ipi: 0,
-                v_ipi: 0,
+                ipi_cenq: parse_value_to_i64(&ipi["cEnq"]),
+                ipi_cst: parse_value_to_i64(&ipi_cst["CST"]),
+                ipi_vbc: 0.0,
+                ipi_pipi: 0,
+                ipi_vipi: 0,
             },
             _ => Ipi {
-                c_enq: parse_value_to_i64(&ipi["cEnq"]),
-                cst: parse_value_to_i64(&ipi_cst_trib["CST"]),
-                v_bc: parse_value_to_f64(&ipi_cst_trib["vBC"]),
-                p_ipi: parse_value_to_i64(&ipi_cst_trib["pIPI"]),
-                v_ipi: parse_value_to_i64(&ipi_cst_trib["vIPI"]),
+                ipi_cenq: parse_value_to_i64(&ipi["cEnq"]),
+                ipi_cst: parse_value_to_i64(&ipi_cst_trib["CST"]),
+                ipi_vbc: parse_value_to_f64(&ipi_cst_trib["vBC"]),
+                ipi_pipi: parse_value_to_i64(&ipi_cst_trib["pIPI"]),
+                ipi_vipi: parse_value_to_i64(&ipi_cst_trib["vIPI"]),
             },
         }
     }

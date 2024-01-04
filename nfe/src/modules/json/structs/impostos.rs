@@ -1,53 +1,53 @@
 #[derive(Debug, PartialEq)]
 pub struct Icms {
-    pub orig: i64,
-    pub cst: i64,
-    pub mod_bc: i64,
-    pub v_bc: f64,
-    pub p_icms: f64,
-    pub v_icms: f64,
+    pub icms_orig: i64,
+    pub icms_cst: i64,
+    pub icms_modbc: i64,
+    pub icms_vbc: f64,
+    pub icms_picms: f64,
+    pub icms_vicms: f64,
 }
 
 #[derive(Debug, PartialEq)]
 pub struct Ipi {
-    pub c_enq: i64,
-    pub cst: i64,
-    pub v_bc: f64,
-    pub p_ipi: i64,
-    pub v_ipi: i64,
+    pub ipi_cenq: i64,
+    pub ipi_cst: i64,
+    pub ipi_vbc: f64,
+    pub ipi_pipi: i64,
+    pub ipi_vipi: i64,
 }
 
 #[derive(Debug, PartialEq)]
 pub struct Pis {
-    pub cst: i64,
-    pub v_bc: f64,
-    pub p_pis: f64,
-    pub v_pis: f64,
+    pub pis_cst: i64,
+    pub pis_vbc: f64,
+    pub pis_ppis: f64,
+    pub pis_vpis: f64,
 }
 #[derive(Debug, PartialEq)]
 pub struct Cofins {
-    pub cst: i64,
-    pub v_bc: f64,
-    pub p_cofins: f64,
-    pub v_cofins: f64,
+    pub cofins_cst: i64,
+    pub cofins_vbc: f64,
+    pub cofins_pcofins: f64,
+    pub cofins_vcofins: f64,
 }
 #[derive(Debug, PartialEq)]
 pub struct IcmsUfDest {
-    pub v_bcufdest: f64,
-    pub v_bcfcpufdest: f64,
-    pub p_fcpufdest: f64,
-    pub p_icmsufdest: f64,
-    pub p_icmsinter: f64,
-    pub p_icmsinter_part: f64,
-    pub v_fcpufdest: f64,
-    pub v_icmsufdest: f64,
-    pub v_icmsufremet: f64,
+    pub icms_uf_vbcufdest: f64,
+    pub icms_uf_vbcfcpufdest: f64,
+    pub icms_uf_pfcpufdest: f64,
+    pub icms_uf_picmsufdest: f64,
+    pub icms_uf_picmsinter: f64,
+    pub icms_uf_picmsinterpart: f64,
+    pub icms_uf_vfcpufdest: f64,
+    pub icms_uf_vicmsufdest: f64,
+    pub icms_uf_vicmsufremet: f64,
 }
 #[derive(Debug, PartialEq)]
-pub struct Impostos {
-    pub icms: Icms,
-    pub ipi: Ipi,
-    pub pis: Pis,
-    pub cofins: Cofins,
-    pub icms_uf_dest: IcmsUfDest,
+pub struct Imposto {
+    pub imposto_icms: Icms,
+    pub imposto_ipi: Ipi,
+    pub imposto_pis: Pis,
+    pub imposto_cofins: Cofins,
+    pub imposto_icms_uf_dest: IcmsUfDest,
 }

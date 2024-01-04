@@ -7,12 +7,12 @@ impl Dest {
     #[allow(dead_code)]
     pub fn empty() -> Dest {
         Dest {
-            cnpj_cpf: "Null".to_string(),
-            ie: "Null".to_string(),
-            email: "Null".to_string(),
-            ender_dest: Ender::empty(),
-            ind_iedest: "Null".to_string(),
-            x_nome: "Null".to_string(),
+            dest_cnpjcpf: "Null".to_string(),
+            dest_ie: "Null".to_string(),
+            dest_email: "Null".to_string(),
+            dest_ender: Ender::empty(),
+            dest_indiedest: "Null".to_string(),
+            dest_xnome: "Null".to_string(),
         }
     }
 
@@ -27,12 +27,12 @@ impl Dest {
         };
         
         let result: Dest = Dest {
-            cnpj_cpf,
-            ie: parse_value_to_string(&base_dest["IE"]),
-            email: parse_value_to_string(&base_dest["email"]),
-            ender_dest: Ender::new_dest(base),
-            ind_iedest: parse_value_to_string(&base_dest["indIEDest"]),
-            x_nome: parse_value_to_string(&base_dest["xNome"]),
+            dest_cnpjcpf: cnpj_cpf,
+            dest_ie: parse_value_to_string(&base_dest["IE"]),
+            dest_email: parse_value_to_string(&base_dest["email"]),
+            dest_ender: Ender::new_dest(base),
+            dest_indiedest: parse_value_to_string(&base_dest["indIEDest"]),
+            dest_xnome: parse_value_to_string(&base_dest["xNome"]),
         };
         result
     }

@@ -8,25 +8,25 @@ impl Emit {
     pub fn new(base: &Value) -> Emit {
         let base_emit = &base["nfeProc"]["NFe"]["infNFe"]["emit"];
         Emit {
-            cnpj_cpf: parse_value_to_string(&base_emit["CNPJ"]),
-            crt: parse_value_to_string(&base_emit["CRT"]),
-            ie: parse_value_to_string(&base_emit["IE"]),
-            iest: parse_value_to_string(&base_emit["IEST"]),
+            emit_cnpjcpf: parse_value_to_string(&base_emit["CNPJ"]),
+            emit_crt: parse_value_to_string(&base_emit["CRT"]),
+            emit_ie: parse_value_to_string(&base_emit["IE"]),
+            emit_iest: parse_value_to_string(&base_emit["IEST"]),
+            emit_xfant: parse_value_to_string(&base_emit["xFant"]),
+            emit_xnome: parse_value_to_string(&base_emit["xNome"]),
             ender_emit: Ender::new_emit(base),
-            x_fant: parse_value_to_string(&base_emit["xFant"]),
-            x_nome: parse_value_to_string(&base_emit["xNome"]),
         }
     }
 
     pub fn empty() -> Emit {
         Emit {
-            cnpj_cpf: "Null".to_string(),
-            crt: "Null".to_string(),
-            ie: "Null".to_string(),
-            iest: "Null".to_string(),
+            emit_cnpjcpf: "Null".to_string(),
+            emit_crt: "Null".to_string(),
+            emit_ie: "Null".to_string(),
+            emit_iest: "Null".to_string(),
+            emit_xfant: "Null".to_string(),
+            emit_xnome: "Null".to_string(),
             ender_emit: Ender::empty(),
-            x_fant: "Null".to_string(),
-            x_nome: "Null".to_string(),
         }
     }
 }
