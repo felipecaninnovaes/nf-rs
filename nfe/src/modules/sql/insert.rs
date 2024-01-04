@@ -149,35 +149,35 @@ pub async fn get_nfeid(
 
 // insert nfe into nfe_database
 pub async fn insert_nfe(pool: &sqlx::PgPool, nfe: &Nfe) -> Result<i32, i32> {
-    let idemit = insert_emit(pool, &nfe.emit).await.unwrap();
-    let iddest = insert_dest(pool, &nfe.dest).await.unwrap();
-    match get_nfeid(pool, &nfe.n_nf, &idemit).await {
+    let idemit = insert_emit(pool, &nfe.nfe_emit).await.unwrap();
+    let iddest = insert_dest(pool, &nfe.nfe_dest).await.unwrap();
+    match get_nfeid(pool, &nfe.nfe_nnf, &idemit).await {
         Ok(idnfe) => Ok(idnfe),
         Err(_) => {
             let q = "INSERT INTO nfe (nfe_cdv, nfe_cmunfg, nfe_cnf, nfe_cuf, nfe_dhemi, nfe_dhsaient, nfe_finnfe, nfe_nfe_iddest, nfe_indfinal, nfe_indintermed, nfe_indpres, nfe_modnfe, nfe_nnf, nfe_natop, nfe_procemi, nfe_serie, nfe_tpamb, nfe_tpemis, nfe_tpimp, nfe_tpnf, nfe_verproc, nfe_nftotal, nfe_idemit, nfe_iddest ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24) RETURNING nfe_idnfe";
             let idnfe = sqlx::query(q)
-                .bind(&nfe.c_dv)
-                .bind(&nfe.c_mun_fg)
-                .bind(&nfe.c_nf)
-                .bind(&nfe.c_uf)
-                .bind(&nfe.dh_emi)
-                .bind(&nfe.dh_sai_ent)
-                .bind(&nfe.fin_nfe)
-                .bind(&nfe.id_dest)
-                .bind(&nfe.ind_final)
-                .bind(&nfe.ind_intermed)
-                .bind(&nfe.ind_pres)
-                .bind(&nfe.mod_nfe)
-                .bind(&nfe.n_nf)
-                .bind(&nfe.nat_op)
-                .bind(&nfe.proc_emi)
-                .bind(&nfe.serie)
-                .bind(&nfe.tp_amb)
-                .bind(&nfe.tp_emis)
-                .bind(&nfe.tp_imp)
-                .bind(&nfe.tp_nf)
-                .bind(&nfe.ver_proc)
-                .bind(nfe.nf_total)
+                .bind(&nfe.nfe_cdv)
+                .bind(&nfe.nfe_cmunfg)
+                .bind(&nfe.nfe_cnf)
+                .bind(&nfe.nfe_cuf)
+                .bind(&nfe.nfe_dhemi)
+                .bind(&nfe.nfe_dhsaient)
+                .bind(&nfe.nfe_finnfe)
+                .bind(&nfe.nfe_nfe_iddest)
+                .bind(&nfe.nfe_indfinal)
+                .bind(&nfe.nfe_indintermed)
+                .bind(&nfe.nfe_indpres)
+                .bind(&nfe.nfe_modnfe)
+                .bind(&nfe.nfe_nnf)
+                .bind(&nfe.nfe_natop)
+                .bind(&nfe.nfe_procemi)
+                .bind(&nfe.nfe_serie)
+                .bind(&nfe.nfe_tpamb)
+                .bind(&nfe.nfe_tpemis)
+                .bind(&nfe.nfe_tpimp)
+                .bind(&nfe.nfe_tpnf)
+                .bind(&nfe.nfe_verproc)
+                .bind(nfe.nfe_nftotal)
                 .bind(idemit)
                 .bind(iddest)
                 .fetch_one(pool)
@@ -214,40 +214,40 @@ pub async fn insert_produto(
 ) -> Result<(), i32> {
     for p in produto {
         // println!("{:?}", p);
-        match get_idproduto(pool, &p.n_item, idnfe).await {
+        match get_idproduto(pool, &p.produto_nitem, idnfe).await {
             Ok(idproduto) => {
-                insert_cofins(pool, &p.impostos.cofins, &idproduto)
+                insert_cofins(pool, &p.imposto.imposto_cofins, &idproduto)
                     .await
                     .unwrap();
-                insert_icmsufdest(pool, &p.impostos.icms_uf_dest, &idproduto)
+                insert_icmsufdest(pool, &p.imposto.imposto_icms_uf_dest, &idproduto)
                     .await
                     .unwrap();
-                insert_icms(pool, &p.impostos.icms, &idproduto)
+                insert_icms(pool, &p.imposto.imposto_icms, &idproduto)
                     .await
                     .unwrap();
-                insert_ipi(pool, &p.impostos.ipi, &idproduto).await.unwrap();
-                insert_pis(pool, &p.impostos.pis, &idproduto).await.unwrap();
+                insert_ipi(pool, &p.imposto.imposto_ipi, &idproduto).await.unwrap();
+                insert_pis(pool, &p.imposto.imposto_pis, &idproduto).await.unwrap();
                 println!("Produto {} já existe no banco de dados", idproduto);
             }
             Err(_) => {
                 let q = "INSERT INTO nfe_produto (produto_nitem, produto_cprod, produto_cean, produto_xprod, produto_ncm, produto_cfop, produto_ucom, produto_qcom, produto_vuncom, produto_vprod, produto_ceantrib, produto_utrib, produto_qtrib, produto_vuntrib, produto_indtot, produto_xped, produto_idnfe) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,$16, $17) RETURNING produto_idproduto";
                 let idproduto = sqlx::query(q)
-                    .bind(&p.n_item)
-                    .bind(&p.c_prod)
-                    .bind(&p.c_ean)
-                    .bind(&p.x_prod)
-                    .bind(&p.ncm)
-                    .bind(&p.cfop)
-                    .bind(&p.u_com)
-                    .bind(p.q_com)
-                    .bind(p.v_un_com)
-                    .bind(p.v_prod)
-                    .bind(&p.c_eantrib)
-                    .bind(&p.u_trib)
-                    .bind(p.q_trib)
-                    .bind(p.v_un_trib)
-                    .bind(&p.ind_tot)
-                    .bind(&p.x_ped)
+                    .bind(&p.produto_nitem)
+                    .bind(&p.produto_cprod)
+                    .bind(&p.produto_cean)
+                    .bind(&p.produto_xprod)
+                    .bind(&p.produto_ncm)
+                    .bind(&p.produto_cfop)
+                    .bind(&p.produto_ucom)
+                    .bind(p.produto_qcom)
+                    .bind(p.produto_vuncom)
+                    .bind(p.produto_vprod)
+                    .bind(&p.produto_ceantrib)
+                    .bind(&p.produto_utrib)
+                    .bind(p.produto_qtrib)
+                    .bind(p.produto_vuntrib)
+                    .bind(&p.produto_indtot)
+                    .bind(&p.produto_xped)
                     .bind(idnfe)
                     .fetch_one(pool)
                     .await
@@ -255,17 +255,17 @@ pub async fn insert_produto(
                     .get::<i32, _>(0);
 
                 // insert impostos
-                insert_cofins(pool, &p.impostos.cofins, &idproduto)
+                insert_cofins(pool, &p.imposto.imposto_cofins, &idproduto)
                     .await
                     .unwrap();
-                insert_icmsufdest(pool, &p.impostos.icms_uf_dest, &idproduto)
+                insert_icmsufdest(pool, &p.imposto.imposto_icms_uf_dest, &idproduto)
                     .await
                     .unwrap();
-                insert_icms(pool, &p.impostos.icms, &idproduto)
+                insert_icms(pool, &p.imposto.imposto_icms, &idproduto)
                     .await
                     .unwrap();
-                insert_ipi(pool, &p.impostos.ipi, &idproduto).await.unwrap();
-                insert_pis(pool, &p.impostos.pis, &idproduto).await.unwrap();
+                insert_ipi(pool, &p.imposto.imposto_ipi, &idproduto).await.unwrap();
+                insert_pis(pool, &p.imposto.imposto_pis, &idproduto).await.unwrap();
             }
         }
     }

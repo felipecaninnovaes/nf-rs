@@ -17,7 +17,7 @@ pub async fn insert_in_database(path: &str) {
         let result = insert_nfe(&_pool, &input)
             .await
             .expect("Error inserting nfe");
-        let _ = insert_produto(&_pool, &input.produtos, &result).await;
+        let _ = insert_produto(&_pool, &input.nfe_produtos, &result).await;
         remove_file(value.as_str()).expect("Error removing file");
     }
 }

@@ -33,21 +33,21 @@ pub struct Cofins {
 }
 #[derive(Debug, PartialEq)]
 pub struct IcmsUfDest {
-    pub icms_uf_vbcufdest: f64, 
-    pub icms_uf_vbcfcpufdest: f64, 
-    pub icms_uf_pfcpufdest: f64, 
-    pub icms_uf_picmsufdest: f64, 
-    pub icms_uf_picmsinter: f64, 
-    pub icms_uf_picmsinterpart: f64, 
-    pub icms_uf_vfcpufdest: f64, 
-    pub icms_uf_vicmsufdest: f64, 
+    pub icms_uf_vbcufdest: f64,
+    pub icms_uf_vbcfcpufdest: f64,
+    pub icms_uf_pfcpufdest: f64,
+    pub icms_uf_picmsufdest: f64,
+    pub icms_uf_picmsinter: f64,
+    pub icms_uf_picmsinterpart: f64,
+    pub icms_uf_vfcpufdest: f64,
+    pub icms_uf_vicmsufdest: f64,
     pub icms_uf_vicmsufremet: f64,
 }
 #[derive(Debug, PartialEq)]
-pub struct Impostos {
-    pub icms: Icms,
-    pub ipi: Ipi,
-    pub pis: Pis,
-    pub cofins: Cofins,
-    pub icms_uf_dest: IcmsUfDest,
+pub struct Imposto {
+    pub imposto_icms: Icms,
+    pub imposto_ipi: Ipi,
+    pub imposto_pis: Pis,
+    pub imposto_cofins: Cofins,
+    pub imposto_icms_uf_dest: IcmsUfDest,
 }

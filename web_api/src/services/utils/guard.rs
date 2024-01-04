@@ -7,7 +7,6 @@ use axum::{
 };
 
 use axum_extra::extract::cookie::CookieJar;
-use chrono::format::parse;
 use serde::Serialize;
 use sqlx::{Pool, Postgres};
 use jsonwebtoken::get_current_timestamp;
@@ -85,6 +84,8 @@ pub async fn guard(
     Ok(next.run(req).await)
 }
 
+// logout
+#[allow(dead_code)]
 pub async fn logout(cookie_jar: CookieJar) -> impl IntoResponse {
     let _ = cookie_jar.remove("token");
     (StatusCode::OK, "Logout success")

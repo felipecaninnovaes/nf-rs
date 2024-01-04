@@ -1,4 +1,4 @@
-use nfe::{modules::sql::migration, insert_in_database::insert_in_database};
+use nfe::modules::sql::migration;
 use dotenv::dotenv;
 #[tokio::main]
 async fn main() {
