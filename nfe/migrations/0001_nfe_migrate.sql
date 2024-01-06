@@ -11,6 +11,24 @@ CREATE TABLE users (
     CONSTRAINT Userspk PRIMARY KEY (iduser)
 );
 
+CREATE TABLE empresas (
+    idempresa uuid  NOT NULL,
+    nome varchar(100) NULL,
+    nome_fant varchar(100)  NULL,
+    cnpj varchar(200)  NULL,
+    rua varchar(100)  NULL,
+    numero varchar(100)  NULL,
+    bairro varchar(100)  NULL,
+    cidade varchar(100)  NULL,
+    estado varchar(100)  NULL,
+    cep varchar(100)  NULL,
+    telefone varchar(100)  NULL,
+    email varchar(200)  NULL,
+    regime_tributario varchar(100)  NULL,
+    created_at date  NULL,
+    CONSTRAINT emoresaspk PRIMARY KEY (idempresa)
+);
+
 -- Table: cofins
 CREATE TABLE nfe_cofins (
     cofins_idcofins serial  NOT NULL,
@@ -190,6 +208,14 @@ ALTER TABLE nfe_emit ADD CONSTRAINT emitender
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ;
+
+-- -- Reference: empresidender (table: empresas)
+-- ALTER TABLE empresas ADD CONSTRAINT empresidender
+--     FOREIGN KEY (empresa_idender)
+--     REFERENCES nfe_ender (ender_idender)  
+--     ON DELETE CASCADE
+--     ON UPDATE CASCADE
+-- ;
 
 -- Reference: icmsufdestproduto (table: icmsufdest)
 ALTER TABLE nfe_icmsufdest ADD CONSTRAINT icmsufdestproduto
