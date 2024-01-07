@@ -16,7 +16,7 @@ pub async fn get_all_nfe() -> impl IntoResponse {
 }
 
 // get nfe by emit
-pub async fn get_nfe_by_emit(path: Path<i32>) -> impl IntoResponse {
+pub async fn get_nfe_by_emit(path: Path<String>) -> impl IntoResponse {
     println!("{}", path.0);
     let pool = start_connection().await;
 

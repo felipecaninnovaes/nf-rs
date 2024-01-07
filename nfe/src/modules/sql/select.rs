@@ -30,9 +30,9 @@ pub async fn all_nfe(pool: &sqlx::PgPool) -> Result<String, Box<dyn Error>> {
 // }
 
 // get nfe by emit
-pub async fn nfe_by_emit(pool: &sqlx::PgPool, emit: &i32) -> Result<String, Box<dyn Error>> {
-    let q = "SELECT * FROM nfe WHERE nfe_idemit = $1";
-    let res = sqlx::query_as::<_, NfeSelect>(q)
+pub async fn nfe_by_emit(pool: &sqlx::PgPool, emit: &String) -> Result<String, Box<dyn Error>> {
+    let q = "SELECT * FROM nfe INNER JOIN nfe_emit ON nfe.nfe_idemit = nfe_emit.emit_idemit INNER JOIN nfe_dest ON nfe.nfe_iddest = nfe_dest.dest_iddest WHERE nfe_emit.emit_cnpjcpf = $1";
+    let res = sqlx::query_as::<_, NfeJoinSelect>(q)
         .bind(emit)
         .fetch_all(pool)
         .await?; // for row in sqlx::query(q).bind(emit).fetch_all(pool).await? {
