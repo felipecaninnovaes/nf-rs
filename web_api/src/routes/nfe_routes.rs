@@ -18,7 +18,7 @@ pub fn nfe_routes() -> Router {
         .allow_origin(Any);
 
     Router::new()
-        .route("/api/nfe", get(get_all_nfe))
+        .route("/api/nfe/:userid", get(get_all_nfe))
         .route("/api/nfe/emit/:id", get(get_nfe_by_emit))
         .route("/api/nfe/dest/:id", get(get_nfe_by_dest))
         .route("/api/nfe/upload", post(upload))

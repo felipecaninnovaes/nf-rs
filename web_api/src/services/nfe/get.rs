@@ -7,7 +7,10 @@ use nfe::modules::sql::select::{all_nfe, nfe_by_dest, nfe_by_emit};
 // use nfe::modules::json::structs::nfe::NfeSelect;
 
 // get all nfe
-pub async fn get_all_nfe() -> impl IntoResponse {
+pub async fn get_all_nfe(path: Path<String>) -> impl IntoResponse {
+   
+    println!("{}", path.0);
+
     let pool = start_connection().await;
 
     let result = all_nfe(&pool).await.unwrap();
