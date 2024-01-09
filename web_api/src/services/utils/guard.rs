@@ -1,6 +1,6 @@
 use axum::{
     body::Body,
-    http::{header, Request, StatusCode},
+    http::{Request, StatusCode},
     middleware::Next,
     response::IntoResponse,
     Extension, Json, extract::Path,
@@ -13,10 +13,19 @@ use jsonwebtoken::get_current_timestamp;
 
 use crate::services::auth::{jwt::decode_jwt, struct_user::LoginTockenCheckModel};
 
+use super::gets::{get_cookie, Cookie, get_from_header, HeaderGet};
+
 #[derive(Debug, Serialize)]
 pub struct ErrorResponse {
     pub status: &'static str,
     pub message: String,
+}
+
+
+#[derive(Debug, Serialize, Clone)]
+struct Guard {
+    token: Option<Cookie>,
+    user_id: Option<HeaderGet>
 }
 
 pub async fn guard(
@@ -25,21 +34,13 @@ pub async fn guard(
     mut req: Request<Body>,
     next: Next,
 ) -> Result<impl IntoResponse, (StatusCode, Json<ErrorResponse>)> {
-    let token = cookie_jar
-        .get("token")
-        .map(|cookie| cookie.value().to_string())
-        .or_else(|| {
-            req.headers()
-                .get(header::AUTHORIZATION)
-                .and_then(|auth_header| auth_header.to_str().ok())
-                .and_then(|auth_value| {
-                    auth_value
-                        .strip_prefix("Bearer ")
-                        .map(|value| value.to_owned())
-                })
-        });
 
-    let token = token.ok_or_else(|| {
+    let guard = Guard {
+        token: get_cookie(cookie_jar,&req, "Bearer"),
+        user_id: get_from_header(&req, "IdUser")
+    };
+
+    let token = guard.token.ok_or_else(|| {
         let json_error = ErrorResponse {
             status: "fail",
             message: "You are not logged in, please provide token".to_string(),
@@ -47,7 +48,7 @@ pub async fn guard(
         (StatusCode::UNAUTHORIZED, Json(json_error))
     })?;
 
-    let claims = decode_jwt(token)
+    let claims = decode_jwt(token.value.expect("Token not found"))
         .map_err(|_err| {
             let json_error = ErrorResponse {
                 status: "fail",

@@ -1,6 +1,6 @@
 
 -- tables
--- Table: cofins
+-- Table: users
 CREATE TABLE users (
     iduser uuid  NOT NULL,
     firstname varchar(100) NULL,
@@ -27,6 +27,16 @@ CREATE TABLE empresas (
     regime_tributario varchar(100)  NULL,
     created_at date  NULL,
     CONSTRAINT emoresaspk PRIMARY KEY (idempresa)
+);
+
+-- Table: Permissions
+CREATE TABLE permissions (
+    permissions_idpermission uuid  NOT NULL,
+    permissions_user_id uuid  NULL,
+    permissions_empresa_id uuid  NULL,
+    permissions_allowed boolean  NULL,
+    permissions_created_at date  NULL,
+    CONSTRAINT Permissionspk PRIMARY KEY (permissions_idpermission)
 );
 
 -- Table: cofins
@@ -209,13 +219,21 @@ ALTER TABLE nfe_emit ADD CONSTRAINT emitender
     ON UPDATE CASCADE
 ;
 
--- -- Reference: empresidender (table: empresas)
--- ALTER TABLE empresas ADD CONSTRAINT empresidender
---     FOREIGN KEY (empresa_idender)
---     REFERENCES nfe_ender (ender_idender)  
---     ON DELETE CASCADE
---     ON UPDATE CASCADE
--- ;
+-- Reference: permissions_user_id (table: permissions)
+ALTER TABLE permissions ADD CONSTRAINT permissions_user_id
+    FOREIGN KEY (permissions_user_id)
+    REFERENCES users (iduser)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
+
+-- Reference: permissions_empresa_id (table: permissions)
+ALTER TABLE permissions ADD CONSTRAINT permissions_empresa_id
+    FOREIGN KEY (permissions_empresa_id)
+    REFERENCES empresas (idempresa) 
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
 
 -- Reference: icmsufdestproduto (table: icmsufdest)
 ALTER TABLE nfe_icmsufdest ADD CONSTRAINT icmsufdestproduto

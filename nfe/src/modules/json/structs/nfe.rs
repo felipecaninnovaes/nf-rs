@@ -1,6 +1,7 @@
 use super::{dest::Dest, emit::Emit, produtos::Produto};
 use serde::{Deserialize, Serialize};
 use sqlx::prelude::FromRow;
+use uuid::Uuid;
 #[derive(Debug, PartialEq)]
 pub struct Nfe {
     pub nfe_cdv: String,
@@ -100,4 +101,11 @@ pub struct NfeJoinSelect {
     pub dest_indiedest: String,
     pub dest_xnome: String,
     pub dest_idender: i32,
+}
+
+#[derive(Debug, Serialize, Deserialize, FromRow)]
+pub struct Permissions {
+    pub permissions_user_id: Uuid,
+    pub permissions_allowed: bool,
+    pub cnpj: String,
 }

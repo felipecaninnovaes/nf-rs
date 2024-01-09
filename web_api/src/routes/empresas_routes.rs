@@ -15,7 +15,7 @@ pub fn empresas_routes() -> Router {
         .allow_origin(Any);
 
     Router::new()
-        .route("/api/empresas", get(get_all_empresas))
+        .route("/api/empresas/:userid", get(get_all_empresas))
         .route("/api/empresas/register", post(create_empresas))
         .layer(cors)
 }
