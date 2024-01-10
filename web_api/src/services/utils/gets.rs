@@ -41,10 +41,28 @@ pub fn get_cookie(cookie_jar: CookieJar,req: &Request<Body>, name: &str) -> Opti
 }
 
 pub fn get_from_header(req: &Request<Body>, name: &str) -> Option<HeaderGet> {
-    let result = HeaderGet {
-        name: Some(name.to_string()),
-        value: req.headers()
-            .get(name).unwrap().to_str().ok().map(|value| value.to_owned())
-    };
-    Some(result)
+    
+    match req.headers().get(name) {
+        Some(value) => {
+            let result = HeaderGet {
+                name: Some(name.to_string()),
+                value: Some(value.to_str().unwrap().to_owned())
+            };
+            // println!("HeaderGet: {:?}", result.value);
+            Some(result)
+        },
+        
+        None => {
+            None}
+    }
+
+    // let result = HeaderGet {
+    //     name: Some(name.to_string()),
+    //     value: req.headers()
+    //         .get(name).unwrap().to_str().ok().map(|value| value.to_owned())
+    // };
+
+    // println!("HeaderGet: {:?}", result.value);
+
+    // Some(result)
 }
