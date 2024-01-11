@@ -44,9 +44,7 @@ pub async fn guard(
     let guard = Guard {
         token: get_cookie(cookie_jar,&req, "Bearer"),
         user_id: get_from_header(&req, "id-user")
-    };
-
-    
+    };  
 
     let token = guard.token.ok_or_else(|| {
         let json_error = ErrorResponse {
@@ -65,18 +63,43 @@ pub async fn guard(
             (StatusCode::UNAUTHORIZED, Json(json_error))
         })?
         .claims;
-
+        
         match guard.user_id {
             Some(user_id) => {
-                match claims.id == Uuid::parse_str(user_id.value.clone().expect("User id not found").as_str()).unwrap() {
-                    true => {},
-                    false => {
+                let user_id_value = user_id.value.clone().expect("User id not found");
+                match user_id.value.unwrap().len() {
+                    36 => {
+                        match Uuid::parse_str(user_id_value.as_str()) {
+                            Ok(uuid) => {
+                                match claims.id == uuid {
+                                    true => {},
+                                    false => {
+                                        let json_error = ErrorResponse {
+                                            status: "fail",
+                                            message: "Unauthorized".to_owned(),
+                                        };
+                                        return Err((StatusCode::UNAUTHORIZED, Json(json_error)));
+                                    }
+                                }
+                            },
+                            Err(_) => {
+                                let json_error = ErrorResponse {
+                                    status: "fail",
+                                    message: "Unauthorized".to_owned(),
+                                };
+                                return Err((StatusCode::UNAUTHORIZED, Json(json_error)));
+                            }
+                        }
+                    },
+                    _ => {
                         let json_error = ErrorResponse {
-                        status: "fail",
-                        message: "Unauthorized".to_owned(),
-                    };
-                    return Err((StatusCode::UNAUTHORIZED, Json(json_error)));}        
+                            status: "fail",
+                            message: "Unauthorized".to_owned(),
+                        };
+                        return Err((StatusCode::UNAUTHORIZED, Json(json_error)));
+                    }
                 }
+               
             },
             None => {let json_error = ErrorResponse {
                 status: "fail",

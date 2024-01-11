@@ -4,3 +4,4 @@
 /nfe/nf-xml-files-examples
 .env
 /web_api/src/public/uploads/*/*.xml
+**/.DS_Store
