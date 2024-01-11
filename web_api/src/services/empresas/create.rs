@@ -31,5 +31,5 @@ pub async fn create_empresas( Extension(_pool): Extension<Pool<Postgres>> ,Json(
     let created_at = Utc::now().naive_utc();
     let q = format!("INSERT INTO empresas (idempresa, nome, nome_fant, cnpj, rua, numero, bairro, cidade, estado, cep, telefone, email, regime_tributario, created_at) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')" , uuid, empresas.nome, empresas.nome_fant, empresas.cnpj, empresas.rua, empresas.numero, empresas.bairro, empresas.cidade, empresas.estado, empresas.cep, empresas.telefone, empresas.email, empresas.regime_tributario, created_at);
     sqlx::query(&q).execute(&_pool).await.unwrap();
-    Ok((StatusCode::OK, "Empresa criada com sucesso"))
+    Ok((StatusCode::CREATED, "Empresa criada com sucesso"))
 }
