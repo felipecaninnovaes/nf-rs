@@ -75,3 +75,11 @@ pub struct UpdateEmpresasModel {
     pub email: String,
     pub regime_tributario: String,
 }
+
+#[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
+pub struct PermissionsModel {
+    pub permissions_idpermission: Uuid,
+    pub permissions_user_id: Uuid,
+    pub permissions_empresa_id: Uuid,
+    pub permissions_allowed: bool,
+}

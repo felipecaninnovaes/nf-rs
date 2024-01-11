@@ -30,7 +30,7 @@ pub async fn create_user(Json(user): Json<CreateUserModel>) -> Result<impl IntoR
     if result.is_ok() {
         return Err(APIError {
             message: "Usuario já cadastrado".to_owned(),
-            status_code: StatusCode::UNAUTHORIZED,
+            status_code: StatusCode::CONFLICT,
             error_code: Some(41),
         });
     }

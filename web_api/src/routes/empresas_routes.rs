@@ -16,6 +16,6 @@ pub fn empresas_routes() -> Router {
 
     Router::new()
         .route("/api/empresas/:userid", get(get_all_empresas))
-        .route("/api/empresas/cadastrar", post(create_empresas))
+        .route("/api/empresas/cadastrar/:userid", post(create_empresas))
         .layer(cors)
 }
