@@ -1,0 +1,25 @@
+[package]
+name = "web_api"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tokio = { version = "1.35.1", features = ["full"] }
+axum = { version = "0.7.3", features = ["multipart"]}
+axum-extra = { version = "0.9.1", features = ["cookie"] }
+serde_json = "1.0.111"
+serde = { version = "1.0.194", features = ["derive"] }
+dotenv = "0.15.0"
+tower-http = {version = "0.5.0", features = ["cors"]}
+uuid = { version = "1.6.1", features = ["serde","v4"] }
+chrono = {version ="0.4.31", features = ["serde"] }
+sqlx = { version = "0.7.3", features = ["postgres", "runtime-tokio-rustls", "uuid", "time"] }
+anyhow = "1.0.79"
+argon2 = "0.5.2"
+
+nfe = { path = "../nfe" }
+jsonwebtoken = "9.2.0"
+lazy_static = "1.4.0"
+rand = "0.8.5"
