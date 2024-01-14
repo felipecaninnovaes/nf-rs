@@ -9,7 +9,7 @@ pub async fn delete_ender(
     nro: &String,
     cep: &String,
 ) -> Result<(), Box<dyn Error>> {
-    let q = "DELETE FROM ender WHERE nro = $1 AND cep = $2";
+    let q = "DELETE FROM nfe_ender WHERE ender_nro = $1 AND cep = $2";
     sqlx::query(q).bind(nro).bind(cep).execute(pool).await?;
 
     Ok(())
@@ -22,7 +22,7 @@ pub async fn delete_emit(
     cnpjcpf: &String,
     enderidender: &String,
 ) -> Result<(), Box<dyn Error>> {
-    let q = "DELETE FROM emit WHERE cnpjcpf = $1 AND enderidender = $2";
+    let q = "DELETE FROM nfe_emit WHERE emit_cnpjcpf = $1 AND emit_idender = $2";
     sqlx::query(q)
         .bind(cnpjcpf)
         .bind(enderidender)
@@ -39,7 +39,7 @@ pub async fn delete_dest(
     cnpjcpf: &String,
     enderidender: &String,
 ) -> Result<(), Box<dyn Error>> {
-    let q = "DELETE FROM dest WHERE cnpjcpf = $1 AND enderidender = $2";
+    let q = "DELETE FROM nfe_dest WHERE dest_cnpjcpf = $1 AND dest_idender = $2";
     sqlx::query(q)
         .bind(cnpjcpf)
         .bind(enderidender)
@@ -52,7 +52,7 @@ pub async fn delete_dest(
 // delete pis
 #[allow(dead_code)]
 pub async fn delete_pis(pool: &sqlx::PgPool, prodid: &i32) -> Result<(), Box<dyn Error>> {
-    let q = "DELETE FROM pis WHERE produtoidproduto = $1";
+    let q = "DELETE FROM nfe_pis WHERE pis_idproduto = $1";
     sqlx::query(q).bind(prodid).execute(pool).await?;
     Ok(())
 }
@@ -60,7 +60,7 @@ pub async fn delete_pis(pool: &sqlx::PgPool, prodid: &i32) -> Result<(), Box<dyn
 // delete cofins
 #[allow(dead_code)]
 pub async fn delete_cofins(pool: &sqlx::PgPool, prodid: &i32) -> Result<(), Box<dyn Error>> {
-    let q = "DELETE FROM cofins WHERE produtoidproduto = $1";
+    let q = "DELETE FROM nfe_cofins WHERE cofins_idproduto = $1";
     sqlx::query(q).bind(prodid).execute(pool).await?;
     Ok(())
 }
@@ -68,7 +68,7 @@ pub async fn delete_cofins(pool: &sqlx::PgPool, prodid: &i32) -> Result<(), Box<
 // delete ipi
 #[allow(dead_code)]
 pub async fn delete_ipi(pool: &sqlx::PgPool, prodid: &i32) -> Result<(), Box<dyn Error>> {
-    let q = "DELETE FROM ipi WHERE produtoidproduto = $1";
+    let q = "DELETE FROM nfe_ipi WHERE ipi_idproduto = $1";
     sqlx::query(q).bind(prodid).execute(pool).await?;
     Ok(())
 }
@@ -76,7 +76,7 @@ pub async fn delete_ipi(pool: &sqlx::PgPool, prodid: &i32) -> Result<(), Box<dyn
 // delete icms
 #[allow(dead_code)]
 pub async fn delete_icms(pool: &sqlx::PgPool, prodid: &i32) -> Result<(), Box<dyn Error>> {
-    let q = "DELETE FROM icms WHERE produtoidproduto = $1";
+    let q = "DELETE FROM nfe_icms WHERE icms_idproduto = $1";
     sqlx::query(q).bind(prodid).execute(pool).await?;
     Ok(())
 }
@@ -84,7 +84,7 @@ pub async fn delete_icms(pool: &sqlx::PgPool, prodid: &i32) -> Result<(), Box<dy
 // delete icmsufdest
 #[allow(dead_code)]
 pub async fn delete_icmsufdest(pool: &sqlx::PgPool, prodid: &i32) -> Result<(), Box<dyn Error>> {
-    let q = "DELETE FROM icmsufdest WHERE produtoidproduto = $1";
+    let q = "DELETE FROM nfe_icmsufdest WHERE icms_uf_idproduto = $1";
     sqlx::query(q).bind(prodid).execute(pool).await?;
     Ok(())
 }
@@ -101,8 +101,7 @@ pub async fn delete_produto(
     delete_ipi(pool, idproduto).await?;
     delete_icms(pool, idproduto).await?;
     delete_icmsufdest(pool, idproduto).await?;
-    println!("{} {}", idproduto, nfeidnfe);
-    let q = "DELETE FROM produto WHERE idproduto = $1 AND nfeidnfe = $2";
+    let q = "DELETE FROM nfe_produto WHERE produto_idproduto = $1 AND produto_idnfe = $2";
     sqlx::query(q)
         .bind(idproduto)
         .bind(nfeidnfe)
@@ -119,8 +118,10 @@ pub async fn delete_nfe(pool: &sqlx::PgPool, idnfe: &i32) -> Result<(), Box<dyn 
     for i in v {
         delete_produto(pool, idnfe, &i).await?;
     }
-    let q = "DELETE FROM nfe WHERE idnfe = $1";
-    sqlx::query(q).bind(idnfe).execute(pool).await?;
-
-    Ok(())
+    let q = "DELETE FROM nfe WHERE nfe_idnfe = $1";
+    let result = sqlx::query(q).bind(idnfe).execute(pool).await?;
+    match result.rows_affected() {
+        0 => Err("Nfe not found".into()),
+        _ => Ok(()),
+    }
 }

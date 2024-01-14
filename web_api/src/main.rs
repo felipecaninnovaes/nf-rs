@@ -1,8 +1,7 @@
 use axum::{
     extract::DefaultBodyLimit, // Add missing import statements
-    http::Method,
+    http::{Method, header::{ACCEPT, AUTHORIZATION}, HeaderName},
     middleware,
-    routing::{get, post},
     Extension,
     Router,
 };
@@ -11,13 +10,7 @@ use nfe::modules::sql::connection_postgres::start_connection;
 use tower_http::cors::{Any, CorsLayer};
 
 mod services;
-use services::{
-    nfe::{
-        get::{get_all_nfe, get_nfe_by_dest, get_nfe_by_emit},
-        upload::upload,
-    },
-    utils::guard::guard,
-};
+use services::utils::guard::guard;
 
 mod routes;
 
@@ -32,14 +25,12 @@ async fn main() {
         .allow_methods([Method::GET, Method::POST])
         // allow requests from any origin
         .allow_origin(Any)
-        .allow_headers(Any);
+        .allow_headers([ACCEPT, AUTHORIZATION, HeaderName::from_lowercase(b"id-user").unwrap()]);
 
     // build our application with a single route
     let app = Router::new()
-        .route("/api/nfe", get(get_all_nfe))
-        .route("/api/nfe/emit/:id", get(get_nfe_by_emit))
-        .route("/api/nfe/dest/:id", get(get_nfe_by_dest))
-        .route("/api/nfe/upload", post(upload))
+        .merge(routes::nfe_routes::nfe_routes())
+        .merge(routes::empresas_routes::empresas_routes())
         .route_layer(middleware::from_fn(guard))
         .merge(routes::auth_routes::auth_routes())
         .layer(cors)

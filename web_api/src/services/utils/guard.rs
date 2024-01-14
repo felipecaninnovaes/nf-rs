@@ -1,6 +1,6 @@
 use axum::{
     body::Body,
-    http::{header, Request, StatusCode},
+    http::{Request, StatusCode},
     middleware::Next,
     response::IntoResponse,
     Extension, Json, extract::Path,
@@ -10,13 +10,28 @@ use axum_extra::extract::cookie::CookieJar;
 use serde::Serialize;
 use sqlx::{Pool, Postgres};
 use jsonwebtoken::get_current_timestamp;
+use uuid::Uuid;
 
 use crate::services::auth::{jwt::decode_jwt, struct_user::LoginTockenCheckModel};
+
+use super::gets::{get_cookie, Cookie, get_from_header, HeaderGet};
 
 #[derive(Debug, Serialize)]
 pub struct ErrorResponse {
     pub status: &'static str,
     pub message: String,
+}
+
+
+#[derive(Debug, Serialize, Clone)]
+struct Guard {
+    token: Option<Cookie>,
+    user_id: Option<HeaderGet>
+}
+
+struct CheckToken {
+    token: String,
+    user_id: Uuid
 }
 
 pub async fn guard(
@@ -25,21 +40,13 @@ pub async fn guard(
     mut req: Request<Body>,
     next: Next,
 ) -> Result<impl IntoResponse, (StatusCode, Json<ErrorResponse>)> {
-    let token = cookie_jar
-        .get("token")
-        .map(|cookie| cookie.value().to_string())
-        .or_else(|| {
-            req.headers()
-                .get(header::AUTHORIZATION)
-                .and_then(|auth_header| auth_header.to_str().ok())
-                .and_then(|auth_value| {
-                    auth_value
-                        .strip_prefix("Bearer ")
-                        .map(|value| value.to_owned())
-                })
-        });
 
-    let token = token.ok_or_else(|| {
+    let guard = Guard {
+        token: get_cookie(cookie_jar,&req, "Bearer"),
+        user_id: get_from_header(&req, "id-user")
+    };  
+
+    let token = guard.token.ok_or_else(|| {
         let json_error = ErrorResponse {
             status: "fail",
             message: "You are not logged in, please provide token".to_string(),
@@ -47,7 +54,7 @@ pub async fn guard(
         (StatusCode::UNAUTHORIZED, Json(json_error))
     })?;
 
-    let claims = decode_jwt(token)
+    let claims = decode_jwt(token.value.expect("Token not found"))
         .map_err(|_err| {
             let json_error = ErrorResponse {
                 status: "fail",
@@ -56,6 +63,50 @@ pub async fn guard(
             (StatusCode::UNAUTHORIZED, Json(json_error))
         })?
         .claims;
+        
+        match guard.user_id {
+            Some(user_id) => {
+                let user_id_value = user_id.value.clone().expect("User id not found");
+                match user_id.value.unwrap().len() {
+                    36 => {
+                        match Uuid::parse_str(user_id_value.as_str()) {
+                            Ok(uuid) => {
+                                match claims.id == uuid {
+                                    true => {},
+                                    false => {
+                                        let json_error = ErrorResponse {
+                                            status: "fail",
+                                            message: "Unauthorized".to_owned(),
+                                        };
+                                        return Err((StatusCode::UNAUTHORIZED, Json(json_error)));
+                                    }
+                                }
+                            },
+                            Err(_) => {
+                                let json_error = ErrorResponse {
+                                    status: "fail",
+                                    message: "Unauthorized".to_owned(),
+                                };
+                                return Err((StatusCode::UNAUTHORIZED, Json(json_error)));
+                            }
+                        }
+                    },
+                    _ => {
+                        let json_error = ErrorResponse {
+                            status: "fail",
+                            message: "Unauthorized".to_owned(),
+                        };
+                        return Err((StatusCode::UNAUTHORIZED, Json(json_error)));
+                    }
+                }
+               
+            },
+            None => {let json_error = ErrorResponse {
+                status: "fail",
+                message: "Unauthorized".to_owned(),
+            };
+            return Err((StatusCode::UNAUTHORIZED, Json(json_error)));}        
+        }
 
     let email = claims.email;
 
@@ -93,8 +144,27 @@ pub async fn logout(cookie_jar: CookieJar) -> impl IntoResponse {
 
 // extern token validation
 pub async fn token_validation(path: Path<String>, Extension(_pool): Extension<Pool<Postgres>>) -> Result<impl IntoResponse, (StatusCode, Json<ErrorResponse>)> {
+    let path_slipt: Vec<&str> = path.0.split('$').filter(|&s| !s.is_empty()).collect();
 
-    let claims = decode_jwt(path.0)
+    let check = CheckToken {
+        token: path_slipt[0].to_string(),
+        user_id: {
+            match path_slipt[1].len() {
+                36 => {
+                    Uuid::parse_str(path_slipt[1]).unwrap()
+                },
+                _ => {
+                    let json_error = ErrorResponse {
+                        status: "fail",
+                        message: "Unauthorized".to_owned(),
+                    };
+                    return Err((StatusCode::UNAUTHORIZED, Json(json_error)));
+                }
+            }
+        }
+    };
+
+    let claims = decode_jwt(check.token)
     .map_err(|_err| {
         let json_error = ErrorResponse {
             status: "fail",
@@ -102,6 +172,21 @@ pub async fn token_validation(path: Path<String>, Extension(_pool): Extension<Po
         };
         (StatusCode::UNAUTHORIZED, Json(json_error))
     })?.claims;
+
+    
+
+    match claims.id == check.user_id {
+        true => {},
+        false => {
+            let json_error = ErrorResponse {
+                status: "fail",
+                message: "Unauthorized".to_owned(),
+            };
+            return Err((StatusCode::UNAUTHORIZED, Json(json_error)));
+        }
+    }
+
+
     let token_time = claims.exp as usize;
     let current_time = get_current_timestamp() as usize;
     if token_time < current_time {

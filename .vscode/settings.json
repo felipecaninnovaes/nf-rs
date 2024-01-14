@@ -2,6 +2,7 @@
     "rust-analyzer.linkedProjects": [
         "./Cargo.toml",
         "./nfe/Cargo.toml",
-        ".\\nfe\\Cargo.toml"
+        ".\\nfe\\Cargo.toml",
+        "./web_api/Cargo.toml"
     ]
 }

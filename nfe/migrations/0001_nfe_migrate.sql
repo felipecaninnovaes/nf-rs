@@ -1,6 +1,6 @@
 
 -- tables
--- Table: cofins
+-- Table: users
 CREATE TABLE users (
     iduser uuid  NOT NULL,
     firstname varchar(100) NULL,
@@ -9,6 +9,34 @@ CREATE TABLE users (
     password varchar(100)  NULL,
     created_at date  NULL,
     CONSTRAINT Userspk PRIMARY KEY (iduser)
+);
+
+CREATE TABLE empresas (
+    idempresa uuid  NOT NULL,
+    nome varchar(100) NULL,
+    nome_fant varchar(100)  NULL,
+    cnpj varchar(200)  NULL,
+    rua varchar(100)  NULL,
+    numero varchar(100)  NULL,
+    bairro varchar(100)  NULL,
+    cidade varchar(100)  NULL,
+    estado varchar(100)  NULL,
+    cep varchar(100)  NULL,
+    telefone varchar(100)  NULL,
+    email varchar(200)  NULL,
+    regime_tributario varchar(100)  NULL,
+    created_at date  NULL,
+    CONSTRAINT emoresaspk PRIMARY KEY (idempresa)
+);
+
+-- Table: Permissions
+CREATE TABLE permissions (
+    permissions_idpermission uuid  NOT NULL,
+    permissions_user_id uuid  NULL,
+    permissions_empresa_id uuid  NULL,
+    permissions_allowed boolean  NULL,
+    permissions_created_at date  NULL,
+    CONSTRAINT Permissionspk PRIMARY KEY (permissions_idpermission)
 );
 
 -- Table: cofins
@@ -187,6 +215,22 @@ ALTER TABLE nfe_dest ADD CONSTRAINT destender
 ALTER TABLE nfe_emit ADD CONSTRAINT emitender
     FOREIGN KEY (emit_idender)
     REFERENCES nfe_ender (ender_idender)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
+
+-- Reference: permissions_user_id (table: permissions)
+ALTER TABLE permissions ADD CONSTRAINT permissions_user_id
+    FOREIGN KEY (permissions_user_id)
+    REFERENCES users (iduser)  
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+;
+
+-- Reference: permissions_empresa_id (table: permissions)
+ALTER TABLE permissions ADD CONSTRAINT permissions_empresa_id
+    FOREIGN KEY (permissions_empresa_id)
+    REFERENCES empresas (idempresa) 
     ON DELETE CASCADE
     ON UPDATE CASCADE
 ;
