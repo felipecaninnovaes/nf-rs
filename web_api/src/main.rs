@@ -1,6 +1,9 @@
 use axum::{
     extract::DefaultBodyLimit, // Add missing import statements
-    http::{Method, header::{ACCEPT, AUTHORIZATION}, HeaderName},
+    http::{
+        header::{ACCEPT, AUTHORIZATION},
+        HeaderName, Method,
+    },
     middleware,
     Extension,
     Router,
@@ -25,7 +28,11 @@ async fn main() {
         .allow_methods([Method::GET, Method::POST])
         // allow requests from any origin
         .allow_origin(Any)
-        .allow_headers([ACCEPT, AUTHORIZATION, HeaderName::from_lowercase(b"id-user").unwrap()]);
+        .allow_headers([
+            ACCEPT,
+            AUTHORIZATION,
+            HeaderName::from_lowercase(b"id-user").unwrap(),
+        ]);
 
     // build our application with a single route
     let app = Router::new()

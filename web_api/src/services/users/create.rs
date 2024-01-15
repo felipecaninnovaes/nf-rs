@@ -1,21 +1,17 @@
 use crate::services::{auth::argon2::encrypt, utils::api_error::APIError};
-use axum::{http::StatusCode, response::IntoResponse, Json};
+use axum::{http::StatusCode, response::IntoResponse, Json, Extension};
 use chrono::Utc;
-use dotenv::dotenv;
-use nfe::modules::sql::connection_postgres::start_connection;
+use core_sql::modules::usuarios::select::select_user_from_email;
+use sqlx::{Pool, Postgres};
 use uuid::Uuid;
 
 use super::struct_users::CreateUserModel;
 
-pub async fn create_user(Json(user): Json<CreateUserModel>) -> Result<impl IntoResponse, APIError> {
-    dotenv().ok();
+pub async fn create_user(Extension(_pool): Extension<Pool<Postgres>>, Json(user): Json<CreateUserModel>) -> Result<impl IntoResponse, APIError> {
 
-    let _pool = start_connection().await;
+    let result = select_user_from_email(&_pool, &user.email).await.unwrap();
 
-    let select_user = format!("SELECT * FROM users WHERE email = '{}'", user.email);
-    let result = sqlx::query(&select_user).fetch_one(&_pool).await;
-
-    if result.is_ok() {
+    if result.len() > 0 {
         return Err(APIError {
             message: "Usuario já cadastrado".to_owned(),
             status_code: StatusCode::CONFLICT,

@@ -1,14 +1,10 @@
 use axum::{http::StatusCode, response::IntoResponse, Extension};
 use sqlx::{Pool, Postgres};
 
-use super::struct_users::UserListResponseModel;
+use core_sql::modules::usuarios::select::select_all_users;
 
-pub async fn select_all_users(Extension(_pool): Extension<Pool<Postgres>>) -> impl IntoResponse {
-    let q = "SELECT iduser, firstname, secondname, email FROM users";
-    let result = sqlx::query_as::<_, UserListResponseModel>(q)
-        .fetch_all(&_pool)
-        .await
-        .unwrap();
+pub async fn select_users(Extension(_pool): Extension<Pool<Postgres>>) -> impl IntoResponse {
+    let result = select_all_users(&_pool).await.unwrap();
     match serde_json::to_string(&result) {
         Ok(json) => (StatusCode::OK, json),
         Err(_) => (
