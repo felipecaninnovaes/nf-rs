@@ -4,7 +4,7 @@ use uuid::Uuid;
 
 #[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
 pub struct UserModel {
-    pub uuid: Uuid,
+    pub iduser: Uuid,
     pub firstname: String,
     pub secondname: String,
     pub email: String,
@@ -12,9 +12,17 @@ pub struct UserModel {
 }
 
 #[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
+pub struct UserModelUpdate {
+    pub iduser: Uuid,
+    pub firstname: String,
+    pub secondname: String,
+    pub email: String,
+}
+
+#[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
 pub struct UserMicroModel {
     pub firstname: String,
-    pub uuid: Uuid,
+    pub iduser: Uuid,
 }
 
 #[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
@@ -30,7 +38,6 @@ pub struct LoginUserModel {
     pub email: String,
     pub password: String,
 }
-
 
 #[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
 pub struct LoginTockenCheckModel {

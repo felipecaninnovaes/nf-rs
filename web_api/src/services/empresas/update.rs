@@ -3,8 +3,6 @@ use axum::{extract::Path, http::StatusCode, response::IntoResponse, Extension, J
 use nfe::modules::sql::select::get_permissions;
 use sqlx::{Pool, Postgres};
 
-use std::error::Error;
-
 use crate::services::utils::parse::parse_uuid;
 
 use super::struct_empresas::CreateEmpresasModel;
