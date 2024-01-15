@@ -138,3 +138,10 @@ pub struct Permissions {
     pub permissions_allowed: bool,
     pub cnpj: String,
 }
+#[derive(Debug, Serialize, Deserialize, FromRow)]
+pub struct PermissionsUpdate {
+    pub permissions_idpermission: Uuid,
+    pub permissions_user_id: Uuid,
+    pub permissions_allowed: bool,
+    pub cnpj: String,
+}
