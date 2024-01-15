@@ -1,11 +1,11 @@
 use axum::{
     http::Method,
-    routing::{get, post},
+    routing::{get, post,},
     Router,
 };
 use tower_http::cors::{Any, CorsLayer};
 
-use crate::services::empresas::{create::create_empresas, get::get_all_empresas};
+use crate::services::empresas::{create::create_empresas, get::get_all_empresas, update::update_empresas};
 
 pub fn empresas_routes() -> Router {
     let cors: CorsLayer = CorsLayer::new()
@@ -17,5 +17,6 @@ pub fn empresas_routes() -> Router {
     Router::new()
         .route("/api/empresas/:userid", get(get_all_empresas))
         .route("/api/empresas/cadastrar/:userid", post(create_empresas))
+        .route("/api/empresas/update/:userid", post(update_empresas))
         .layer(cors)
 }

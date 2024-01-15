@@ -104,7 +104,43 @@ pub struct NfeJoinSelect {
 }
 
 #[derive(Debug, Serialize, Deserialize, FromRow)]
+pub struct NfeUpdate {
+    pub nfe_idnfe: i32,
+    pub nfe_cdv: String,
+    pub nfe_cmunfg: String,
+    pub nfe_cnf: String,
+    pub nfe_cuf: String,
+    pub nfe_dhemi: String,
+    pub nfe_dhsaient: String,
+    pub nfe_finnfe: String,
+    pub nfe_nfe_iddest: String,
+    pub nfe_indfinal: String,
+    pub nfe_indintermed: String,
+    pub nfe_indpres: String,
+    pub nfe_modnfe: String,
+    pub nfe_nnf: String,
+    pub nfe_natop: String,
+    pub nfe_procemi: String,
+    pub nfe_serie: String,
+    pub nfe_tpamb: String,
+    pub nfe_tpemis: String,
+    pub nfe_tpimp: String,
+    pub nfe_tpnf: String,
+    pub nfe_verproc: String,
+    pub nfe_nftotal: String,
+    pub nfe_idemit: i32,
+    pub nfe_iddest: i32,
+}
+
+#[derive(Debug, Serialize, Deserialize, FromRow)]
 pub struct Permissions {
+    pub permissions_user_id: Uuid,
+    pub permissions_allowed: bool,
+    pub cnpj: String,
+}
+#[derive(Debug, Serialize, Deserialize, FromRow)]
+pub struct PermissionsUpdate {
+    pub permissions_idpermission: Uuid,
     pub permissions_user_id: Uuid,
     pub permissions_allowed: bool,
     pub cnpj: String,
