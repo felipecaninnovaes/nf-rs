@@ -41,9 +41,17 @@ pub struct LoginTockenCheckModel {
 #[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
 pub struct LoginCheckModel {
     pub iduser: Uuid,
-    pub email: String,
     pub firstname: String,
+    pub email: String,
     pub password: String,
+}
+
+#[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
+pub struct UserListResponseModel {
+    pub iduser: Uuid,
+    pub firstname: String,
+    pub secondname: String,
+    pub email: String,
 }
 
 #[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]

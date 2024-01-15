@@ -12,7 +12,7 @@ use sqlx::{Pool, Postgres};
 use jsonwebtoken::get_current_timestamp;
 use uuid::Uuid;
 
-use crate::services::auth::{jwt::decode_jwt, struct_user::LoginTockenCheckModel};
+use crate::services::{auth::jwt::decode_jwt, users::struct_users::LoginTockenCheckModel};
 
 use super::gets::{get_cookie, Cookie, get_from_header, HeaderGet};
 

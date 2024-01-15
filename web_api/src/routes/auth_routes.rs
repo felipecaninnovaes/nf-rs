@@ -1,7 +1,14 @@
-use axum::{http::Method, routing::{post, get}, Router};
+use axum::{
+    http::Method,
+    routing::{get, post},
+    Router,
+};
 use tower_http::cors::{Any, CorsLayer};
 
-use crate::services::{auth::auth_handlers::{create_user, login_user_post}, utils::guard::token_validation};
+use crate::services::{
+    auth::auth_handlers::login_user_post, users::create::create_user,
+    utils::guard::token_validation,
+};
 
 pub fn auth_routes() -> Router {
     let cors = CorsLayer::new()

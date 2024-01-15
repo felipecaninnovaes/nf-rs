@@ -29,8 +29,9 @@ async fn main() {
 
     // build our application with a single route
     let app = Router::new()
-        .merge(routes::nfe_routes::nfe_routes())
-        .merge(routes::empresas_routes::empresas_routes())
+        .merge(routes::nfe_routers::nfe_routes())
+        .merge(routes::empresas_routers::empresas_routes())
+        .merge(routes::users_routers::users_routers())
         .route_layer(middleware::from_fn(guard))
         .merge(routes::auth_routes::auth_routes())
         .layer(cors)
