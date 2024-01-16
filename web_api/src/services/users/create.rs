@@ -1,15 +1,19 @@
-use crate::services::{auth::argon2::encrypt, utils::api_error::APIError};
-use axum::{http::StatusCode, response::IntoResponse, Json, Extension};
-use chrono::Utc;
-use core_sql::modules::usuarios::select::select_user_from_email;
+use crate::services::{
+    auth::argon2::encrypt,
+    utils::{api_error::APIError, api_ok::APIOk},
+};
+use axum::{http::StatusCode, response::IntoResponse, Extension, Json};
+use core_sql::{
+    modules::usuarios::{insert::insert_user, select::select_user_by_email},
+    structs::usuarios::struct_user::CreateUserModel,
+};
 use sqlx::{Pool, Postgres};
-use uuid::Uuid;
 
-use super::struct_users::CreateUserModel;
-
-pub async fn create_user(Extension(_pool): Extension<Pool<Postgres>>, Json(user): Json<CreateUserModel>) -> Result<impl IntoResponse, APIError> {
-
-    let result = select_user_from_email(&_pool, &user.email).await.unwrap();
+pub async fn create_user(
+    Extension(_pool): Extension<Pool<Postgres>>,
+    Json(user): Json<CreateUserModel>,
+) -> Result<impl IntoResponse, APIError> {
+    let result = select_user_by_email(&_pool, &user.email).await.unwrap();
 
     if result.len() > 0 {
         return Err(APIError {
@@ -19,10 +23,22 @@ pub async fn create_user(Extension(_pool): Extension<Pool<Postgres>>, Json(user)
         });
     }
 
-    let uuid = Uuid::new_v4();
-    let created_at = Utc::now().naive_utc();
     let encrypt_password = encrypt(user.password.as_str()).unwrap();
-    let q = format!("INSERT INTO users (iduser, firstname, secondname, email, password, created_at) VALUES ('{}','{}', '{}', '{}', '{}','{}')" , uuid, user.firstname, user.secondname, user.email, encrypt_password, created_at);
-    sqlx::query(&q).execute(&_pool).await.unwrap();
-    Ok((StatusCode::OK, "Usuario criado com sucesso"))
+    let user = CreateUserModel {
+        firstname: user.firstname,
+        secondname: user.secondname,
+        email: user.email,
+        password: encrypt_password,
+    };
+    match insert_user(&_pool, user).await {
+        Ok(_) => Ok(APIOk {
+            message: "Usuario cadastrado com sucesso".to_owned(),
+            status_code: StatusCode::CREATED,
+        }),
+        Err(_) => Err(APIError {
+            message: "Erro ao inserir usuario".to_owned(),
+            status_code: StatusCode::INTERNAL_SERVER_ERROR,
+            error_code: Some(42),
+        }),
+    }
 }

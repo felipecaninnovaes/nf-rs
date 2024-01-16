@@ -42,6 +42,15 @@ pub struct UserSelectModel {
 }
 
 #[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
+pub struct UserSelectModelPassword {
+    pub iduser: Uuid,
+    pub firstname: String,
+    pub secondname: String,
+    pub email: String,
+    pub password: String,
+}
+
+#[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
 pub struct LoginUserResponseModel {
     pub iduser: Uuid,
     pub firstname: String,

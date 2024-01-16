@@ -1,5 +1,5 @@
+use core_sql::{structs::usuarios::struct_user::CreateUserModel, modules::usuarios::insert::insert_user};
 #[allow(unused_imports)]
-use modules::usuarios::select::{select_user_from_email, select_user_from_id};
 
 mod modules;
 mod structs;
@@ -7,7 +7,13 @@ mod structs;
 
 #[tokio::main]
 async fn main() {
+    let user: CreateUserModel = CreateUserModel {
+        firstname: "Teste".to_owned(),
+        secondname: "Teste".to_owned(),
+        email: "teste@test.com".to_owned(),
+        password: "teste".to_owned(),
+    };
     let _pool = modules::connection::start_connection().await;
-    let result = select_user_from_id(&_pool, "8a6fca50-6ae8-49a2-be2e-b369487f3aea").await;
+    let result = insert_user(&_pool, user).await;
     println!("{:?}", result)
 }

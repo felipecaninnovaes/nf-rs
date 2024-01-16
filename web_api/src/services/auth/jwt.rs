@@ -19,7 +19,7 @@ pub fn encode_jwt(email: String, id: Uuid) -> Result<String, StatusCode> {
     let expire = Duration::hours(24);
 
     let claim = Cliams {
-        id,
+        id: id,
         email,
         iat: now.timestamp() as usize,
         exp: (now + expire).timestamp() as usize,
