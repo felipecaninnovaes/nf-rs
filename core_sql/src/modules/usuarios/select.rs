@@ -36,7 +36,7 @@ pub async fn select_user_by_id(
 #[allow(dead_code)]
 pub async fn select_all_users(pool: &PgPool) -> Result<Vec<UserSelectModel>, Box<dyn Error>> {
     let select_user = "SELECT * FROM users";
-    match sqlx::query_as::<_, UserSelectModel>(&select_user)
+    match sqlx::query_as::<_, UserSelectModel>(select_user)
         .fetch_all(pool)
         .await
     {

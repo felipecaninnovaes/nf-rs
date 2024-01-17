@@ -15,7 +15,7 @@ pub async fn create_user(
 ) -> Result<impl IntoResponse, APIError> {
     let result = select_user_by_email(&_pool, &user.email).await.unwrap();
 
-    if result.len() > 0 {
+    if !result.is_empty() {
         return Err(APIError {
             message: "Usuario já cadastrado".to_owned(),
             status_code: StatusCode::CONFLICT,
