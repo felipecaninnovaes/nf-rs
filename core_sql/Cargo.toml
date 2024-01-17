@@ -13,3 +13,6 @@ sqlx = { version = "0.7.3", features = ["postgres", "runtime-tokio-rustls", "uui
 serde_json = "1.0.111"
 serde = { version = "1.0.195", features = ["derive"] }
 dotenv = "0.15.0"
+
+[profile.dev.package.sqlx-macros]
+opt-level = 3

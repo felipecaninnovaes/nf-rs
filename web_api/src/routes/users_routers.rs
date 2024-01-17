@@ -5,7 +5,7 @@ use axum::{
 };
 use tower_http::cors::{Any, CorsLayer};
 
-use crate::services::users::{select::select_users, update::update_user};
+use crate::services::users::{select::select_users, update::update_user_post};
 
 pub fn users_routers() -> Router {
     let cors: CorsLayer = CorsLayer::new()
@@ -16,6 +16,6 @@ pub fn users_routers() -> Router {
 
     Router::new()
         .route("/api/user", get(select_users))
-        .route("/api/user/update", post(update_user))
+        .route("/api/user/update", post(update_user_post))
         .layer(cors)
 }

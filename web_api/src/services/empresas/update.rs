@@ -1,33 +1,49 @@
 use axum::{extract::Path, http::StatusCode, response::IntoResponse, Extension, Json};
 
+use core_sql::modules::empresas::update::update_empresa;
+use core_sql::structs::empresas::empresa_struct::UpdateEmpresasModel;
 use nfe::modules::sql::select::get_permissions;
 use sqlx::{Pool, Postgres};
 
 use crate::services::utils::parse::parse_uuid;
 
-use super::struct_empresas::CreateEmpresasModel;
+use crate::services::utils::{api_ok::APIOk, api_error::APIError};
 
 pub async fn update_empresas(
     Extension(_pool): Extension<Pool<Postgres>>,
     path: Path<String>,
-    Json(empresas): Json<CreateEmpresasModel>,
-) -> impl IntoResponse {
+    Json(empresas): Json<UpdateEmpresasModel>,
+) -> Result<impl IntoResponse, APIError> {
     let user_id = match parse_uuid(path.0) {
         Ok(uuid) => uuid,
-        Err(_) => return (StatusCode::UNPROCESSABLE_ENTITY, "Invalid uuid".to_owned()),
+        Err(_) => Err(APIError {
+            message: "Invalid user id".to_owned(),
+            status_code: StatusCode::BAD_REQUEST,
+            error_code: Some(41),
+        })?,
     };
     let permissions = get_permissions(&_pool, user_id).await.unwrap();
     match permissions.iter().find(|&x| x.cnpj == empresas.cnpj) {
         Some(_) => {
-            let q = format!("UPDATE empresas SET nome = '{}', nome_fant = '{}', cnpj = '{}', rua = '{}', numero = '{}', bairro = '{}', cidade = '{}', estado = '{}', cep = '{}', telefone = '{}', email = '{}', regime_tributario = '{}' WHERE cnpj = '{}'", empresas.nome.to_uppercase(), empresas.nome_fant.to_uppercase(), empresas.cnpj, empresas.rua.to_uppercase(), empresas.numero, empresas.bairro.to_uppercase(), empresas.cidade.to_uppercase(), empresas.estado.to_uppercase(), empresas.cep, empresas.telefone, empresas.email, empresas.regime_tributario.to_uppercase(), empresas.cnpj);
-            sqlx::query(&q).execute(&_pool).await.unwrap();
-            (StatusCode::OK, "Empresa atualizada com sucesso".to_owned())
+            let result = update_empresa(&_pool, empresas).await;
+            match result {
+                Ok(_) => Ok(APIOk {
+            message: "Empresa atualizado com sucesso".to_owned(),
+            status_code: StatusCode::ACCEPTED,
+        }),
+        Err(_) => Err(APIError {
+            message: "Erro ao atualizar empresa".to_owned(),
+            status_code: StatusCode::INTERNAL_SERVER_ERROR,
+            error_code: Some(42),
+        }),
+            } 
         }
         None => {
-            return (
-                StatusCode::UNAUTHORIZED,
-                "You don't have permission to update this company".to_owned(),
-            )
+            Err(APIError {
+                message: "Você não tem permissão para atualizar essa empresa".to_owned(),
+                status_code: StatusCode::FORBIDDEN,
+                error_code: Some(43),
+            })
         }
     }
 }
