@@ -57,7 +57,7 @@ pub async fn select_all_users(pool: &PgPool) -> Result<Vec<UserSelectModel>, Box
 pub async fn select_all_user_cnpj_permissoes(
     pool: &PgPool,
     iduser: Uuid,
-) -> Result<Vec<EmpresasCnpjModel>, Box<dyn Error>> {
+) -> Result<Vec<EmpresasCnpjModel>, Box<dyn Error + Sync + Send>> {
     let empresas_id_vec =
         "SELECT permissions_empresa_id FROM permissions WHERE permissions_user_id = $1";
     let result: Vec<PermissionsEmpresaId> =

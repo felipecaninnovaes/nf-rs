@@ -1,41 +1,49 @@
-use axum::{extract::Path, http::StatusCode, response::IntoResponse, Extension, Json};
-use chrono::Utc;
-use core_sql::modules::{
-    empresas::select::select_empresas_by_cnpj, permissoes::insert::insert_permission,
+use axum::{
+    debug_handler, extract::Path, http::StatusCode, response::IntoResponse, Extension, Json,
+};
+use core_sql::{
+    modules::{
+        empresas::{insert::insert_empresa, select::select_empresas_by_cnpj},
+        permissoes::insert::insert_query,
+    },
+    structs::empresas::empresa_struct::CreateEmpresasModel,
 };
 use sqlx::{Pool, Postgres};
-use std::error::Error;
 use uuid::Uuid;
 
-use crate::services::utils::api_error::APIError;
+use crate::services::utils::{api_error::APIError, api_ok::APIOk};
 
-use super::struct_empresas::CreateEmpresasModel;
-
+#[debug_handler]
 pub async fn create_empresas(
     path: Path<String>,
     Extension(_pool): Extension<Pool<Postgres>>,
     Json(empresas): Json<CreateEmpresasModel>,
 ) -> Result<impl IntoResponse, APIError> {
-    // let select_empresa = format!("SELECT * FROM empresas WHERE cnpj = '{}'", empresas.cnpj);
     let result = select_empresas_by_cnpj(&_pool, &empresas.cnpj).await;
     let user_id = Uuid::parse_str(path.0.as_str()).unwrap();
-    if result.is_ok() {
-        let _result: Result<(), Box<dyn Error + Sync + Send>> =
-            insert_permission(&_pool, user_id, result.unwrap().idempresa, true).await;
-        return Err(APIError {
-            message: "Empresa já cadastrado".to_owned(),
-            status_code: StatusCode::CONFLICT,
-            error_code: Some(41),
-        });
+    match result {
+        Ok(_) => Err(APIError {
+            message: "Empresa já cadastrada".to_owned(),
+            status_code: StatusCode::BAD_REQUEST,
+            error_code: Some(42),
+        }),
+        Err(_) => {
+            let result = insert_empresa(&_pool, empresas).await;
+            match result {
+                Ok(uuid) => {
+                    insert_query(&_pool, user_id, uuid, true).await.unwrap();
+                    Ok(APIOk {
+                        message: "Empresa cadastrado com sucesso".to_owned(),
+                        status_code: StatusCode::CREATED,
+                        data: None,
+                    })
+                }
+                Err(_) => Err(APIError {
+                    message: "Erro ao inserir empresa".to_owned(),
+                    status_code: StatusCode::INTERNAL_SERVER_ERROR,
+                    error_code: Some(42),
+                }),
+            }
+        }
     }
-
-    let uuid = Uuid::new_v4();
-    let created_at = Utc::now().naive_utc();
-    let q = format!("INSERT INTO empresas (idempresa, nome, nome_fant, cnpj, rua, numero, bairro, cidade, estado, cep, telefone, email, regime_tributario, created_at) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')" , uuid, empresas.nome.to_uppercase(), empresas.nome_fant.to_uppercase(), empresas.cnpj, empresas.rua.to_uppercase(), empresas.numero, empresas.bairro.to_uppercase(), empresas.cidade.to_uppercase(), empresas.estado.to_uppercase(), empresas.cep, empresas.telefone, empresas.email, empresas.regime_tributario.to_uppercase(), created_at);
-    sqlx::query(&q).execute(&_pool).await.unwrap();
-    let _result: Result<(), Box<dyn Error + Sync + Send>> =
-        insert_permission(&_pool, user_id, uuid, true).await;
-    // let _result = create_permissions(&_pool, user_id, uuid, true).await;
-
-    Ok((StatusCode::CREATED, "Empresa criada com sucesso"))
 }

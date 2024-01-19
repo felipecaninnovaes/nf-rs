@@ -23,7 +23,7 @@ pub async fn select_empresas_by_cnpj(
 pub async fn select_empresas_by_id(
     pool: &PgPool,
     idempresa: &Uuid,
-) -> Result<EmpresasGetModel, Box<dyn Error>> {
+) -> Result<EmpresasGetModel, Box<dyn Error + Sync + Send>> {
     let q = format!("SELECT * FROM empresas WHERE idempresa = '{}'", idempresa);
     match sqlx::query_as::<_, EmpresasGetModel>(&q)
         .fetch_one(pool)
