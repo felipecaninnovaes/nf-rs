@@ -1,9 +1,8 @@
 use axum::{extract::Path, http::StatusCode, response::IntoResponse, Extension};
 use core_sql::{
-    modules::empresas::select::select_all_empresas_by_cnpj,
+    modules::{empresas::select::select_all_empresas_by_cnpj, permissoes::select::get_permissions},
     structs::empresas::empresa_struct::EmpresasGetModel,
 };
-use nfe::modules::sql::select::get_permissions;
 use serde::Serialize;
 use sqlx::{Pool, Postgres};
 use std::error::Error;

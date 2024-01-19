@@ -1,13 +1,13 @@
 use axum::{extract::Path, http::StatusCode, response::IntoResponse, Extension, Json};
 
 use core_sql::modules::empresas::update::update_empresa;
+use core_sql::modules::permissoes::select::get_permissions;
 use core_sql::structs::empresas::empresa_struct::UpdateEmpresasModel;
-use nfe::modules::sql::select::get_permissions;
 use sqlx::{Pool, Postgres};
 
 use crate::services::utils::parse::parse_uuid;
 
-use crate::services::utils::{api_ok::APIOk, api_error::APIError};
+use crate::services::utils::{api_error::APIError, api_ok::APIOk};
 
 pub async fn update_empresas(
     Extension(_pool): Extension<Pool<Postgres>>,
@@ -28,22 +28,20 @@ pub async fn update_empresas(
             let result = update_empresa(&_pool, empresas).await;
             match result {
                 Ok(_) => Ok(APIOk {
-            message: "Empresa atualizado com sucesso".to_owned(),
-            status_code: StatusCode::ACCEPTED,
-        }),
-        Err(_) => Err(APIError {
-            message: "Erro ao atualizar empresa".to_owned(),
-            status_code: StatusCode::INTERNAL_SERVER_ERROR,
-            error_code: Some(42),
-        }),
-            } 
+                    message: "Empresa atualizado com sucesso".to_owned(),
+                    status_code: StatusCode::ACCEPTED,
+                }),
+                Err(_) => Err(APIError {
+                    message: "Erro ao atualizar empresa".to_owned(),
+                    status_code: StatusCode::INTERNAL_SERVER_ERROR,
+                    error_code: Some(42),
+                }),
+            }
         }
-        None => {
-            Err(APIError {
-                message: "Você não tem permissão para atualizar essa empresa".to_owned(),
-                status_code: StatusCode::FORBIDDEN,
-                error_code: Some(43),
-            })
-        }
+        None => Err(APIError {
+            message: "Você não tem permissão para atualizar essa empresa".to_owned(),
+            status_code: StatusCode::FORBIDDEN,
+            error_code: Some(43),
+        }),
     }
 }

@@ -16,3 +16,4 @@ dotenv = "0.15.0"
 uuid = { version = "1.6.1", features = ["serde","v4"] }
 
 xml_json = { path = "../xml_json" }
+core_sql = { path = "../core_sql"} 
