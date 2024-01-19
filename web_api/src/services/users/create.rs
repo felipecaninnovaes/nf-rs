@@ -34,6 +34,7 @@ pub async fn create_user(
         Ok(_) => Ok(APIOk {
             message: "Usuario cadastrado com sucesso".to_owned(),
             status_code: StatusCode::CREATED,
+            data: None,
         }),
         Err(_) => Err(APIError {
             message: "Erro ao inserir usuario".to_owned(),

@@ -30,6 +30,7 @@ pub async fn update_empresas(
                 Ok(_) => Ok(APIOk {
                     message: "Empresa atualizado com sucesso".to_owned(),
                     status_code: StatusCode::ACCEPTED,
+                    data: None,
                 }),
                 Err(_) => Err(APIError {
                     message: "Erro ao atualizar empresa".to_owned(),

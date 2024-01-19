@@ -9,6 +9,7 @@ use serde_json::json;
 pub struct APIOk {
     pub message: String,
     pub status_code: StatusCode,
+    pub data: Option<serde_json::Value>,
 }
 
 impl IntoResponse for APIOk {
@@ -17,7 +18,7 @@ impl IntoResponse for APIOk {
         (
             status_code,
             [(header::CONTENT_TYPE, "application/json")],
-            Json(json!({ "StatusCode": self.status_code.as_u16(),"Message": self.message })),
+            Json(json!({ "StatusCode": self.status_code.as_u16(),"Message": self.message, "Data": self.data  })),
         )
             .into_response()
     }

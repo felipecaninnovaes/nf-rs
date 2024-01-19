@@ -4,7 +4,7 @@ use core_sql::{
 };
 use sqlx::{Pool, Postgres};
 
-use crate::services::utils::{api_ok::APIOk, api_error::APIError};
+use crate::services::utils::{api_error::APIError, api_ok::APIOk};
 
 pub async fn update_user_post(
     Extension(_pool): Extension<Pool<Postgres>>,
@@ -21,6 +21,7 @@ pub async fn update_user_post(
         Ok(_) => Ok(APIOk {
             message: "Usuaio atualizado com sucesso".to_owned(),
             status_code: StatusCode::ACCEPTED,
+            data: None,
         }),
         Err(_) => Err(APIError {
             message: "Erro ao inserir usuario".to_owned(),
@@ -29,4 +30,3 @@ pub async fn update_user_post(
         }),
     }
 }
-
