@@ -1,7 +1,15 @@
 use sqlx::PgPool;
 use std::error::Error;
+use uuid::Uuid;
 
-use crate::structs::usuarios::struct_user::{UserSelectModel, UserSelectModelPassword};
+use crate::{
+    modules::empresas::select::select_empresas_by_id,
+    structs::{
+        empresas::empresa_struct::EmpresasCnpjModel,
+        permissoes::struct_permissions::PermissionsEmpresaId,
+        usuarios::struct_user::{UserSelectModel, UserSelectModelPassword},
+    },
+};
 
 #[allow(dead_code)]
 pub async fn select_user_by_email(
@@ -43,4 +51,26 @@ pub async fn select_all_users(pool: &PgPool) -> Result<Vec<UserSelectModel>, Box
         Ok(user) => Ok(user),
         Err(_) => Err("Usuario não encontrado".into()),
     }
+}
+
+#[allow(dead_code)]
+pub async fn select_all_user_cnpj_permissoes(
+    pool: &PgPool,
+    iduser: Uuid,
+) -> Result<Vec<EmpresasCnpjModel>, Box<dyn Error>> {
+    let empresas_id_vec =
+        "SELECT permissions_empresa_id FROM permissions WHERE permissions_user_id = $1";
+    let result: Vec<PermissionsEmpresaId> =
+        sqlx::query_as::<_, PermissionsEmpresaId>(empresas_id_vec)
+            .bind(iduser)
+            .fetch_all(pool)
+            .await?;
+    let mut result_vec = Vec::new();
+    for row in result {
+        let empresa = select_empresas_by_id(pool, &row.permissions_empresa_id).await?;
+        result_vec.push(EmpresasCnpjModel {
+            cnpj: empresa.cnpj.clone(),
+        });
+    }
+    Ok(result_vec)
 }

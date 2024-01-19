@@ -1,4 +1,5 @@
 use sqlx::PgPool;
+use uuid::Uuid;
 use std::error::Error;
 
 use crate::structs::empresas::empresa_struct::EmpresasGetModel;
@@ -9,7 +10,25 @@ pub async fn select_all_empresas_by_cnpj(
     cnpj: &str,
 ) -> Result<Vec<EmpresasGetModel>, Box<dyn Error>> {
     let q = format!("SELECT * FROM empresas WHERE cnpj = '{}'", cnpj);
-    match sqlx::query_as::<_, EmpresasGetModel>(&q).fetch_all(pool).await {
+    match sqlx::query_as::<_, EmpresasGetModel>(&q)
+        .fetch_all(pool)
+        .await
+    {
+        Ok(empresas) => Ok(empresas),
+        Err(_) => Err("Empresa não encontrada".into()),
+    }
+}
+
+#[allow(dead_code)]
+pub async fn select_empresas_by_id(
+    pool: &PgPool,
+    idempresa: &Uuid,
+) -> Result<EmpresasGetModel, Box<dyn Error>> {
+    let q = format!("SELECT * FROM empresas WHERE idempresa = '{}'", idempresa);
+    match sqlx::query_as::<_, EmpresasGetModel>(&q)
+        .fetch_one(pool)
+        .await
+    {
         Ok(empresas) => Ok(empresas),
         Err(_) => Err("Empresa não encontrada".into()),
     }

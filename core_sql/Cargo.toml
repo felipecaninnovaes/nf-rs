@@ -9,7 +9,7 @@ edition = "2021"
 tokio = { version = "1.35.1", features = ["full"] }
 uuid = { version = "1.6.1", features = ["serde","v4"] }
 chrono = {version ="0.4.31", features = ["serde"] }
-sqlx = { version = "0.7.3", features = ["postgres", "runtime-tokio-rustls", "uuid", "time", "chrono"] }
+sqlx = { version = "0.7.3", features = ["postgres", "runtime-tokio-rustls", "uuid", "time", "chrono", "macros"] }
 serde_json = "1.0.111"
 serde = { version = "1.0.195", features = ["derive"] }
 dotenv = "0.15.0"

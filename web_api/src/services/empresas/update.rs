@@ -1,7 +1,7 @@
 use axum::{extract::Path, http::StatusCode, response::IntoResponse, Extension, Json};
 
 use core_sql::modules::empresas::update::update_empresa;
-use core_sql::modules::permissoes::select::get_permissions;
+use core_sql::modules::permissoes::select::select_all_user_permissions;
 use core_sql::structs::empresas::empresa_struct::UpdateEmpresasModel;
 use sqlx::{Pool, Postgres};
 
@@ -22,7 +22,7 @@ pub async fn update_empresas(
             error_code: Some(41),
         })?,
     };
-    let permissions = get_permissions(&_pool, user_id).await.unwrap();
+    let permissions = select_all_user_permissions(&_pool, user_id).await.unwrap();
     match permissions.iter().find(|&x| x.cnpj == empresas.cnpj) {
         Some(_) => {
             let result = update_empresa(&_pool, empresas).await;

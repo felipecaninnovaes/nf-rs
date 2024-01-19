@@ -37,7 +37,6 @@ pub struct EmpresasGetModel {
     pub regime_tributario: String,
 }
 
-
 #[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
 pub struct EmpresasMicroModel {
     pub uuid: Uuid,
@@ -78,9 +77,6 @@ pub struct UpdateEmpresasModel {
 }
 
 #[derive(Debug, Deserialize, sqlx::FromRow, Serialize, Clone)]
-pub struct PermissionsModel {
-    pub permissions_idpermission: Uuid,
-    pub permissions_user_id: Uuid,
-    pub permissions_empresa_id: Uuid,
-    pub permissions_allowed: bool,
+pub struct EmpresasCnpjModel {
+    pub cnpj: String,
 }

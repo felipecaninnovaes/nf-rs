@@ -1,6 +1,9 @@
 use axum::{extract::Path, http::StatusCode, response::IntoResponse, Extension};
 use core_sql::{
-    modules::{empresas::select::select_all_empresas_by_cnpj, permissoes::select::get_permissions},
+    modules::{
+        empresas::select::select_all_empresas_by_cnpj,
+        permissoes::select::select_all_user_permissions,
+    },
     structs::empresas::empresa_struct::EmpresasGetModel,
 };
 use serde::Serialize;
@@ -30,7 +33,7 @@ pub async fn get_all_empresas(
     path: Path<String>,
 ) -> impl IntoResponse {
     let user_id = Uuid::parse_str(path.0.as_str()).unwrap();
-    let vec_cnpjs = get_permissions(&_pool, user_id).await.unwrap();
+    let vec_cnpjs = select_all_user_permissions(&_pool, user_id).await.unwrap();
     let mut empresas: Vec<EmpresasGetModel> = Vec::new();
     for row in vec_cnpjs {
         let res = get_empresas_from_cnpj(&_pool, row.cnpj).await.unwrap();
