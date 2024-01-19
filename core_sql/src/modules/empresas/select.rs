@@ -1,17 +1,17 @@
 use sqlx::PgPool;
-use uuid::Uuid;
 use std::error::Error;
+use uuid::Uuid;
 
 use crate::structs::empresas::empresa_struct::EmpresasGetModel;
 
 #[allow(dead_code)]
-pub async fn select_all_empresas_by_cnpj(
+pub async fn select_empresas_by_cnpj(
     pool: &PgPool,
     cnpj: &str,
-) -> Result<Vec<EmpresasGetModel>, Box<dyn Error>> {
+) -> Result<EmpresasGetModel, Box<dyn Error + Send + Sync>> {
     let q = format!("SELECT * FROM empresas WHERE cnpj = '{}'", cnpj);
     match sqlx::query_as::<_, EmpresasGetModel>(&q)
-        .fetch_all(pool)
+        .fetch_one(pool)
         .await
     {
         Ok(empresas) => Ok(empresas),
