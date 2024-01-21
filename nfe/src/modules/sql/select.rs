@@ -1,3 +1,4 @@
+#![allow(dead_code, unused_variables)]
 use crate::modules::json::structs::nfe_struct::{NfeJoinSelect, NfeSelect};
 // use core_sql::modules::usuarios::select::select_all_user_cnpj_permissoes;
 use sqlx::Row;

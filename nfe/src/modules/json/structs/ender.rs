@@ -15,5 +15,5 @@ pub struct Ender {
 
 #[derive(Debug, PartialEq, FromRow)]
 pub struct EnderId {
-  pub ender_idender: i32,
+    pub ender_idender: i32,
 }

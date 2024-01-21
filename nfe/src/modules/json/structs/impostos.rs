@@ -1,3 +1,10 @@
+use sqlx::prelude::FromRow;
+
+#[derive(Debug, PartialEq, FromRow)]
+pub struct IcmsId {
+    pub icms_idicms: i32,
+}
+
 #[derive(Debug, PartialEq)]
 pub struct Icms {
     pub icms_orig: i64,
@@ -6,6 +13,11 @@ pub struct Icms {
     pub icms_vbc: f64,
     pub icms_picms: f64,
     pub icms_vicms: f64,
+}
+
+#[derive(Debug, PartialEq, FromRow)]
+pub struct IpiId {
+    pub ipi_idipi: i32,
 }
 
 #[derive(Debug, PartialEq)]
@@ -17,6 +29,11 @@ pub struct Ipi {
     pub ipi_vipi: i64,
 }
 
+#[derive(Debug, PartialEq, FromRow)]
+pub struct PisId {
+    pub pis_idpis: i32,
+}
+
 #[derive(Debug, PartialEq)]
 pub struct Pis {
     pub pis_cst: i64,
@@ -24,6 +41,12 @@ pub struct Pis {
     pub pis_ppis: f64,
     pub pis_vpis: f64,
 }
+
+#[derive(Debug, PartialEq, FromRow)]
+pub struct CofinsId {
+    pub cofins_idcofins: i32,
+}
+
 #[derive(Debug, PartialEq)]
 pub struct Cofins {
     pub cofins_cst: i64,
@@ -31,6 +54,12 @@ pub struct Cofins {
     pub cofins_pcofins: f64,
     pub cofins_vcofins: f64,
 }
+
+#[derive(Debug, PartialEq, FromRow)]
+pub struct IcmsUfDestId {
+    pub icms_uf_dest_idicmsufdest: i32,
+}
+
 #[derive(Debug, PartialEq)]
 pub struct IcmsUfDest {
     pub icms_uf_vbcufdest: f64,
@@ -43,6 +72,12 @@ pub struct IcmsUfDest {
     pub icms_uf_vicmsufdest: f64,
     pub icms_uf_vicmsufremet: f64,
 }
+
+#[derive(Debug, PartialEq, FromRow)]
+pub struct ImpostoId {
+    pub imposto_idimposto: i32,
+}
+
 #[derive(Debug, PartialEq)]
 pub struct Imposto {
     pub imposto_icms: Icms,
