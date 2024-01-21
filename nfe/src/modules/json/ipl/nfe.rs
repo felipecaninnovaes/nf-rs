@@ -1,6 +1,6 @@
 use xml_json::to_json_from_file;
 
-use crate::modules::{json::structs::{dest::Dest, emit::Emit, nfe::Nfe, produtos::Produto}, util::parse_utils::parse_value_to_f64};
+use crate::modules::{json::structs::{dest::Dest, emit::Emit, nfe_struct::Nfe, produtos::Produto}, util::parse_utils::parse_value_to_f64};
 
 impl Nfe {
     #[allow(dead_code)]

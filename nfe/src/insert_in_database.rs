@@ -1,4 +1,4 @@
-use crate::modules::json::structs::nfe::Nfe;
+use crate::modules::json::structs::nfe_struct::Nfe;
 use crate::modules::sql::connection_postgres::start_connection;
 use crate::modules::sql::insert::{insert_nfe, insert_produto};
 use crate::modules::util::read_folder::{list_folder, remove_file};

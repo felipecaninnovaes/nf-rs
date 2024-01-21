@@ -1,4 +1,4 @@
-use crate::modules::json::structs::impostos::Imposto;
+use super::impostos::Imposto;
 
 #[derive(Debug, PartialEq)]
 pub struct Produto {

@@ -1,3 +1,5 @@
+use sqlx::FromRow;
+
 #[derive(Debug, PartialEq)]
 pub struct Ender {
     pub ender_cep: String,
@@ -9,4 +11,9 @@ pub struct Ender {
     pub ender_xcpl: String,
     pub ender_xlgr: String,
     pub ender_xmun: String,
+}
+
+#[derive(Debug, PartialEq, FromRow)]
+pub struct EnderId {
+  pub ender_idender: i32,
 }
