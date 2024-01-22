@@ -57,7 +57,7 @@ pub struct Cofins {
 
 #[derive(Debug, PartialEq, FromRow)]
 pub struct IcmsUfDestId {
-    pub icms_uf_dest_idicmsufdest: i32,
+    pub icms_uf_idicmsufdest: i32,
 }
 
 #[derive(Debug, PartialEq)]
