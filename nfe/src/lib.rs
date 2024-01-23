@@ -1,4 +1,3 @@
-pub mod insert_in_database;
 pub mod modules; // Add crate attribute to enable unstable library feature 'test'
 
 #[cfg(test)]

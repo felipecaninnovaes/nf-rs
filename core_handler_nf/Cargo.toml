@@ -6,3 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+tokio = { version = "1.35.1", features = ["full"] }
+dotenv = "0.15.0"
+
+nfe = { path = "../nfe" }
+core_sql = { path = "../core_sql" }

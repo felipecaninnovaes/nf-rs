@@ -363,6 +363,12 @@ checksum = "06ea2b9bc92be3c2baa9334a323ebca2d6f074ff852cd1d7b11064035cd3868f"
 [[package]]
 name = "core_handler_nf"
 version = "0.1.0"
+dependencies = [
+ "core_sql",
+ "dotenv",
+ "nfe",
+ "tokio",
+]
 
 [[package]]
 name = "core_sql"
@@ -2338,6 +2344,7 @@ checksum = "7ab9b36309365056cd639da3134bf87fa8f3d86008abf99e612384a6eecd459f"
 name = "watcher"
 version = "0.1.0"
 dependencies = [
+ "core_handler_nf",
  "dotenv",
  "nfe",
  "tokio",

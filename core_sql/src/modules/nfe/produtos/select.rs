@@ -17,3 +17,15 @@ pub async fn select_produto_id(
         .await?;
     Ok(result)
 }
+
+pub async fn select_products_id_from_nfe(
+    pool: &sqlx::PgPool,
+    nfeid: &i32,
+) -> Result<Vec<ProdutoId>, Box<dyn Error>> {
+    let q = "SELECT produto_idproduto FROM nfe_produto WHERE produto_idnfe = $1";
+    let result = sqlx::query_as::<_, ProdutoId>(q)
+        .bind(nfeid)
+        .fetch_all(pool)
+        .await?;
+    Ok(result)
+}

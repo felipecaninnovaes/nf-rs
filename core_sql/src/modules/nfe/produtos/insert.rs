@@ -19,6 +19,7 @@ pub async fn insert_produto_sql(
     for p in produto {
         match select_produto_id(pool, &p.produto_nitem, idnfe).await {
             Ok(idproduto) => {
+                println!("Produto já existe");
                 insert_cofins_sql(
                     pool,
                     &p.imposto.imposto_cofins,
