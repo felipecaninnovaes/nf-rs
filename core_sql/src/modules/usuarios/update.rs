@@ -5,7 +5,8 @@ use crate::structs::usuarios::struct_user::UserModelUpdate;
 
 #[allow(dead_code)]
 pub async fn update_user(pool: &PgPool, user: UserModelUpdate) -> Result<(), Box<dyn Error>> {
-    sqlx::query!(
+    // TODO: não está validando se o id do usuario é valido.
+    let result = sqlx::query!(
         r#"UPDATE users SET firstname = $1, secondname = $2, email = $3 WHERE iduser = $4"#,
         user.firstname,
         user.secondname,
@@ -14,6 +15,6 @@ pub async fn update_user(pool: &PgPool, user: UserModelUpdate) -> Result<(), Box
     )
     .execute(pool)
     .await?;
-
+    println!("Rows affected: {:?}", result);
     Ok(())
 }

@@ -1,0 +1,28 @@
+meta {
+  name: UPDATE USUARIO
+  type: http
+  seq: 4
+}
+
+post {
+  url: https://dev-api.homelab.felipecncloud.com/api/user/update
+  body: json
+  auth: bearer
+}
+
+headers {
+  id-user: f5bc4271-e893-4a26-941e-3b35ed10a952
+}
+
+auth:bearer {
+  token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6ImY1YmM0MjcxLWU4OTMtNGEyNi05NDFlLTNiMzVlZDEwYTk1MiIsImVtYWlsIjoidGVzdGVAZmVsaXBlY25jbG91ZC5jb20iLCJleHAiOjE3MDYyMzIzNzgsImlhdCI6MTcwNjE0NTk3OH0.eXVtXLZGI97X8qh-6o1Tc1pSLZMuVUkRuYzRXrwsrPk
+}
+
+body:json {
+  {
+    "iduser": "f72f39e1-d793-4891-b6d9-eba4fc26bf63",
+    "firstname": "Teste",
+    "secondname": "Teste API",
+    "email": "teste@felipecncloud.com"
+  }
+}
