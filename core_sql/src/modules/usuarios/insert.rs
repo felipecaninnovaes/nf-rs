@@ -1,23 +1,23 @@
-use chrono::Utc;
 use sqlx::PgPool;
 use std::error::Error;
-use uuid::Uuid;
 
-use crate::structs::usuarios::struct_user::CreateUserModel;
+use crate::{
+    modules::utils::create::{create_id_and_current_date, CreateIdAndCurrentDateModel},
+    structs::usuarios::struct_user::CreateUserModel,
+};
 
 #[allow(dead_code)]
 pub async fn insert_user(pool: &PgPool, user: CreateUserModel) -> Result<(), Box<dyn Error>> {
-    let uuid = Uuid::new_v4();
-    let created_at = Utc::now().naive_utc().date(); 
+    let id_and_current_date: CreateIdAndCurrentDateModel = create_id_and_current_date();
 
     let result = sqlx::query!(
         r#"INSERT INTO users (iduser, firstname, secondname, email, password, created_at) VALUES ($1, $2, $3, $4, $5, $6)"#,
-        uuid,
+        id_and_current_date.id,
         user.firstname,
         user.secondname,
         user.email,
         user.password,
-        created_at
+        id_and_current_date.current_date,
     )
     .execute(pool)
     .await?;

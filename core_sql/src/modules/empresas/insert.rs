@@ -1,21 +1,22 @@
-use chrono::Utc;
 use sqlx::PgPool;
 use std::error::Error;
 use uuid::Uuid;
 
-use crate::structs::empresas::empresa_struct::CreateEmpresasModel;
+use crate::{
+    modules::utils::create::{create_id_and_current_date, CreateIdAndCurrentDateModel},
+    structs::empresas::empresa_struct::CreateEmpresasModel,
+};
 
 #[allow(dead_code)]
 pub async fn insert_empresa(
     pool: &PgPool,
     empresa: CreateEmpresasModel,
 ) -> Result<Uuid, Box<dyn Error + Send + Sync>> {
-    let uuid = Uuid::new_v4();
-    let created_at = Utc::now().naive_utc().date();
+    let id_and_current_date: CreateIdAndCurrentDateModel = create_id_and_current_date();
 
     let result = sqlx::query!(
         r#"INSERT INTO empresas (idempresa, nome, nome_fant, cnpj, rua, numero, bairro, cidade, estado, cep, telefone, email, regime_tributario, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)"#,
-        uuid,
+        id_and_current_date.id,
         empresa.nome.to_uppercase(),
         empresa.nome_fant.to_uppercase(),
         empresa.cnpj,
@@ -28,13 +29,13 @@ pub async fn insert_empresa(
         empresa.telefone,
         empresa.email,
         empresa.regime_tributario.to_uppercase(),
-        created_at
+        id_and_current_date.current_date,
     )
     .execute(pool)
     .await?;
 
     match result.rows_affected() {
-        1 => Ok(uuid),
+        1 => Ok(id_and_current_date.id),
         _ => Err("Failed to insert user".into()),
     }
 }

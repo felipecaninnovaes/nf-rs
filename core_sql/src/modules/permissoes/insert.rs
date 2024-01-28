@@ -1,10 +1,12 @@
 use std::error::Error;
 
-use chrono::Utc;
 use sqlx::{Pool, Postgres};
 use uuid::Uuid;
 
-use crate::modules::empresas::select::select_empresas_by_id;
+use crate::modules::{
+    empresas::select::select_empresas_by_id,
+    utils::create::{create_id_and_current_date, CreateIdAndCurrentDateModel},
+};
 
 use super::select::select_all_user_permissions;
 
@@ -14,11 +16,20 @@ pub async fn insert_query(
     empresa_id: Uuid,
     allowed: bool,
 ) -> Result<(), Box<dyn Error + Sync + Send>> {
-    let uuid = Uuid::new_v4();
-    let created_at = Utc::now().naive_utc();
-    let q = format!("INSERT INTO permissions (permissions_idpermission, permissions_user_id, permissions_empresa_id, permissions_allowed, permissions_created_at) VALUES ('{}', '{}', '{}', '{}', '{}')" , uuid, user_id, empresa_id, allowed, created_at);
-    sqlx::query(&q).execute(pool).await.unwrap();
-    Ok(())
+    let id_and_current_date: CreateIdAndCurrentDateModel = create_id_and_current_date();
+    let result = sqlx::query!(
+        r#"INSERT INTO permissions (permissions_idpermission, permissions_user_id, permissions_empresa_id, permissions_allowed, permissions_created_at) VALUES ($1, $2, $3, $4, $5)"#,
+        id_and_current_date.id,
+        user_id,
+        empresa_id,
+        allowed,
+        id_and_current_date.current_date,
+    ).execute(pool).await?;
+
+    match result.rows_affected() {
+        1 => Ok(()),
+        _ => Err("Failed to insert user".into()),
+    }
 }
 
 #[allow(dead_code)]

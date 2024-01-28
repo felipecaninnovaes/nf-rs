@@ -1,11 +1,18 @@
 use sqlx::PgPool;
 use std::error::Error;
 
-use crate::structs::usuarios::struct_user::UserModelUpdate;
+use crate::{
+    modules::usuarios::select::select_user_by_id, structs::usuarios::struct_user::UserModelUpdate,
+};
 
 #[allow(dead_code)]
 pub async fn update_user(pool: &PgPool, user: UserModelUpdate) -> Result<(), Box<dyn Error>> {
     // TODO: não está validando se o id do usuario é valido.
+    //
+    let user_exists = select_user_by_id(pool, &user.iduser.to_string()).await?;
+    if user_exists.is_empty() {
+        return Err("User not found".into());
+    }
     let result = sqlx::query!(
         r#"UPDATE users SET firstname = $1, secondname = $2, email = $3 WHERE iduser = $4"#,
         user.firstname,
@@ -15,6 +22,5 @@ pub async fn update_user(pool: &PgPool, user: UserModelUpdate) -> Result<(), Box
     )
     .execute(pool)
     .await?;
-    println!("Rows affected: {:?}", result);
     Ok(())
 }
