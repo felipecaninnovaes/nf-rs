@@ -10,9 +10,9 @@ pub struct Icms {
     pub icms_orig: i64,
     pub icms_cst: i64,
     pub icms_modbc: i64,
-    pub icms_vbc: f64,
-    pub icms_picms: f64,
-    pub icms_vicms: f64,
+    pub icms_vbc: String,
+    pub icms_picms: String,
+    pub icms_vicms: String,
 }
 
 #[derive(Debug, PartialEq, FromRow)]

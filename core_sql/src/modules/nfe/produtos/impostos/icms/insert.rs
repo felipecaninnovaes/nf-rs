@@ -18,9 +18,9 @@ pub async fn insert_icms_sql(
                 .bind(imposto.icms_orig)
                 .bind(imposto.icms_cst)
                 .bind(imposto.icms_modbc)
-                .bind(imposto.icms_vbc)
-                .bind(imposto.icms_picms)
-                .bind(imposto.icms_vicms)
+                .bind(&imposto.icms_vbc)
+                .bind(&imposto.icms_picms)
+                .bind(&imposto.icms_vicms)
                 .bind(idproduto)
                 .fetch_one(pool)
                 .await?
