@@ -16,9 +16,9 @@ pub async fn insert_pis_sql(
         Err(_) => {
             let result = sqlx::query(q)
                 .bind(imposto.pis_cst)
-                .bind(imposto.pis_vbc)
-                .bind(imposto.pis_ppis)
-                .bind(imposto.pis_vpis)
+                .bind(&imposto.pis_vbc)
+                .bind(&imposto.pis_ppis)
+                .bind(&imposto.pis_vpis)
                 .bind(idproduto)
                 .fetch_one(pool)
                 .await?
@@ -27,4 +27,3 @@ pub async fn insert_pis_sql(
         }
     }
 }
-

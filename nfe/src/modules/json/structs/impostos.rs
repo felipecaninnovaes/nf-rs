@@ -37,9 +37,9 @@ pub struct PisId {
 #[derive(Debug, PartialEq)]
 pub struct Pis {
     pub pis_cst: i64,
-    pub pis_vbc: f64,
-    pub pis_ppis: f64,
-    pub pis_vpis: f64,
+    pub pis_vbc: String,
+    pub pis_ppis: String,
+    pub pis_vpis: String,
 }
 
 #[derive(Debug, PartialEq, FromRow)]
