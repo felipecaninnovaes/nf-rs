@@ -24,7 +24,7 @@ pub struct IpiId {
 pub struct Ipi {
     pub ipi_cenq: i64,
     pub ipi_cst: i64,
-    pub ipi_vbc: f64,
+    pub ipi_vbc: String,
     pub ipi_pipi: i64,
     pub ipi_vipi: i64,
 }

@@ -1,5 +1,5 @@
 use crate::modules::json::structs::impostos::Ipi;
-use crate::modules::util::parse_utils::{parse_value_to_f64, parse_value_to_i64};
+use crate::modules::util::parse_utils::{parse_value_to_i64, parse_value_to_string};
 use serde_json::Value;
 impl Ipi {
     #[allow(dead_code)]
@@ -7,7 +7,7 @@ impl Ipi {
         Ipi {
             ipi_cenq: 0,
             ipi_cst: 0,
-            ipi_vbc: 0.0,
+            ipi_vbc: "Null".to_string(),
             ipi_pipi: 0,
             ipi_vipi: 0,
         }
@@ -23,14 +23,14 @@ impl Ipi {
             (_, &Value::Null) => Ipi {
                 ipi_cenq: parse_value_to_i64(&ipi["cEnq"]),
                 ipi_cst: parse_value_to_i64(&ipi_cst["CST"]),
-                ipi_vbc: 0.0,
+                ipi_vbc: "Null".to_string(),
                 ipi_pipi: 0,
                 ipi_vipi: 0,
             },
             _ => Ipi {
                 ipi_cenq: parse_value_to_i64(&ipi["cEnq"]),
                 ipi_cst: parse_value_to_i64(&ipi_cst_trib["CST"]),
-                ipi_vbc: parse_value_to_f64(&ipi_cst_trib["vBC"]),
+                ipi_vbc: parse_value_to_string(&ipi_cst_trib["vBC"]),
                 ipi_pipi: parse_value_to_i64(&ipi_cst_trib["pIPI"]),
                 ipi_vipi: parse_value_to_i64(&ipi_cst_trib["vIPI"]),
             },

@@ -17,7 +17,7 @@ pub async fn insert_ipi_sql(
             let result = sqlx::query(q)
                 .bind(imposto.ipi_cenq)
                 .bind(imposto.ipi_cst)
-                .bind(imposto.ipi_vbc)
+                .bind(&imposto.ipi_vbc)
                 .bind(imposto.ipi_pipi)
                 .bind(imposto.ipi_vipi)
                 .bind(idproduto)
@@ -28,4 +28,3 @@ pub async fn insert_ipi_sql(
         }
     }
 }
-
