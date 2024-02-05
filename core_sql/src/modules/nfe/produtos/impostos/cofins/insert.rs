@@ -19,9 +19,9 @@ pub async fn insert_cofins_sql(
         Err(_) => {
             let result = sqlx::query(q)
                 .bind(imposto.cofins_cst)
-                .bind(imposto.cofins_vbc)
-                .bind(imposto.cofins_pcofins)
-                .bind(imposto.cofins_vcofins)
+                .bind(&imposto.cofins_vbc)
+                .bind(&imposto.cofins_pcofins)
+                .bind(&imposto.cofins_vcofins)
                 .bind(idproduto)
                 .fetch_one(pool)
                 .await?

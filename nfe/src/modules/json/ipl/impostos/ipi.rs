@@ -7,7 +7,7 @@ impl Ipi {
         Ipi {
             ipi_cenq: 0,
             ipi_cst: 0,
-            ipi_vbc: "Null".to_string(),
+            ipi_vbc: "0.0".to_string(),
             ipi_pipi: 0,
             ipi_vipi: 0,
         }
@@ -23,7 +23,7 @@ impl Ipi {
             (_, &Value::Null) => Ipi {
                 ipi_cenq: parse_value_to_i64(&ipi["cEnq"]),
                 ipi_cst: parse_value_to_i64(&ipi_cst["CST"]),
-                ipi_vbc: "Null".to_string(),
+                ipi_vbc: "0.0".to_string(),
                 ipi_pipi: 0,
                 ipi_vipi: 0,
             },

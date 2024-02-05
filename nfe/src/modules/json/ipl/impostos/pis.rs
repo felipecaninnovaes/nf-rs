@@ -7,9 +7,9 @@ impl Pis {
     pub fn empty() -> Pis {
         Pis {
             pis_cst: 0,
-            pis_vbc: "Null".to_string(),
-            pis_ppis: "Null".to_string(),
-            pis_vpis: "Null".to_string(),
+            pis_vbc: "0.0".to_string(),
+            pis_ppis: "0.0".to_string(),
+            pis_vpis: "0.0".to_string(),
         }
     }
 

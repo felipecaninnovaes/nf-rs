@@ -50,9 +50,9 @@ pub struct CofinsId {
 #[derive(Debug, PartialEq)]
 pub struct Cofins {
     pub cofins_cst: i64,
-    pub cofins_vbc: f64,
-    pub cofins_pcofins: f64,
-    pub cofins_vcofins: f64,
+    pub cofins_vbc: String,
+    pub cofins_pcofins: String,
+    pub cofins_vcofins: String,
 }
 
 #[derive(Debug, PartialEq, FromRow)]
