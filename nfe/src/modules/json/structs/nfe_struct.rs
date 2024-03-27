@@ -31,7 +31,7 @@ pub struct Nfe {
     pub nfe_tpimp: String,
     pub nfe_tpnf: String,
     pub nfe_verproc: String,
-    pub nfe_nftotal: f64,
+    pub nfe_nftotal: String,
     pub nfe_emit: Emit,
     pub nfe_dest: Dest,
     pub nfe_produtos: Vec<Produto>,

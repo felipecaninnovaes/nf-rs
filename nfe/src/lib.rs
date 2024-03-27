@@ -47,7 +47,7 @@ mod tests {
             nfe_tpimp: "1".to_string(),
             nfe_tpnf: "1".to_string(),
             nfe_verproc: "Notamax 1.0".to_string(),
-            nfe_nftotal: 149.70,
+            nfe_nftotal: "149.70".to_string(),
             nfe_emit: Emit {
                 emit_cnpjcpf: "99999999999999".to_string(),
                 emit_crt: "3".to_string(),
@@ -290,7 +290,7 @@ mod tests {
             nfe_tpimp: "1".to_string(),
             nfe_tpnf: "1".to_string(),
             nfe_verproc: "Notamax 1.0".to_string(),
-            nfe_nftotal: 74.99,
+            nfe_nftotal: "74.99".to_string(),
             nfe_emit: Emit {
                 emit_cnpjcpf: "99999999999999".to_string(),
                 emit_crt: "3".to_string(),

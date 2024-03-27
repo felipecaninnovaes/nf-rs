@@ -1,9 +1,6 @@
 use xml_json::to_json_from_file;
 
-use crate::modules::{
-    json::structs::{dest::Dest, emit::Emit, nfe_struct::Nfe, produtos::Produto},
-    util::parse_utils::parse_value_to_f64,
-};
+use crate::modules::json::structs::{dest::Dest, emit::Emit, nfe_struct::Nfe, produtos::Produto};
 
 impl Nfe {
     #[allow(dead_code)]
@@ -30,7 +27,7 @@ impl Nfe {
             nfe_tpimp: "Null".to_string(),
             nfe_tpnf: "Null".to_string(),
             nfe_verproc: "Null".to_string(),
-            nfe_nftotal: 0.0,
+            nfe_nftotal: "0.0".to_string(),
             nfe_emit: Emit::empty(),
             nfe_dest: Dest::empty(),
             nfe_produtos: Produto::empty(),
@@ -65,7 +62,7 @@ impl Nfe {
             nfe_tpimp: parse_value_to_string(&base_nfe["tpImp"]),
             nfe_tpnf: parse_value_to_string(&base_nfe["tpNF"]),
             nfe_verproc: parse_value_to_string(&base_nfe["verProc"]),
-            nfe_nftotal: parse_value_to_f64(
+            nfe_nftotal: parse_value_to_string(
                 &base["nfeProc"]["NFe"]["infNFe"]["total"]["ICMSTot"]["vNF"],
             ),
             nfe_emit: Emit::new(&base),
