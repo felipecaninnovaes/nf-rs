@@ -62,15 +62,15 @@ pub struct IcmsUfDestId {
 
 #[derive(Debug, PartialEq)]
 pub struct IcmsUfDest {
-    pub icms_uf_vbcufdest: f64,
-    pub icms_uf_vbcfcpufdest: f64,
-    pub icms_uf_pfcpufdest: f64,
-    pub icms_uf_picmsufdest: f64,
-    pub icms_uf_picmsinter: f64,
-    pub icms_uf_picmsinterpart: f64,
-    pub icms_uf_vfcpufdest: f64,
-    pub icms_uf_vicmsufdest: f64,
-    pub icms_uf_vicmsufremet: f64,
+    pub icms_uf_vbcufdest: String,
+    pub icms_uf_vbcfcpufdest: String,
+    pub icms_uf_pfcpufdest: String,
+    pub icms_uf_picmsufdest: String,
+    pub icms_uf_picmsinter: String,
+    pub icms_uf_picmsinterpart: String,
+    pub icms_uf_vfcpufdest: String,
+    pub icms_uf_vicmsufdest: String,
+    pub icms_uf_vicmsufremet: String,
 }
 
 #[derive(Debug, PartialEq, FromRow)]
