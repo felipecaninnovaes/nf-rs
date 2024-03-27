@@ -13,13 +13,13 @@ impl Produto {
             produto_ncm: "Null".to_string(),
             produto_cfop: "Null".to_string(),
             produto_ucom: "Null".to_string(),
-            produto_qcom: 0.0,
-            produto_vuncom: 0.0,
-            produto_vprod: 0.0,
+            produto_qcom: "0.0".to_string(),
+            produto_vuncom: "0.0".to_string(),
+            produto_vprod: "0.0".to_string(),
             produto_ceantrib: "Null".to_string(),
             produto_utrib: "Null".to_string(),
-            produto_qtrib: 0.0,
-            produto_vuntrib: 0.0,
+            produto_qtrib: "0.0".to_string(),
+            produto_vuntrib: "0.0".to_string(),
             produto_indtot: "Null".to_string(),
             produto_xped: "Null".to_string(),
             imposto: Imposto {
@@ -33,7 +33,7 @@ impl Produto {
     }
 
     pub fn new(base: &Value) -> Vec<Produto> {
-        use crate::modules::util::parse_utils::{parse_value_to_f64, parse_value_to_string};
+        use crate::modules::util::parse_utils::parse_value_to_string;
         let mut result: Vec<Produto> = Vec::new();
         let dest_cnpj = &base["nfeProc"]["NFe"]["infNFe"]["dest"]["CNPJ"];
         let det = &base["nfeProc"]["NFe"]["infNFe"]["det"];
@@ -51,13 +51,13 @@ impl Produto {
                             produto_ncm: parse_value_to_string(&prod["NCM"]),
                             produto_cfop: parse_value_to_string(&prod["CFOP"]),
                             produto_ucom: parse_value_to_string(&prod["uCom"]),
-                            produto_qcom: parse_value_to_f64(&prod["qCom"]),
-                            produto_vuncom: parse_value_to_f64(&prod["vUnCom"]),
-                            produto_vprod: parse_value_to_f64(&prod["vProd"]),
+                            produto_qcom: parse_value_to_string(&prod["qCom"]),
+                            produto_vuncom: parse_value_to_string(&prod["vUnCom"]),
+                            produto_vprod: parse_value_to_string(&prod["vProd"]),
                             produto_ceantrib: parse_value_to_string(&prod["cEANTrib"]),
                             produto_utrib: parse_value_to_string(&prod["uTrib"]),
-                            produto_qtrib: parse_value_to_f64(&prod["qTrib"]),
-                            produto_vuntrib: parse_value_to_f64(&prod["vUnTrib"]),
+                            produto_qtrib: parse_value_to_string(&prod["qTrib"]),
+                            produto_vuntrib: parse_value_to_string(&prod["vUnTrib"]),
                             produto_indtot: parse_value_to_string(&prod["indTot"]),
                             produto_xped: parse_value_to_string(&prod["xPed"]),
                             imposto: Imposto {
@@ -82,13 +82,13 @@ impl Produto {
                     produto_ncm: parse_value_to_string(&prod["NCM"]),
                     produto_cfop: parse_value_to_string(&prod["CFOP"]),
                     produto_ucom: parse_value_to_string(&prod["uCom"]),
-                    produto_qcom: parse_value_to_f64(&prod["qCom"]),
-                    produto_vuncom: parse_value_to_f64(&prod["vUnCom"]),
-                    produto_vprod: parse_value_to_f64(&prod["vProd"]),
+                    produto_qcom: parse_value_to_string(&prod["qCom"]),
+                    produto_vuncom: parse_value_to_string(&prod["vUnCom"]),
+                    produto_vprod: parse_value_to_string(&prod["vProd"]),
                     produto_ceantrib: parse_value_to_string(&prod["cEANTrib"]),
                     produto_utrib: parse_value_to_string(&prod["uTrib"]),
-                    produto_qtrib: parse_value_to_f64(&prod["qTrib"]),
-                    produto_vuntrib: parse_value_to_f64(&prod["vUnTrib"]),
+                    produto_qtrib: parse_value_to_string(&prod["qTrib"]),
+                    produto_vuntrib: parse_value_to_string(&prod["vUnTrib"]),
                     produto_indtot: parse_value_to_string(&prod["indTot"]),
                     produto_xped: parse_value_to_string(&prod["xPed"]),
                     imposto: Imposto {
