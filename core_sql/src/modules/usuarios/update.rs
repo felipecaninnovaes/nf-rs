@@ -13,7 +13,7 @@ pub async fn update_user(pool: &PgPool, user: UserModelUpdate) -> Result<(), Box
     if user_exists.is_empty() {
         return Err("User not found".into());
     }
-    let result = sqlx::query!(
+    sqlx::query!(
         r#"UPDATE users SET firstname = $1, secondname = $2, email = $3 WHERE iduser = $4"#,
         user.firstname,
         user.secondname,
