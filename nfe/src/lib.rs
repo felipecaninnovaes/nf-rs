@@ -12,8 +12,9 @@ mod tests {
 
     #[test]
     fn read_folder() {
-        let input = crate::modules::util::read_folder::list_folder("tests/data")
+        let mut input = crate::modules::util::read_folder::list_folder("tests/data")
             .expect("Error reading folder");
+        input.sort();
         let expected: Vec<String> = vec![
             "tests/data/1.xml".to_string(),
             "tests/data/2.xml".to_string(),
