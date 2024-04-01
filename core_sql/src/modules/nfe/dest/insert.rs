@@ -1,5 +1,8 @@
 #![allow(dead_code)]
-use nfe::modules::json::structs::{dest::{Dest, DestId}, ender::EnderId};
+use nfe::modules::json::structs::{
+    dest::{Dest, DestId},
+    ender::EnderId,
+};
 
 use crate::modules::nfe::ender::insert::insert_ender_sql;
 
@@ -24,6 +27,4 @@ pub async fn insert_dest_sql(pool: &sqlx::PgPool, dest: &Dest) -> Result<DestId,
             })
         }
     }
-
-    // Ok(Result)
 }

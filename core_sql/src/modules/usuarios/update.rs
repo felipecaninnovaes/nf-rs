@@ -7,8 +7,6 @@ use crate::{
 
 #[allow(dead_code)]
 pub async fn update_user(pool: &PgPool, user: UserModelUpdate) -> Result<(), Box<dyn Error>> {
-    // TODO: não está validando se o id do usuario é valido.
-    //
     let user_exists = select_user_by_id(pool, &user.iduser.to_string()).await?;
     if user_exists.is_empty() {
         return Err("User not found".into());

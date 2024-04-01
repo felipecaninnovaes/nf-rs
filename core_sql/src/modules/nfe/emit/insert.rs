@@ -1,5 +1,8 @@
 #![allow(dead_code)]
-use nfe::modules::json::structs::{emit::{Emit, EmitId}, ender::EnderId};
+use nfe::modules::json::structs::{
+    emit::{Emit, EmitId},
+    ender::EnderId,
+};
 
 use crate::modules::nfe::ender::insert::insert_ender_sql;
 
@@ -25,6 +28,4 @@ pub async fn insert_emit_sql(pool: &sqlx::PgPool, emit: &Emit) -> Result<EmitId,
             })
         }
     }
-
-    // Ok(Result)
 }

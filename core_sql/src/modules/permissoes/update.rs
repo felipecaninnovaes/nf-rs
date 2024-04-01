@@ -19,7 +19,5 @@ pub async fn update_permissions(
     .execute(pool)
     .await?;
 
-    // let q = format!("UPDATE permissions SET cnpj = '{}', permissions_user_id = '{}', permissions_allowed = '{}' WHERE id = '{}'", permission.cnpj, permission.permissions_user_id, permission.permissions_allowed, permission.permissions_idpermission);
-    // sqlx::query(&q).execute(pool).await?;
     Ok(())
 }

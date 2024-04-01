@@ -12,7 +12,6 @@ pub async fn insert_pis_sql(
     imposto: &Pis,
     idproduto: &i32,
 ) -> Result<PisId, Box<dyn Error>> {
-    // let q = "INSERT INTO nfe_pis (pis_cst, pis_vbc, pis_ppis, pis_vpis, pis_idproduto) VALUES ($1, $2, $3, $4, $5) RETURNING pis_idpis";
     match select_pis_id(pool, idproduto).await {
         Ok(imposto_id) => Ok(imposto_id),
         Err(_) => {
@@ -25,15 +24,6 @@ pub async fn insert_pis_sql(
                 idproduto,
             );
             let result = map.fetch_one(pool).await.unwrap();
-            // let result = sqlx::query(q)
-            //     .bind(imposto.pis_cst)
-            //     .bind(imposto.pis_vbc)
-            //     .bind(imposto.pis_ppis)
-            //     .bind(imposto.pis_vpis)
-            //     .bind(idproduto)
-            //     .fetch_one(pool)
-            //     .await?
-            //     .get::<i32, _>(0);
             Ok(PisId {
                 pis_idpis: result.pis_idpis,
             })

@@ -23,6 +23,4 @@ pub async fn insert_ender_sql(pool: &sqlx::PgPool, ender: &Ender) -> Result<Ende
             })
         }
     }
-
-    // Ok(Result)
 }
