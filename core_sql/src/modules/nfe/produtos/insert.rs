@@ -3,10 +3,13 @@ use nfe::modules::json::structs::produtos::Produto;
 use sqlx::Row;
 use std::error::Error;
 
-use crate::modules::nfe::produtos::impostos::{
-    cofins::insert::insert_cofins_sql, icms::insert::insert_icms_sql,
-    icms_uf_dest::insert::insert_icms_uf_dest_sql, ipi::insert::insert_ipi_sql,
-    pis::insert::insert_pis_sql,
+use crate::modules::{
+    nfe::produtos::impostos::{
+        cofins::insert::insert_cofins_sql, icms::insert::insert_icms_sql,
+        icms_uf_dest::insert::insert_icms_uf_dest_sql, ipi::insert::insert_ipi_sql,
+        pis::insert::insert_pis_sql,
+    },
+    utils::parser::parse_value_to_bigdecimal,
 };
 
 use super::select::select_produto_id;
@@ -45,29 +48,26 @@ pub async fn insert_produto_sql(
                     .unwrap();
             }
             Err(_) => {
-                let q = "INSERT INTO nfe_produto (produto_nitem, produto_cprod, produto_cean, produto_xprod, produto_ncm, produto_cfop, produto_ucom, produto_qcom, produto_vuncom, produto_vprod, produto_ceantrib, produto_utrib, produto_qtrib, produto_vuntrib, produto_indtot, produto_xped, produto_idnfe) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15,$16, $17) RETURNING produto_idproduto";
-                let idproduto = sqlx::query(q)
-                    .bind(&p.produto_nitem)
-                    .bind(&p.produto_cprod)
-                    .bind(&p.produto_cean)
-                    .bind(&p.produto_xprod)
-                    .bind(&p.produto_ncm)
-                    .bind(&p.produto_cfop)
-                    .bind(&p.produto_ucom)
-                    .bind(p.produto_qcom)
-                    .bind(p.produto_vuncom)
-                    .bind(p.produto_vprod)
-                    .bind(&p.produto_ceantrib)
-                    .bind(&p.produto_utrib)
-                    .bind(p.produto_qtrib)
-                    .bind(p.produto_vuntrib)
-                    .bind(&p.produto_indtot)
-                    .bind(&p.produto_xped)
-                    .bind(idnfe)
-                    .fetch_one(pool)
-                    .await
-                    .unwrap()
-                    .get::<i32, _>(0);
+                let idproduto = sqlx::query!(
+                    r#"INSERT INTO nfe_produto (produto_nitem, produto_cprod, produto_cean, produto_xprod, produto_ncm, produto_cfop, produto_ucom, produto_qcom, produto_vuncom, produto_vprod, produto_ceantrib, produto_utrib, produto_qtrib, produto_vuntrib, produto_indtot, produto_xped, produto_idnfe) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,$15, $16, $17) RETURNING produto_idproduto"#,
+                    p.produto_nitem,
+                    p.produto_cprod,
+                    p.produto_cean,
+                    p.produto_xprod,
+                    p.produto_ncm,
+                    p.produto_cfop,
+                    p.produto_ucom,
+                    parse_value_to_bigdecimal(&p.produto_qcom),
+                    parse_value_to_bigdecimal(&p.produto_vuncom),
+                    parse_value_to_bigdecimal(&p.produto_vprod),
+                    p.produto_ceantrib,
+                    p.produto_utrib,
+                    parse_value_to_bigdecimal(&p.produto_qtrib),
+                    parse_value_to_bigdecimal(&p.produto_vuntrib),
+                    p.produto_indtot,
+                    p.produto_xped,
+                    idnfe,
+                ).fetch_one(pool).await.unwrap().produto_idproduto;
 
                 // insert impostos
                 insert_cofins_sql(pool, &p.imposto.imposto_cofins, &idproduto)
