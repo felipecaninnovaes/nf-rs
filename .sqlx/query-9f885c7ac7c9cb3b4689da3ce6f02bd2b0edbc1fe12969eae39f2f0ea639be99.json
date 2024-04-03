@@ -1,0 +1,38 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO nfe_produto (produto_nitem, produto_cprod, produto_cean, produto_xprod, produto_ncm, produto_cfop, produto_ucom, produto_qcom, produto_vuncom, produto_vprod, produto_ceantrib, produto_utrib, produto_qtrib, produto_vuntrib, produto_indtot, produto_xped, produto_idnfe) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,$15, $16, $17) RETURNING produto_idproduto",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "produto_idproduto",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Numeric",
+        "Numeric",
+        "Numeric",
+        "Varchar",
+        "Varchar",
+        "Numeric",
+        "Numeric",
+        "Varchar",
+        "Varchar",
+        "Int4"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "9f885c7ac7c9cb3b4689da3ce6f02bd2b0edbc1fe12969eae39f2f0ea639be99"
+}
