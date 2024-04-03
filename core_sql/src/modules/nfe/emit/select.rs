@@ -2,7 +2,6 @@ use std::error::Error;
 
 use nfe::modules::json::structs::emit::EmitId;
 
-
 pub async fn select_emit_id(
     pool: &sqlx::PgPool,
     cnpj_cpf: &String,

@@ -11,7 +11,6 @@ use crate::services::{
 };
 
 pub fn auth_routes() -> Router {
-
     let cors = CorsLayer::new()
         // allow `GET` and `POST` when accessing the resource
         .allow_methods([Method::GET, Method::POST])

@@ -3,12 +3,12 @@ use core_sql::modules::usuarios::select::select_user_by_email;
 use serde::Serialize;
 use sqlx::{Pool, Postgres};
 
-use crate::services::{utils::api_error::APIError, users::struct_users::{LoginUserModel, LoginUserResponseModel}};
-
-use super::{
-    jwt::encode_jwt,
-     argon2::check,
+use crate::services::{
+    users::struct_users::{LoginUserModel, LoginUserResponseModel},
+    utils::api_error::APIError,
 };
+
+use super::{argon2::check, jwt::encode_jwt};
 
 #[derive(Debug, Serialize)]
 pub struct ErrorResponse {
@@ -20,11 +20,13 @@ pub async fn login_user_post(
     Extension(_pool): Extension<Pool<Postgres>>,
     Json(user_data): Json<LoginUserModel>,
 ) -> Result<Json<LoginUserResponseModel>, APIError> {
-    let user = select_user_by_email(&_pool, &user_data.email).await.map_err(|_| APIError {
-        message: "Failed to login".to_owned(),
-        status_code: StatusCode::UNAUTHORIZED,
-        error_code: Some(41),
-    })?;
+    let user = select_user_by_email(&_pool, &user_data.email)
+        .await
+        .map_err(|_| APIError {
+            message: "Failed to login".to_owned(),
+            status_code: StatusCode::UNAUTHORIZED,
+            error_code: Some(41),
+        })?;
 
     match check(&user_data.password, &user[0].password) {
         Ok(true) => (),

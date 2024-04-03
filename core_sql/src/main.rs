@@ -1,9 +1,9 @@
-use core_sql::{structs::usuarios::struct_user::CreateUserModel, modules::usuarios::insert::insert_user};
+use core_sql::{
+    modules::usuarios::insert::insert_user, structs::usuarios::struct_user::CreateUserModel,
+};
 #[allow(unused_imports)]
-
 mod modules;
 mod structs;
-
 
 #[tokio::main]
 async fn main() {

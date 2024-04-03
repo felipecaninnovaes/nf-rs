@@ -14,4 +14,3 @@ pub async fn select_icms_id(
         .await?;
     Ok(result)
 }
-

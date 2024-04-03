@@ -9,4 +9,3 @@ pub async fn main() {
         println!("Migrations ran successfully");
     }
 }
-

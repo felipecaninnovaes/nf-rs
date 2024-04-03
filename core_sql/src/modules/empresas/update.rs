@@ -4,7 +4,10 @@ use std::error::Error;
 use crate::structs::empresas::empresa_struct::UpdateEmpresasModel;
 
 #[allow(dead_code)]
-pub async fn update_empresa(pool: &PgPool, empresa: UpdateEmpresasModel) -> Result<(), Box<dyn Error>> {
+pub async fn update_empresa(
+    pool: &PgPool,
+    empresa: UpdateEmpresasModel,
+) -> Result<(), Box<dyn Error>> {
     sqlx::query!(
         r#"UPDATE empresas SET nome = $1 ,nome_fant = $2 ,rua = $3 ,numero = $4 ,bairro = $5 ,cidade = $6 ,estado = $7 ,cep = $8 ,telefone = $9 ,email = $10 ,regime_tributario = $11 WHERE cnpj= $12"#,
         empresa.nome.to_uppercase(),

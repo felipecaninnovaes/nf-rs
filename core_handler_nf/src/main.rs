@@ -5,5 +5,3 @@ async fn main() {
     dotenv().ok();
     migration::main().await;
 }
-
-

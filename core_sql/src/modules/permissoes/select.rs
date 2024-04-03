@@ -15,7 +15,8 @@ pub async fn select_user_permission_by_empresa_id(
     match sqlx::query_as::<_, Permissions>(q)
         .bind(user_id)
         .bind(empresa_id)
-        .fetch_one(pool).await
+        .fetch_one(pool)
+        .await
     {
         Ok(permissions) => Ok(permissions),
         Err(_) => Err("Permissão não encontrada".into()),

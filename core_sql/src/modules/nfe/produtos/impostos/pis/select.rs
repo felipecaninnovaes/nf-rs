@@ -11,4 +11,3 @@ pub async fn select_pis_id(pool: &sqlx::PgPool, idproduto: &i32) -> Result<PisId
         .await?;
     Ok(result)
 }
-

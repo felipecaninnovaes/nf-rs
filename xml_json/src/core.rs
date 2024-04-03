@@ -2,10 +2,6 @@ use quick_xml::events::Event;
 use quick_xml::Reader;
 use serde_json::{Map, Value};
 
-/// Estrutura de erro.
-// #[derive(Debug)]
-// pub struct Error {}
-
 /// Função para ler o XML e converter para JSON.
 pub fn read(reader: &mut Reader<&[u8]>, _depth: u64) -> Value {
     let mut buf = Vec::new();
