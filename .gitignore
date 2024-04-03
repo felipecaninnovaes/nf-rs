@@ -5,3 +5,4 @@
 .env
 /web_api/src/public/uploads/*/*.xml
 **/.DS_Store
+/bruno-api-test
