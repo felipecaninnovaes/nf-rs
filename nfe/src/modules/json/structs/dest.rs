@@ -1,3 +1,5 @@
+use sqlx::prelude::FromRow;
+
 use super::ender::Ender;
 
 #[allow(dead_code)]
@@ -9,4 +11,10 @@ pub struct Dest {
     pub dest_ender: Ender,
     pub dest_xnome: String,
     pub dest_indiedest: String,
+}
+
+#[allow(dead_code)]
+#[derive(Debug, PartialEq, FromRow)]
+pub struct DestId {
+    pub dest_iddest: i32,
 }

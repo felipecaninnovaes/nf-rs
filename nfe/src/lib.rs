@@ -1,4 +1,3 @@
-pub mod insert_in_database;
 pub mod modules; // Add crate attribute to enable unstable library feature 'test'
 
 #[cfg(test)]
@@ -8,13 +7,14 @@ mod tests {
     use crate::modules::json::structs::emit::Emit;
     use crate::modules::json::structs::ender::Ender;
     use crate::modules::json::structs::impostos::*;
-    use crate::modules::json::structs::nfe::Nfe;
+    use crate::modules::json::structs::nfe_struct::Nfe;
     use crate::modules::json::structs::produtos::Produto;
 
     #[test]
     fn read_folder() {
-        let input = crate::modules::util::read_folder::list_folder("tests/data")
+        let mut input = crate::modules::util::read_folder::list_folder("tests/data")
             .expect("Error reading folder");
+        input.sort();
         let expected: Vec<String> = vec![
             "tests/data/1.xml".to_string(),
             "tests/data/2.xml".to_string(),

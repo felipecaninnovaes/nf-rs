@@ -1,21 +1,21 @@
-use crate::services::{auth::argon2::encrypt, utils::api_error::APIError};
-use axum::{http::StatusCode, response::IntoResponse, Json};
-use chrono::Utc;
-use dotenv::dotenv;
-use nfe::modules::sql::connection_postgres::start_connection;
-use uuid::Uuid;
+use crate::services::{
+    auth::argon2::encrypt,
+    utils::{api_error::APIError, api_ok::APIOk},
+};
+use axum::{http::StatusCode, response::IntoResponse, Extension, Json};
+use core_sql::{
+    modules::usuarios::{insert::insert_user, select::select_user_by_email},
+    structs::usuarios::struct_user::CreateUserModel,
+};
+use sqlx::{Pool, Postgres};
 
-use super::struct_users::CreateUserModel;
+pub async fn create_user(
+    Extension(_pool): Extension<Pool<Postgres>>,
+    Json(user): Json<CreateUserModel>,
+) -> Result<impl IntoResponse, APIError> {
+    let result = select_user_by_email(&_pool, &user.email).await.unwrap();
 
-pub async fn create_user(Json(user): Json<CreateUserModel>) -> Result<impl IntoResponse, APIError> {
-    dotenv().ok();
-
-    let _pool = start_connection().await;
-
-    let select_user = format!("SELECT * FROM users WHERE email = '{}'", user.email);
-    let result = sqlx::query(&select_user).fetch_one(&_pool).await;
-
-    if result.is_ok() {
+    if !result.is_empty() {
         return Err(APIError {
             message: "Usuario já cadastrado".to_owned(),
             status_code: StatusCode::CONFLICT,
@@ -23,10 +23,23 @@ pub async fn create_user(Json(user): Json<CreateUserModel>) -> Result<impl IntoR
         });
     }
 
-    let uuid = Uuid::new_v4();
-    let created_at = Utc::now().naive_utc();
     let encrypt_password = encrypt(user.password.as_str()).unwrap();
-    let q = format!("INSERT INTO users (iduser, firstname, secondname, email, password, created_at) VALUES ('{}','{}', '{}', '{}', '{}','{}')" , uuid, user.firstname, user.secondname, user.email, encrypt_password, created_at);
-    sqlx::query(&q).execute(&_pool).await.unwrap();
-    Ok((StatusCode::OK, "Usuario criado com sucesso"))
+    let user = CreateUserModel {
+        firstname: user.firstname,
+        secondname: user.secondname,
+        email: user.email,
+        password: encrypt_password,
+    };
+    match insert_user(&_pool, user).await {
+        Ok(_) => Ok(APIOk {
+            message: "Usuario cadastrado com sucesso".to_owned(),
+            status_code: StatusCode::CREATED,
+            data: None,
+        }),
+        Err(_) => Err(APIError {
+            message: "Erro ao inserir usuario".to_owned(),
+            status_code: StatusCode::INTERNAL_SERVER_ERROR,
+            error_code: Some(42),
+        }),
+    }
 }

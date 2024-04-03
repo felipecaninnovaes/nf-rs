@@ -1,19 +1,22 @@
 use axum::{http::StatusCode, response::IntoResponse, Extension};
 use sqlx::{Pool, Postgres};
 
-use super::struct_users::UserListResponseModel;
+use core_sql::modules::usuarios::select::select_all_users;
 
-pub async fn select_all_users(Extension(_pool): Extension<Pool<Postgres>>) -> impl IntoResponse {
-    let q = "SELECT iduser, firstname, secondname, email FROM users";
-    let result = sqlx::query_as::<_, UserListResponseModel>(q)
-        .fetch_all(&_pool)
-        .await
-        .unwrap();
-    match serde_json::to_string(&result) {
-        Ok(json) => (StatusCode::OK, json),
-        Err(_) => (
-            StatusCode::INTERNAL_SERVER_ERROR,
-            "Error to convert json".to_owned(),
-        ),
+use crate::services::utils::{api_error::APIError, api_ok::APIOk};
+
+pub async fn select_users(Extension(_pool): Extension<Pool<Postgres>>) -> impl IntoResponse {
+    let usuarios = select_all_users(&_pool).await.unwrap();
+    match usuarios.len() {
+        0 => Err(APIError {
+            message: "Nenhum usuarios encontrado".to_owned(),
+            status_code: StatusCode::NOT_FOUND,
+            error_code: Some(44),
+        }),
+        _ => Ok(APIOk {
+            message: "Usuarios encontrados com sucesso".to_owned(),
+            status_code: StatusCode::OK,
+            data: Some(serde_json::to_value(usuarios).unwrap()),
+        }),
     }
 }

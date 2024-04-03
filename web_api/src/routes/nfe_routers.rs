@@ -1,13 +1,14 @@
 use axum::{
     http::Method,
-    routing::{get, post, delete},
+    routing::{delete, get, post},
     Router,
 };
 use tower_http::cors::{Any, CorsLayer};
 
 use crate::services::nfe::{
+    delete::delete_nfe_by_id,
     get::{get_all_nfe, get_nfe_by_dest, get_nfe_by_emit},
-    upload::upload, delete::delete_nfe_by_id,
+    upload::upload,
 };
 
 pub fn nfe_routes() -> Router {

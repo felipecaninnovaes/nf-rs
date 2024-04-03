@@ -1,0 +1,30 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO nfe_ender (ender_cep, ender_uf, ender_cmun, ender_cpais, ender_nro, ender_xbairro, ender_xcpl, ender_xlgr, ender_xmun) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING ender_idender",
+  "describe": {
+    "columns": [
+      {
+        "ordinal": 0,
+        "name": "ender_idender",
+        "type_info": "Int4"
+      }
+    ],
+    "parameters": {
+      "Left": [
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar"
+      ]
+    },
+    "nullable": [
+      false
+    ]
+  },
+  "hash": "b49d942b5750060b2107136c714eaf0855b294c500fa4f4d237e835423fc286c"
+}

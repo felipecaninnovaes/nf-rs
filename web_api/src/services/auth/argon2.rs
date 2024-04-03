@@ -45,7 +45,6 @@ pub fn encrypt(password: &str) -> anyhow::Result<String> {
     let algorithm = Algorithm::try_from(ident).map_err(|e| anyhow!(e))?; // = Algorithm::Argon2id
     let version = Version::try_from(encryption_data.version).map_err(|e| anyhow!(e))?; // = Version::V0x13
 
-
     let params = Params::new(
         encryption_data.memory_cost,
         encryption_data.time_cost,

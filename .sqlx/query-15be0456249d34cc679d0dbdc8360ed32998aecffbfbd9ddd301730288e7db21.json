@@ -1,0 +1,25 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE empresas SET nome = $1 ,nome_fant = $2 ,rua = $3 ,numero = $4 ,bairro = $5 ,cidade = $6 ,estado = $7 ,cep = $8 ,telefone = $9 ,email = $10 ,regime_tributario = $11 WHERE cnpj= $12",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Varchar",
+        "Text"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "15be0456249d34cc679d0dbdc8360ed32998aecffbfbd9ddd301730288e7db21"
+}

@@ -1,3 +1,5 @@
+use sqlx::prelude::FromRow;
+
 use super::ender::Ender;
 
 #[allow(dead_code)]
@@ -10,4 +12,10 @@ pub struct Emit {
     pub ender_emit: Ender,
     pub emit_xfant: String,
     pub emit_xnome: String,
+}
+
+#[allow(dead_code)]
+#[derive(Debug, PartialEq, FromRow)]
+pub struct EmitId {
+    pub emit_idemit: i32,
 }

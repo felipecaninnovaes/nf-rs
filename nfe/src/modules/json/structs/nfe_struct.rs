@@ -2,6 +2,12 @@ use super::{dest::Dest, emit::Emit, produtos::Produto};
 use serde::{Deserialize, Serialize};
 use sqlx::prelude::FromRow;
 use uuid::Uuid;
+
+#[derive(Debug, Serialize, Deserialize, FromRow)]
+pub struct NfeId {
+    pub nfe_idnfe: i32,
+}
+
 #[derive(Debug, PartialEq)]
 pub struct Nfe {
     pub nfe_cdv: String,
