@@ -1,7 +1,7 @@
 {
   "layout": "Catanduva",
   "identifier": { "key": "CompNfse", "value": "@xmlns" },
-  "nfse": [
+  "dados_nfse": [
     { "field": "Numero", "fieldtype": "CompNfse, Nfse, InfNfse" },
     { "field": "Competencia", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico" },
     { "field": "CodigoMunicipio", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico" },
@@ -13,20 +13,20 @@
     { "field": "ResponsavelRetencao", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico" }
   ],
   "prestador": [
-    { "field": "Cnpj", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, PrestadorServico, IdentificacaoPrestador, CpfCnpj" },
-    { "field": "InscricaoMunicipal", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, PrestadorServico, InfDeclaracaoPrestacaoServico, Prestador" },
-    { "field": "NomeFantasia", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, PrestadorServico" },
-    { "field": "RazaoSocial", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, PrestadorServico" },
-    { "field": "Bairro", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, Endereco" },
-    { "field": "Cep", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, Endereco" },
-    { "field": "CodigoMunicipio", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, Endereco" },
-    { "field": "CodigoPais", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, Endereco" },
-    { "field": "Complemento", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, Endereco" },
-    { "field": "Endereco", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, Endereco" },
-    { "field": "Numero", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, Endereco" },
-    { "field": "Uf", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, Endereco" },
-    { "field": "Email", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, Contrato" },
-    { "field": "Telefone", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, Contrato" }
+    { "field": "Cnpj", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico, IdentificacaoPrestador, CpfCnpj" },
+    { "field": "InscricaoMunicipal", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Prestador" },
+    { "field": "NomeFantasia", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico" },
+    { "field": "RazaoSocial", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico" },
+    { "field": "Bairro", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico, Endereco" },
+    { "field": "Cep", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico, Endereco" },
+    { "field": "CodigoMunicipio", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico, Endereco" },
+    { "field": "CodigoPais", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico, Endereco" },
+    { "field": "Complemento", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico, Endereco" },
+    { "field": "Endereco", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico, Endereco" },
+    { "field": "Numero", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico, Endereco" },
+    { "field": "Uf", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico, Endereco" },
+    { "field": "Email", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico, Contato" },
+    { "field": "Telefone", "fieldtype": "CompNfse, Nfse, InfNfse, PrestadorServico, Contato" }
   ],
   "tomador": [
     { "field": "Cnpj", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Tomador, IdentificacaoTomador, CpfCnpj" },
@@ -38,8 +38,8 @@
     { "field": "Endereco", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Tomador, Endereco" },
     { "field": "Numero", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Tomador, Endereco" },
     { "field": "Uf", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Tomador, Endereco" },
-    { "field": "Email", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Tomador, Contrato" },
-    { "field": "Telefone", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Tomador, Contrato" }
+    { "field": "Email", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Tomador, Contato" },
+    { "field": "Telefone", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Tomador, Contato" }
   ],
   "valores": [
     { "field": "Aliquota", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico, Valores" },
@@ -53,6 +53,6 @@
     { "field": "ValorIr", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico, Valores" },
     { "field": "ValorIss", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico, Valores" },
     { "field": "ValorPis", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico, Valores" },
-    { "field": "ValorServicos", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico, Valores" },
+    { "field": "ValorServicos", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico, Valores" }
   ]
 }

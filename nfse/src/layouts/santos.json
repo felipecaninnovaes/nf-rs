@@ -54,6 +54,6 @@
     { "field": "ValorIr", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico, Valores" },
     { "field": "ValorIss", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico, Valores" },
     { "field": "ValorPis", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico, Valores" },
-    { "field": "ValorServicos", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico, Valores" },
+    { "field": "ValorServicos", "fieldtype": "CompNfse, Nfse, InfNfse, DeclaracaoPrestacaoServico, InfDeclaracaoPrestacaoServico, Servico, Valores" }
   ]
 }
