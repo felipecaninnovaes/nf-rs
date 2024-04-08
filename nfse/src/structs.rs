@@ -49,6 +49,7 @@ pub struct Tomador {
 #[derive(Deserialize, Debug)]
 pub struct Valores {
     pub aliquota: String,
+    pub base_calculo: String,
     pub desconto_incondicionado: String,
     pub desconto_condicionado: String,
     pub outras_retencoes: String,
@@ -89,5 +90,5 @@ pub struct Identifier {
 #[derive(Deserialize, Debug)]
 pub struct Data {
     pub field: String,
-    pub fieldtype: String,
+    pub fieldpath: String,
 }

@@ -44,8 +44,8 @@ fn check_layout(nfse_json: &serde_json::Value, layout_folder: &str) -> Result<Co
 }
 
 fn get_field(data: &Data, nfse_json: &serde_json::Value) -> Option<String> {
-    let binding = data.fieldtype.replace(' ', "");
-    let data_path = binding.split(',').collect::<Vec<&str>>();
+    let binding = data.fieldpath.replace(' ', "");
+    let data_path = binding.split('/').collect::<Vec<&str>>();
     let mut field_value = nfse_json;
     for data_field in data_path {
         let field = &field_value[data_field];
@@ -110,17 +110,18 @@ fn parse_in_nfse(nfse_json: &serde_json::Value, config: Config) {
     let valores: Valores = {
         Valores {
             aliquota: get_field(&config.valores[0], nfse_json).unwrap(),
-            desconto_incondicionado: get_field(&config.valores[1], nfse_json).unwrap(),
-            desconto_condicionado: get_field(&config.valores[2], nfse_json).unwrap(),
-            outras_retencoes: get_field(&config.valores[3], nfse_json).unwrap(),
-            valor_cofins: get_field(&config.valores[4], nfse_json).unwrap(),
-            valor_csll: get_field(&config.valores[5], nfse_json).unwrap(),
-            valor_deducoes: get_field(&config.valores[6], nfse_json).unwrap(),
-            valor_inss: get_field(&config.valores[7], nfse_json).unwrap(),
-            valor_ir: get_field(&config.valores[8], nfse_json).unwrap(),
-            valor_iss: get_field(&config.valores[9], nfse_json).unwrap(),
-            valor_pis: get_field(&config.valores[10], nfse_json).unwrap(),
-            valor_servicos: get_field(&config.valores[11], nfse_json).unwrap(),
+            base_calculo: get_field(&config.valores[1], nfse_json).unwrap(),
+            desconto_incondicionado: get_field(&config.valores[2], nfse_json).unwrap(),
+            desconto_condicionado: get_field(&config.valores[3], nfse_json).unwrap(),
+            outras_retencoes: get_field(&config.valores[4], nfse_json).unwrap(),
+            valor_cofins: get_field(&config.valores[5], nfse_json).unwrap(),
+            valor_csll: get_field(&config.valores[6], nfse_json).unwrap(),
+            valor_deducoes: get_field(&config.valores[7], nfse_json).unwrap(),
+            valor_inss: get_field(&config.valores[8], nfse_json).unwrap(),
+            valor_ir: get_field(&config.valores[9], nfse_json).unwrap(),
+            valor_iss: get_field(&config.valores[10], nfse_json).unwrap(),
+            valor_pis: get_field(&config.valores[11], nfse_json).unwrap(),
+            valor_servicos: get_field(&config.valores[12], nfse_json).unwrap(),
         }
     };
 
@@ -146,5 +147,6 @@ pub fn get_nfse(nfse_layout_folder_path: &str, nfse_json_path: &str) {
 fn main() {
     let nfse_layout_folder_path = "/home/felipecn/Desktop/PROJECTS/nf-rs/nfse/src/layouts";
     let nfse_json_path = "/home/felipecn/Desktop/PROJECTS/nf-rs/nfse/src/models/model_nfse_catanduva_01_normal_com_rps.xml";
+    println!("{}", to_json_from_file(nfse_json_path).unwrap());
     get_nfse(nfse_layout_folder_path, nfse_json_path);
 }

@@ -46,8 +46,8 @@ impl Display for Valores {
     fn fmt(&self, f: &mut Formatter) -> Result {
         write!(
             f,
-            "aliquota: {}\ndesconto_incondicionado: {}\ndesconto_condicionado: {}\noutras_retencoes: {}\nvalor_cofins: {}\nvalor_csll: {}\nvalor_deducoes: {}\nvalor_inss: {}\nvalor_ir: {}\nvalor_iss: {}\nvalor_pis: {}\nvalor_servicos: {}",
-            self.aliquota, self.desconto_incondicionado, self.desconto_condicionado, self.outras_retencoes, self.valor_cofins, self.valor_csll, self.valor_deducoes, self.valor_inss, self.valor_ir, self.valor_iss, self.valor_pis, self.valor_servicos
+            "aliquota: {}\nbase_calculo: {}\ndesconto_incondicionado: {}\ndesconto_condicionado: {}\noutras_retencoes: {}\nvalor_cofins: {}\nvalor_csll: {}\nvalor_deducoes: {}\nvalor_inss: {}\nvalor_ir: {}\nvalor_iss: {}\nvalor_pis: {}\nvalor_servicos: {}",
+            self.aliquota, self.base_calculo, self.desconto_incondicionado, self.desconto_condicionado, self.outras_retencoes, self.valor_cofins, self.valor_csll, self.valor_deducoes, self.valor_inss, self.valor_ir, self.valor_iss, self.valor_pis, self.valor_servicos
         )
     }
 }
