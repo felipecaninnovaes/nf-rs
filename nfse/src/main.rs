@@ -74,36 +74,54 @@ fn parse_in_nfse(nfse_json: &serde_json::Value, config: Config) {
 
     let prestador: Prestador = {
         Prestador {
-            cnpj: get_field(&config.prestador[0], nfse_json).unwrap(),
-            inscricao_municipal: get_field(&config.prestador[1], nfse_json).unwrap(),
-            nome_fantasia: get_field(&config.prestador[2], nfse_json).unwrap(),
-            razao_social: get_field(&config.prestador[3], nfse_json).unwrap(),
-            bairro: get_field(&config.prestador[4], nfse_json).unwrap(),
-            cep: get_field(&config.prestador[5], nfse_json).unwrap(),
-            codigo_municipio: get_field(&config.prestador[6], nfse_json).unwrap(),
-            codigo_pais: get_field(&config.prestador[7], nfse_json).unwrap(),
-            complemento: get_field(&config.prestador[8], nfse_json).unwrap(),
-            endereco: get_field(&config.prestador[9], nfse_json).unwrap(),
-            numero: get_field(&config.prestador[10], nfse_json).unwrap(),
-            uf: get_field(&config.prestador[11], nfse_json).unwrap(),
-            email: get_field(&config.prestador[12], nfse_json).unwrap(),
-            telefone: get_field(&config.prestador[13], nfse_json).unwrap(),
+            cnpj: get_field(&config.prestador_json.dados_prestador.cnpj, nfse_json).unwrap(),
+            inscricao_municipal: get_field(
+                &config.prestador_json.dados_prestador.inscricao_municipal,
+                nfse_json,
+            )
+            .unwrap(),
+            nome_fantasia: get_field(
+                &config.prestador_json.dados_prestador.nome_fantasia,
+                nfse_json,
+            )
+            .unwrap(),
+            razao_social: get_field(
+                &config.prestador_json.dados_prestador.razao_social,
+                nfse_json,
+            )
+            .unwrap(),
+            bairro: get_field(&config.prestador_json.endereco.bairro, nfse_json).unwrap(),
+            cep: get_field(&config.prestador_json.endereco.cep, nfse_json).unwrap(),
+            codigo_municipio: get_field(
+                &config.prestador_json.endereco.codigo_municipio,
+                nfse_json,
+            )
+            .unwrap(),
+            codigo_pais: get_field(&config.prestador_json.endereco.codigo_pais, nfse_json).unwrap(),
+            complemento: get_field(&config.prestador_json.endereco.complemento, nfse_json).unwrap(),
+            endereco: get_field(&config.prestador_json.endereco.logradouro, nfse_json).unwrap(),
+            numero: get_field(&config.prestador_json.endereco.numero, nfse_json).unwrap(),
+            uf: get_field(&config.prestador_json.endereco.uf, nfse_json).unwrap(),
+            email: get_field(&config.prestador_json.contato.email, nfse_json).unwrap(),
+            telefone: get_field(&config.prestador_json.contato.telefone, nfse_json).unwrap(),
         }
     };
 
     let tomador: Tomador = {
         Tomador {
-            cnpj: get_field(&config.tomador[0], nfse_json).unwrap(),
-            cpf: get_field(&config.tomador[1], nfse_json).unwrap(),
-            razao_social: get_field(&config.tomador[2], nfse_json).unwrap(),
-            bairro: get_field(&config.tomador[3], nfse_json).unwrap(),
-            cep: get_field(&config.tomador[4], nfse_json).unwrap(),
-            codigo_municipio: get_field(&config.tomador[5], nfse_json).unwrap(),
-            endereco: get_field(&config.tomador[6], nfse_json).unwrap(),
-            numero: get_field(&config.tomador[7], nfse_json).unwrap(),
-            uf: get_field(&config.tomador[8], nfse_json).unwrap(),
-            email: get_field(&config.tomador[9], nfse_json).unwrap(),
-            telefone: get_field(&config.tomador[10], nfse_json).unwrap(),
+            cnpj: get_field(&config.tomador_json.dados_tomador.cnpj, nfse_json).unwrap(),
+            cpf: get_field(&config.tomador_json.dados_tomador.cpf, nfse_json).unwrap(),
+            razao_social: get_field(&config.tomador_json.dados_tomador.razao_social, nfse_json)
+                .unwrap(),
+            bairro: get_field(&config.tomador_json.endereco.bairro, nfse_json).unwrap(),
+            cep: get_field(&config.tomador_json.endereco.cep, nfse_json).unwrap(),
+            codigo_municipio: get_field(&config.tomador_json.endereco.codigo_municipio, nfse_json)
+                .unwrap(),
+            endereco: get_field(&config.tomador_json.endereco.logradouro, nfse_json).unwrap(),
+            numero: get_field(&config.tomador_json.endereco.numero, nfse_json).unwrap(),
+            uf: get_field(&config.tomador_json.endereco.uf, nfse_json).unwrap(),
+            email: get_field(&config.tomador_json.contato.email, nfse_json).unwrap(),
+            telefone: get_field(&config.tomador_json.contato.telefone, nfse_json).unwrap(),
         }
     };
 
@@ -147,6 +165,6 @@ pub fn get_nfse(nfse_layout_folder_path: &str, nfse_json_path: &str) {
 fn main() {
     let nfse_layout_folder_path = "/home/felipecn/Desktop/PROJECTS/nf-rs/nfse/src/layouts";
     let nfse_json_path = "/home/felipecn/Desktop/PROJECTS/nf-rs/nfse/src/models/model_nfse_catanduva_01_normal_com_rps.xml";
-    println!("{}", to_json_from_file(nfse_json_path).unwrap());
+    // println!("{}", result.unwrap().prestador_json.contato.email);
     get_nfse(nfse_layout_folder_path, nfse_json_path);
 }

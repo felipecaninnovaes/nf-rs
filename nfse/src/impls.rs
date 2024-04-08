@@ -1,14 +1,82 @@
 use std::fmt::{Display, Formatter, Result};
 
-use crate::structs::{Config, DadosNfse, Data, Identifier, Nfse, Prestador, Tomador, Valores};
+use crate::structs::*;
+
+impl Display for Data {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(f, "field: {}\nfieldpath: {}", self.field, self.fieldpath)
+    }
+}
+
+impl Display for ContatoJson {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(f, "email: {}\ntelefone: {}", self.email, self.telefone)
+    }
+}
+
+impl Display for EnderecoJson {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(
+            f,
+            "bairro: {}\ncep: {}\ncodigo_municipio: {}\ncodigo_pais: {}\ncomplemento: {}\nlogradouro: {}\nnumero: {}\nuf: {}",
+            self.bairro, self.cep, self.codigo_municipio, self.codigo_pais, self.complemento, self.logradouro, self.numero, self.uf
+        )
+    }
+}
+
+impl Display for DadosTomador {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(
+            f,
+            "cnpj: {}\ncpf: {}\nrazao_social: {}",
+            self.cnpj, self.cpf, self.razao_social
+        )
+    }
+}
+
+impl Display for DadosPrestador {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(
+            f,
+            "cnpj: {}\ninscricao_municipal: {}\nnome_fantasia: {}\nrazao_social: {}",
+            self.cnpj, self.inscricao_municipal, self.nome_fantasia, self.razao_social
+        )
+    }
+}
+
+impl Display for PrestadorJson {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(
+            f,
+            "dados_prestador: {}\nendereco: {}\ncontato: {}",
+            self.dados_prestador, self.endereco, self.contato
+        )
+    }
+}
+
+impl Display for TomadorJson {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(
+            f,
+            "dados_tomador: {}\nendereco: {}\ncontato: {}",
+            self.dados_tomador, self.endereco, self.contato
+        )
+    }
+}
 
 impl Display for Config {
     fn fmt(&self, f: &mut Formatter) -> Result {
         write!(
             f,
-            "layout: {}\nidentifier: {}\ndata: {:?}",
-            self.layout, self.identifier.key, self.prestador
+            "layout: {}\nidentifier: {}\nprestador_json: {}\ntomador_json: {}\ndados_nfse: {:?}\nvalores: {:?}",
+            self.layout, self.identifier, self.prestador_json, self.tomador_json, self.dados_nfse, self.valores
         )
+    }
+}
+
+impl Display for Identifier {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(f, "key: {}\nvalue: {}", self.key, self.value)
     }
 }
 

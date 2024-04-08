@@ -72,12 +72,59 @@ pub struct Nfse {
 }
 
 #[derive(Deserialize, Debug)]
+pub struct DadosPrestador {
+    pub cnpj: Data,
+    pub inscricao_municipal: Data,
+    pub nome_fantasia: Data,
+    pub razao_social: Data,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct PrestadorJson {
+    pub dados_prestador: DadosPrestador,
+    pub endereco: EnderecoJson,
+    pub contato: ContatoJson,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct TomadorJson {
+    pub dados_tomador: DadosTomador,
+    pub endereco: EnderecoJson,
+    pub contato: ContatoJson,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct DadosTomador {
+    pub cnpj: Data,
+    pub cpf: Data,
+    pub razao_social: Data,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct EnderecoJson {
+    pub bairro: Data,
+    pub cep: Data,
+    pub codigo_municipio: Data,
+    pub codigo_pais: Data,
+    pub complemento: Data,
+    pub logradouro: Data,
+    pub numero: Data,
+    pub uf: Data,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct ContatoJson {
+    pub email: Data,
+    pub telefone: Data,
+}
+
+#[derive(Deserialize, Debug)]
 pub struct Config {
     pub layout: String,
     pub identifier: Identifier,
+    pub prestador_json: PrestadorJson,
+    pub tomador_json: TomadorJson,
     pub dados_nfse: Vec<Data>,
-    pub prestador: Vec<Data>,
-    pub tomador: Vec<Data>,
     pub valores: Vec<Data>,
 }
 
