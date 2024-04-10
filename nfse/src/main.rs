@@ -57,7 +57,7 @@ fn get_field(data: &Data, nfse_json: &serde_json::Value) -> Option<String> {
     }
 }
 
-fn parse_in_nfse(nfse_json: &serde_json::Value, config: Config) {
+fn parse_in_nfse(nfse_json: &serde_json::Value, config: Config) -> Nfse {
     let dados_nfse: DadosNfse = {
         DadosNfse {
             numero_da_nota: get_field(&config.dados_nfse[0], nfse_json).unwrap(),
@@ -143,21 +143,21 @@ fn parse_in_nfse(nfse_json: &serde_json::Value, config: Config) {
         }
     };
 
-    let nfse = Nfse {
+    Nfse {
         dados_nfse,
         prestador,
         tomador,
         valores,
-    };
-
-    println!("{}", nfse);
+    }
 }
 
 pub fn get_nfse(nfse_layout_folder_path: &str, nfse_json_path: &str) {
     let nfse_json = to_json_from_file(nfse_json_path).unwrap();
     let config = check_layout(&nfse_json, nfse_layout_folder_path);
     match config {
-        Ok(config) => parse_in_nfse(&nfse_json, config),
+        Ok(config) => {
+            parse_in_nfse(&nfse_json, config);
+        }
         Err(_) => println!("layout not found"),
     };
 }
@@ -165,6 +165,5 @@ pub fn get_nfse(nfse_layout_folder_path: &str, nfse_json_path: &str) {
 fn main() {
     let nfse_layout_folder_path = "/home/felipecn/Desktop/PROJECTS/nf-rs/nfse/src/layouts";
     let nfse_json_path = "/home/felipecn/Desktop/PROJECTS/nf-rs/nfse/src/models/model_nfse_catanduva_01_normal_com_rps.xml";
-    // println!("{}", result.unwrap().prestador_json.contato.email);
     get_nfse(nfse_layout_folder_path, nfse_json_path);
 }

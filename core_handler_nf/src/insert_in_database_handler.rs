@@ -10,6 +10,8 @@ pub async fn insert_in_database_handler(path: &str) {
     dotenv().ok();
     let _pool = start_connection().await;
 
+    //TODO use my utils lib and refactor this code;
+
     let values = list_folder(path).expect("Error reading folder");
 
     for value in values {
