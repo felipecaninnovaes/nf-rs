@@ -1,9 +1,6 @@
+use crate::modules::json::structs::{dest::Dest, emit::Emit, nfe_struct::Nfe, produtos::Produto};
+use utils::core::parser::{value_to_f64, value_to_string};
 use xml_json::to_json_from_file;
-
-use crate::modules::{
-    json::structs::{dest::Dest, emit::Emit, nfe_struct::Nfe, produtos::Produto},
-    util::parse_utils::parse_value_to_f64,
-};
 
 impl Nfe {
     #[allow(dead_code)]
@@ -39,35 +36,31 @@ impl Nfe {
 
     #[allow(dead_code)]
     pub fn new(file_path: &str) -> Nfe {
-        use crate::modules::util::parse_utils::parse_value_to_string;
-
         let base = to_json_from_file(file_path).unwrap();
         let base_nfe = &base["nfeProc"]["NFe"]["infNFe"]["ide"];
         let value: Nfe = Nfe {
-            nfe_cdv: parse_value_to_string(&base_nfe["cDV"]),
-            nfe_cmunfg: parse_value_to_string(&base_nfe["cMunFG"]),
-            nfe_cnf: parse_value_to_string(&base_nfe["cNF"]),
-            nfe_cuf: parse_value_to_string(&base_nfe["cUF"]),
-            nfe_dhemi: parse_value_to_string(&base_nfe["dhEmi"]),
-            nfe_dhsaient: parse_value_to_string(&base_nfe["dhSaiEnt"]),
-            nfe_finnfe: parse_value_to_string(&base_nfe["finNFe"]),
-            nfe_nfe_iddest: parse_value_to_string(&base_nfe["idDest"]),
-            nfe_indfinal: parse_value_to_string(&base_nfe["indFinal"]),
-            nfe_indintermed: parse_value_to_string(&base_nfe["indIntermed"]),
-            nfe_indpres: parse_value_to_string(&base_nfe["indPres"]),
-            nfe_modnfe: parse_value_to_string(&base_nfe["mod"]),
-            nfe_nnf: parse_value_to_string(&base_nfe["nNF"]),
-            nfe_natop: parse_value_to_string(&base_nfe["natOp"]),
-            nfe_procemi: parse_value_to_string(&base_nfe["procEmi"]),
-            nfe_serie: parse_value_to_string(&base_nfe["serie"]),
-            nfe_tpamb: parse_value_to_string(&base_nfe["tpAmb"]),
-            nfe_tpemis: parse_value_to_string(&base_nfe["tpEmis"]),
-            nfe_tpimp: parse_value_to_string(&base_nfe["tpImp"]),
-            nfe_tpnf: parse_value_to_string(&base_nfe["tpNF"]),
-            nfe_verproc: parse_value_to_string(&base_nfe["verProc"]),
-            nfe_nftotal: parse_value_to_f64(
-                &base["nfeProc"]["NFe"]["infNFe"]["total"]["ICMSTot"]["vNF"],
-            ),
+            nfe_cdv: value_to_string(&base_nfe["cDV"]),
+            nfe_cmunfg: value_to_string(&base_nfe["cMunFG"]),
+            nfe_cnf: value_to_string(&base_nfe["cNF"]),
+            nfe_cuf: value_to_string(&base_nfe["cUF"]),
+            nfe_dhemi: value_to_string(&base_nfe["dhEmi"]),
+            nfe_dhsaient: value_to_string(&base_nfe["dhSaiEnt"]),
+            nfe_finnfe: value_to_string(&base_nfe["finNFe"]),
+            nfe_nfe_iddest: value_to_string(&base_nfe["idDest"]),
+            nfe_indfinal: value_to_string(&base_nfe["indFinal"]),
+            nfe_indintermed: value_to_string(&base_nfe["indIntermed"]),
+            nfe_indpres: value_to_string(&base_nfe["indPres"]),
+            nfe_modnfe: value_to_string(&base_nfe["mod"]),
+            nfe_nnf: value_to_string(&base_nfe["nNF"]),
+            nfe_natop: value_to_string(&base_nfe["natOp"]),
+            nfe_procemi: value_to_string(&base_nfe["procEmi"]),
+            nfe_serie: value_to_string(&base_nfe["serie"]),
+            nfe_tpamb: value_to_string(&base_nfe["tpAmb"]),
+            nfe_tpemis: value_to_string(&base_nfe["tpEmis"]),
+            nfe_tpimp: value_to_string(&base_nfe["tpImp"]),
+            nfe_tpnf: value_to_string(&base_nfe["tpNF"]),
+            nfe_verproc: value_to_string(&base_nfe["verProc"]),
+            nfe_nftotal: value_to_f64(&base["nfeProc"]["NFe"]["infNFe"]["total"]["ICMSTot"]["vNF"]),
             nfe_emit: Emit::new(&base),
             nfe_dest: Dest::new(&base),
             nfe_produtos: Produto::new(&base),

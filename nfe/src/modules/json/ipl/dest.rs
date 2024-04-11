@@ -1,7 +1,7 @@
 use crate::modules::json::structs::dest::Dest;
 use crate::modules::json::structs::ender::Ender;
-use crate::modules::util::parse_utils::parse_value_to_string;
 use serde_json::Value;
+use utils::core::parser::value_to_string;
 
 impl Dest {
     #[allow(dead_code)]
@@ -21,18 +21,18 @@ impl Dest {
         let base_dest = &base["nfeProc"]["NFe"]["infNFe"]["dest"];
         let dest_cnpj = &base_dest["CNPJ"];
         let cnpj_cpf = if dest_cnpj != &Value::Null {
-            parse_value_to_string(dest_cnpj)
+            value_to_string(dest_cnpj)
         } else {
-            parse_value_to_string(&base_dest["CPF"])
+            value_to_string(&base_dest["CPF"])
         };
 
         let result: Dest = Dest {
             dest_cnpjcpf: cnpj_cpf,
-            dest_ie: parse_value_to_string(&base_dest["IE"]),
-            dest_email: parse_value_to_string(&base_dest["email"]),
+            dest_ie: value_to_string(&base_dest["IE"]),
+            dest_email: value_to_string(&base_dest["email"]),
             dest_ender: Ender::new_dest(base),
-            dest_indiedest: parse_value_to_string(&base_dest["indIEDest"]),
-            dest_xnome: parse_value_to_string(&base_dest["xNome"]),
+            dest_indiedest: value_to_string(&base_dest["indIEDest"]),
+            dest_xnome: value_to_string(&base_dest["xNome"]),
         };
         result
     }
