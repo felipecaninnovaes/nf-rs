@@ -1,6 +1,6 @@
 use crate::modules::json::structs::impostos::IcmsUfDest;
-use crate::modules::util::parse_utils::parse_value_to_f64;
 use serde_json::Value;
+use utils::core::parser::value_to_f64;
 
 impl IcmsUfDest {
     #[allow(dead_code)]
@@ -23,15 +23,15 @@ impl IcmsUfDest {
         match &base["imposto"]["ICMSUFDest"] {
             Value::Null => IcmsUfDest::empty(),
             prod_icms_uf_dest => IcmsUfDest {
-                icms_uf_vbcufdest: parse_value_to_f64(&prod_icms_uf_dest["vBCUFDest"]),
-                icms_uf_vbcfcpufdest: parse_value_to_f64(&prod_icms_uf_dest["vBCFCPUFDest"]),
-                icms_uf_pfcpufdest: parse_value_to_f64(&prod_icms_uf_dest["pFCPUFDest"]),
-                icms_uf_picmsufdest: parse_value_to_f64(&prod_icms_uf_dest["pICMSUFDest"]),
-                icms_uf_picmsinter: parse_value_to_f64(&prod_icms_uf_dest["pICMSInter"]),
-                icms_uf_picmsinterpart: parse_value_to_f64(&prod_icms_uf_dest["pICMSInterPart"]),
-                icms_uf_vfcpufdest: parse_value_to_f64(&prod_icms_uf_dest["vFCPUFDest"]),
-                icms_uf_vicmsufdest: parse_value_to_f64(&prod_icms_uf_dest["vICMSUFDest"]),
-                icms_uf_vicmsufremet: parse_value_to_f64(&prod_icms_uf_dest["vICMSUFRemet"]),
+                icms_uf_vbcufdest: value_to_f64(&prod_icms_uf_dest["vBCUFDest"]),
+                icms_uf_vbcfcpufdest: value_to_f64(&prod_icms_uf_dest["vBCFCPUFDest"]),
+                icms_uf_pfcpufdest: value_to_f64(&prod_icms_uf_dest["pFCPUFDest"]),
+                icms_uf_picmsufdest: value_to_f64(&prod_icms_uf_dest["pICMSUFDest"]),
+                icms_uf_picmsinter: value_to_f64(&prod_icms_uf_dest["pICMSInter"]),
+                icms_uf_picmsinterpart: value_to_f64(&prod_icms_uf_dest["pICMSInterPart"]),
+                icms_uf_vfcpufdest: value_to_f64(&prod_icms_uf_dest["vFCPUFDest"]),
+                icms_uf_vicmsufdest: value_to_f64(&prod_icms_uf_dest["vICMSUFDest"]),
+                icms_uf_vicmsufremet: value_to_f64(&prod_icms_uf_dest["vICMSUFRemet"]),
             },
         }
     }

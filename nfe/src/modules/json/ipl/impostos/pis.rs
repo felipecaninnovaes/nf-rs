@@ -1,6 +1,6 @@
 use crate::modules::json::structs::impostos::Pis;
-use crate::modules::util::parse_utils::{parse_value_to_f64, parse_value_to_i64};
 use serde_json::Value;
+use utils::core::parser::{value_to_f64, value_to_i64};
 
 impl Pis {
     #[allow(dead_code)]
@@ -17,10 +17,10 @@ impl Pis {
     pub fn new(base: &Value) -> Pis {
         let prod_pis = &base["imposto"]["PIS"]["PISAliq"];
         Pis {
-            pis_cst: parse_value_to_i64(&prod_pis["CST"]),
-            pis_vbc: parse_value_to_f64(&prod_pis["vBC"]),
-            pis_ppis: parse_value_to_f64(&prod_pis["pPIS"]),
-            pis_vpis: parse_value_to_f64(&prod_pis["vPIS"]),
+            pis_cst: value_to_i64(&prod_pis["CST"]),
+            pis_vbc: value_to_f64(&prod_pis["vBC"]),
+            pis_ppis: value_to_f64(&prod_pis["pPIS"]),
+            pis_vpis: value_to_f64(&prod_pis["vPIS"]),
         }
     }
 }

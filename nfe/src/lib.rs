@@ -11,18 +11,6 @@ mod tests {
     use crate::modules::json::structs::produtos::Produto;
 
     #[test]
-    fn read_folder() {
-        let mut input = crate::modules::util::read_folder::list_folder("tests/data")
-            .expect("Error reading folder");
-        input.sort();
-        let expected: Vec<String> = vec![
-            "tests/data/1.xml".to_string(),
-            "tests/data/2.xml".to_string(),
-        ];
-        assert_eq!(input, expected);
-    }
-
-    #[test]
     fn new_nfe_vec_products() {
         let input = Nfe::new("tests/data/1.xml");
         let expected = Nfe {

@@ -4,8 +4,7 @@ use core_sql::modules::empresas::update::update_empresa;
 use core_sql::modules::permissoes::select::select_all_user_permissions;
 use core_sql::structs::empresas::empresa_struct::UpdateEmpresasModel;
 use sqlx::{Pool, Postgres};
-
-use crate::services::utils::parse::parse_uuid;
+use utils::core::parser::string_to_uuid;
 
 use crate::services::utils::{api_error::APIError, api_ok::APIOk};
 
@@ -14,7 +13,7 @@ pub async fn update_empresas(
     path: Path<String>,
     Json(empresas): Json<UpdateEmpresasModel>,
 ) -> Result<impl IntoResponse, APIError> {
-    let user_id = match parse_uuid(path.0) {
+    let user_id = match string_to_uuid(path.0) {
         Ok(uuid) => uuid,
         Err(_) => Err(APIError {
             message: "Invalid user id".to_owned(),
