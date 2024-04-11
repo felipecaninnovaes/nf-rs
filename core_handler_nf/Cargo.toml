@@ -11,3 +11,4 @@ dotenv = "0.15.0"
 
 nfe = { path = "../nfe" }
 core_sql = { path = "../core_sql" }
+utils = { path = "../utils" }
