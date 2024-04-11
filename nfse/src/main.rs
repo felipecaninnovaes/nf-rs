@@ -15,8 +15,7 @@ fn get_config(path: &str) -> Config {
 fn check_layout(nfse_json: &serde_json::Value, layout_folder: &str) -> Result<Config, ()> {
     let layout_files = utils::core::fs::Dir::read_dir(layout_folder, ".json");
     for layout in layout_files.dir_files.expect("error reading layout files") {
-        let layout_path = format!("{}/{}", layout_folder, layout);
-        let config = get_config(&layout_path);
+        let config = get_config(&layout);
         let identifier_value = &nfse_json[&config.identifier.key][&config.identifier.value];
         match identifier_value.is_null() {
             true => continue,
