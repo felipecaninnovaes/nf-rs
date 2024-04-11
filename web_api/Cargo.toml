@@ -25,4 +25,3 @@ rand = "0.8.5"
 
 nfe = { path = "../nfe" }
 core_sql = { path = "../core_sql" }
-utils = { path = "../utils" }
