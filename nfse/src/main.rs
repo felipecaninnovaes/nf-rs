@@ -12,23 +12,9 @@ fn get_config(path: &str) -> Config {
     config
 }
 
-fn read_dir(path: &str, extension: &str) -> Vec<String> {
-    let folder = std::fs::read_dir(path).unwrap();
-    let mut folder_files = Vec::new();
-    for file in folder {
-        let file = file.unwrap();
-        let file_name = file.file_name().into_string().unwrap();
-        match file_name.ends_with(extension) {
-            true => folder_files.push(file_name),
-            false => continue,
-        }
-    }
-    folder_files
-}
-
 fn check_layout(nfse_json: &serde_json::Value, layout_folder: &str) -> Result<Config, ()> {
-    let layout_files = read_dir(layout_folder, ".json");
-    for layout in layout_files {
+    let layout_files = utils::core::fs::Dir::read_dir(layout_folder, ".json");
+    for layout in layout_files.dir_files.expect("error reading layout files") {
         let layout_path = format!("{}/{}", layout_folder, layout);
         let config = get_config(&layout_path);
         let identifier_value = &nfse_json[&config.identifier.key][&config.identifier.value];
