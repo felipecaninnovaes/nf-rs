@@ -25,7 +25,7 @@ impl Dest {
         } else {
             parse_value_to_string(&base_dest["CPF"])
         };
-        
+
         let result: Dest = Dest {
             dest_cnpjcpf: cnpj_cpf,
             dest_ie: parse_value_to_string(&base_dest["IE"]),

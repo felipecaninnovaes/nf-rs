@@ -1,17 +1,14 @@
-use axum::{http::StatusCode, response::IntoResponse, Extension, Json};
-use chrono::Utc;
-use dotenv::dotenv;
-use nfe::modules::sql::connection_postgres::start_connection;
+use axum::{http::StatusCode, Extension, Json};
+use core_sql::modules::usuarios::select::select_user_by_email;
 use serde::Serialize;
 use sqlx::{Pool, Postgres};
-use uuid::Uuid;
 
-use crate::services::utils::api_error::APIError;
-
-use super::{
-    jwt::encode_jwt,
-    struct_user::{CreateUserModel, LoginUserModel, LoginUserResponseModel, LoginCheckModel}, argon2::{encrypt, check},
+use crate::services::{
+    users::struct_users::{LoginUserModel, LoginUserResponseModel},
+    utils::api_error::APIError,
 };
+
+use super::{argon2::check, jwt::encode_jwt};
 
 #[derive(Debug, Serialize)]
 pub struct ErrorResponse {
@@ -19,38 +16,11 @@ pub struct ErrorResponse {
     pub message: String,
 }
 
-pub async fn create_user(Json(user): Json<CreateUserModel>) -> Result<impl IntoResponse, APIError> {
-    dotenv().ok();
-
-    let _pool = start_connection().await;
-
-    let select_user = format!("SELECT * FROM users WHERE email = '{}'", user.email);
-    let result = sqlx::query(&select_user).fetch_one(&_pool).await;
-
-    if result.is_ok() {
-        return Err(APIError {
-            message: "Usuario já cadastrado".to_owned(),
-            status_code: StatusCode::CONFLICT,
-            error_code: Some(41),
-        });
-    }
-
-    let uuid = Uuid::new_v4();
-    let created_at = Utc::now().naive_utc();
-    let encrypt_password = encrypt(user.password.as_str()).unwrap();
-    let q = format!("INSERT INTO users (iduser, firstname, secondname, email, password, created_at) VALUES ('{}','{}', '{}', '{}', '{}','{}')" , uuid, user.firstname, user.secondname, user.email, encrypt_password, created_at);
-    sqlx::query(&q).execute(&_pool).await.unwrap();
-    Ok((StatusCode::OK, "Usuario criado com sucesso"))
-}
-
 pub async fn login_user_post(
     Extension(_pool): Extension<Pool<Postgres>>,
     Json(user_data): Json<LoginUserModel>,
 ) -> Result<Json<LoginUserResponseModel>, APIError> {
-    let q = "SELECT iduser, email, firstname, password FROM users WHERE email = $1";
-    let user = sqlx::query_as::<_, LoginCheckModel>(q)
-        .bind(user_data.email)
-        .fetch_one(&_pool)
+    let user = select_user_by_email(&_pool, &user_data.email)
         .await
         .map_err(|_| APIError {
             message: "Failed to login".to_owned(),
@@ -58,7 +28,7 @@ pub async fn login_user_post(
             error_code: Some(41),
         })?;
 
-    match check(&user_data.password, &user.password) {
+    match check(&user_data.password, &user[0].password) {
         Ok(true) => (),
         _ => {
             return Err(APIError {
@@ -69,16 +39,16 @@ pub async fn login_user_post(
         }
     }
 
-    let token = encode_jwt(user.email.clone(), user.iduser).map_err(|_| APIError {
+    let token = encode_jwt(user[0].email.clone(), user[0].iduser).map_err(|_| APIError {
         message: "Failed to login".to_owned(),
         status_code: StatusCode::UNAUTHORIZED,
         error_code: Some(41),
     })?;
 
     Ok(Json(LoginUserResponseModel {
-        iduser: user.iduser,
-        firstname: user.firstname,
-        email: user.email,
+        iduser: user[0].iduser,
+        firstname: user[0].firstname.clone(),
+        email: user[0].email.clone(),
         token,
     }))
 }

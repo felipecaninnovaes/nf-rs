@@ -1,6 +1,6 @@
 use axum::{
     body::Body,
-    http::{header, Request}
+    http::{header, Request},
 };
 
 use axum_extra::extract::cookie::CookieJar;
@@ -18,42 +18,40 @@ pub struct HeaderGet {
     pub value: Option<String>,
 }
 
-pub fn get_cookie(cookie_jar: CookieJar,req: &Request<Body>, name: &str) -> Option<Cookie> {
+pub fn get_cookie(cookie_jar: CookieJar, req: &Request<Body>, name: &str) -> Option<Cookie> {
     let result = Cookie {
         name: Some(name.to_string()),
         value: {
             cookie_jar
-    .get("token")
-    .map(|cookie| cookie.value().to_string())
-    .or_else(|| {
-        req.headers()
-            .get(header::AUTHORIZATION)
-            .and_then(|auth_header| auth_header.to_str().ok())
-            .and_then(|auth_value| {
-                auth_value
-                    .strip_prefix(format!("{} ", name).as_str())
-                    .map(|value| value.to_owned())
-            })
-    })
-        }
+                .get("token")
+                .map(|cookie| cookie.value().to_string())
+                .or_else(|| {
+                    req.headers()
+                        .get(header::AUTHORIZATION)
+                        .and_then(|auth_header| auth_header.to_str().ok())
+                        .and_then(|auth_value| {
+                            auth_value
+                                .strip_prefix(format!("{} ", name).as_str())
+                                .map(|value| value.to_owned())
+                        })
+                })
+        },
     };
     Some(result)
 }
 
 pub fn get_from_header(req: &Request<Body>, name: &str) -> Option<HeaderGet> {
-    
     match req.headers().get(name) {
         Some(value) => {
             let result = HeaderGet {
                 name: Some(name.to_string()),
-                value: Some(value.to_str().unwrap().to_owned())
+                value: Some(value.to_str().unwrap().to_owned()),
             };
             // println!("HeaderGet: {:?}", result.value);
             Some(result)
-        },
-        
-        None => {
-            None}
+        }
+
+        None => None,
     }
 
     // let result = HeaderGet {

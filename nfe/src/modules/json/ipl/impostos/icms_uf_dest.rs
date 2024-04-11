@@ -32,7 +32,7 @@ impl IcmsUfDest {
                 icms_uf_vfcpufdest: parse_value_to_f64(&prod_icms_uf_dest["vFCPUFDest"]),
                 icms_uf_vicmsufdest: parse_value_to_f64(&prod_icms_uf_dest["vICMSUFDest"]),
                 icms_uf_vicmsufremet: parse_value_to_f64(&prod_icms_uf_dest["vICMSUFRemet"]),
-            }
+            },
         }
     }
 }

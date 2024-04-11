@@ -1,4 +1,11 @@
-use crate::modules::json::structs::impostos::Imposto;
+use sqlx::prelude::FromRow;
+
+use super::impostos::Imposto;
+
+#[derive(Debug, PartialEq, FromRow)]
+pub struct ProdutoId {
+    pub produto_idproduto: i32,
+}
 
 #[derive(Debug, PartialEq)]
 pub struct Produto {
