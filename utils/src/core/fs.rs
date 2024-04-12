@@ -10,7 +10,7 @@ type Extension = str;
 
 impl Dir {
     pub fn read_dir(path: &Path, extension: &Extension) -> Dir {
-        // TODO: Remover os espaços em branco.
+        // TODO Remover os espaços em branco.
         let folder = std::fs::read_dir(path).expect("Error reading folder");
         let mut folder_files = Vec::new();
         for file in folder {
