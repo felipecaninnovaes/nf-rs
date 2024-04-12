@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<CompNfse xmlns="http://www.abrasf.org.br/nfse.xsd" xmlns:ns2="http://www.w3.org/2000/09/xmldsig#">
+    <Nfse versao="2.01">
+        <InfNfse Id="1156696721LS27VV9NBJ1S4S3RMUXKFE">
+            <Numero>6983</Numero>
+            <CodigoVerificacao>H2OUL6M82</CodigoVerificacao>
+            <DataEmissao>2024-04-03T00:00:00</DataEmissao>
+            <OutrasInformacoes>Val. Aprox. Tributos: Federal (13,45%) R$373,35 Estadual (0,00%)
+                R$0,00 Municipal (3,90%) R$108,26 - Fonte: IBPT</OutrasInformacoes>
+            <ValoresNfse>
+                <BaseCalculo>2775.80</BaseCalculo>
+                <Aliquota>3.9986</Aliquota>
+                <ValorIss>110.99</ValorIss>
+                <ValorLiquidoNfse>2775.80</ValorLiquidoNfse>
+            </ValoresNfse>
+            <PrestadorServico>
+                <IdentificacaoPrestador>
+                    <CpfCnpj>
+                        <Cnpj>99999999999999</Cnpj>
+                    </CpfCnpj>
+                    <InscricaoMunicipal>9999999999</InscricaoMunicipal>
+                </IdentificacaoPrestador>
+                <RazaoSocial>RAZAO SOCIAL PRETADOR</RazaoSocial>
+                <NomeFantasia>NOME FANTASIA PRESTADOR</NomeFantasia>
+                <Endereco>
+                    <Endereco>LOGRADOURO PRESTADOR</Endereco>
+                    <Numero>999</Numero>
+                    <Complemento>COMPLEMENTO PRESTADOR</Complemento>
+                    <Bairro>BAIRRO PRESTADOR</Bairro>
+                    <CodigoMunicipio>3511102</CodigoMunicipio>
+                    <Uf>SP</Uf>
+                    <CodigoPais>1058</CodigoPais>
+                    <Cep>99999999</Cep>
+                </Endereco>
+                <Contato>
+                    <Telefone>99999999999</Telefone>
+                    <Email>prestador@email.com.br</Email>
+                </Contato>
+            </PrestadorServico>
+            <OrgaoGerador>
+                <CodigoMunicipio>3511102</CodigoMunicipio>
+                <Uf>SP</Uf>
+            </OrgaoGerador>
+            <DeclaracaoPrestacaoServico>
+                <InfDeclaracaoPrestacaoServico>
+                    <Rps>
+                        <IdentificacaoRps>
+                            <Numero>9999</Numero>
+                            <Serie>A</Serie>
+                            <Tipo>1</Tipo>
+                        </IdentificacaoRps>
+                        <DataEmissao>2024-04-03</DataEmissao>
+                        <Status>1</Status>
+                    </Rps>
+                    <Competencia>2024-04-03</Competencia>
+                    <Servico>
+                        <Valores>
+                            <ValorServicos>2775.80</ValorServicos>
+                            <ValorDeducoes>0.00</ValorDeducoes>
+                            <ValorPis>0.00</ValorPis>
+                            <ValorCofins>0.00</ValorCofins>
+                            <ValorInss>0.00</ValorInss>
+                            <ValorIr>0.00</ValorIr>
+                            <ValorCsll>0.00</ValorCsll>
+                            <OutrasRetencoes>0.00</OutrasRetencoes>
+                            <ValorIss>110.99</ValorIss>
+                            <Aliquota>3.9986</Aliquota>
+                            <DescontoIncondicionado>0.00</DescontoIncondicionado>
+                            <DescontoCondicionado>0.00</DescontoCondicionado>
+                        </Valores>
+                        <IssRetido>2</IssRetido>
+                        <ResponsavelRetencao>1</ResponsavelRetencao>
+                        <ItemListaServico>14.01</ItemListaServico>
+                        <CodigoTributacaoMunicipio>0000140000001</CodigoTributacaoMunicipio>
+                        <Discriminacao>DESCRIMINACAO DO SERVIÇO</Discriminacao>
+                        <CodigoMunicipio>3511102</CodigoMunicipio>
+                        <ExigibilidadeISS>1</ExigibilidadeISS>
+                        <MunicipioIncidencia>3511102</MunicipioIncidencia>
+                    </Servico>
+                    <Prestador>
+                        <CpfCnpj>
+                            <Cnpj>99999999999999</Cnpj>
+                        </CpfCnpj>
+                        <InscricaoMunicipal>9999999999</InscricaoMunicipal>
+                    </Prestador>
+                    <Tomador>
+                        <IdentificacaoTomador>
+                            <CpfCnpj>
+                                <Cnpj>99999999999999</Cnpj>
+                            </CpfCnpj>
+                        </IdentificacaoTomador>
+                        <RazaoSocial>RASAO SOCIAL TOMADOR</RazaoSocial>
+                        <Endereco>
+                            <Endereco>LOGRADOURO TOMADOR</Endereco>
+                            <Numero>999</Numero>
+                            <Bairro>BAIRRO TOMADOR</Bairro>
+                            <CodigoMunicipio>3529302</CodigoMunicipio>
+                            <Uf>SP</Uf>
+                            <Cep>99999999</Cep>
+                        </Endereco>
+                        <Contato>
+                            <Telefone>99999999999</Telefone>
+                            <Email>tomador@email.com.br</Email>
+                        </Contato>
+                    </Tomador>
+                    <RegimeEspecialTributacao>6</RegimeEspecialTributacao>
+                    <OptanteSimplesNacional>1</OptanteSimplesNacional>
+                    <IncentivoFiscal>2</IncentivoFiscal>
+                </InfDeclaracaoPrestacaoServico>
+            </DeclaracaoPrestacaoServico>
+        </InfNfse>
+    </Nfse>
+</CompNfse>
