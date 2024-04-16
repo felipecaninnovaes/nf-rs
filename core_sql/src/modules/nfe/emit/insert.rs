@@ -14,7 +14,7 @@ pub async fn insert_emit_sql(pool: &sqlx::PgPool, emit: &Emit) -> Result<EmitId,
         Err(_) => {
             let emit_idender: EnderId = insert_ender_sql(pool, &emit.ender_emit).await.unwrap();
             let result = sqlx::query!(
-                r#"INSERT INTO nfe_emit (emit_cnpjcpf, emit_crt, emit_ie, emit_iest, emit_xfant, emit_xnome, emit_idender ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING emit_idemit"#,
+                r#"INSERT INTO nfe_emit (emit_cnpjcpf, emit_crt, emit_ie, emit_iest, emit_xfant, emit_xnome, emit_idender ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id"#,
                 emit.emit_cnpjcpf,
                 emit.emit_crt,
                 emit.emit_ie,
@@ -24,7 +24,7 @@ pub async fn insert_emit_sql(pool: &sqlx::PgPool, emit: &Emit) -> Result<EmitId,
                 emit_idender.ender_idender,
             ).fetch_one(pool).await.unwrap();
             Ok(EmitId {
-                emit_idemit: result.emit_idemit,
+                emit_idemit: result.id,
             })
         }
     }

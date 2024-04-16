@@ -16,7 +16,7 @@ pub async fn insert_icms_sql(
         Ok(imposto_id) => Ok(imposto_id),
         Err(_) => {
             let map = sqlx::query!(
-                r#"INSERT INTO nfe_icms (icms_orig, icms_cst, icms_modbc, icms_vbc, icms_picms, icms_vicms, icms_idproduto) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING icms_idicms"#,
+                r#"INSERT INTO nfe_icms (icms_orig, icms_cst, icms_modbc, icms_vbc, icms_picms, icms_vicms, icms_idproduto) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id"#,
                 imposto.icms_orig.to_string(),
                 imposto.icms_cst.to_string(),
                 imposto.icms_modbc.to_string(),
@@ -27,7 +27,7 @@ pub async fn insert_icms_sql(
             );
             let result = map.fetch_one(pool).await.unwrap();
             Ok(IcmsId {
-                icms_idicms: result.icms_idicms,
+                icms_idicms: result.id,
             })
         }
     }

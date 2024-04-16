@@ -11,7 +11,7 @@ pub async fn insert_user(pool: &PgPool, user: CreateUserModel) -> Result<(), Box
     let id_and_current_date: CreateIdAndCurrentDateModel = create_id_and_current_date();
 
     let result = sqlx::query!(
-        r#"INSERT INTO users (iduser, firstname, secondname, email, password, created_at) VALUES ($1, $2, $3, $4, $5, $6)"#,
+        r#"INSERT INTO users (id, firstname, secondname, email, password, created_at) VALUES ($1, $2, $3, $4, $5, $6)"#,
         id_and_current_date.id,
         user.firstname,
         user.secondname,

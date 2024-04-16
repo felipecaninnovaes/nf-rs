@@ -88,6 +88,7 @@
                             <CpfCnpj>
                                 <Cnpj>99999999999999</Cnpj>
                             </CpfCnpj>
+                        <InscricaoMunicipal>9999999999</InscricaoMunicipal>
                         </IdentificacaoTomador>
                         <RazaoSocial>RASAO SOCIAL TOMADOR</RazaoSocial>
                         <Endereco>

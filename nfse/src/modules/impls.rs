@@ -94,8 +94,18 @@ impl Display for Prestador {
     fn fmt(&self, f: &mut Formatter) -> Result {
         write!(
             f,
-            "cnpj: {}\ninscricao_municipal: {}\nnome_fantasia: {}\nrazao_social: {}\nbairro: {}\ncep: {}\ncodigo_municipio: {}\ncodigo_pais: {}\ncomplemento: {}\nendereco: {}\nnumero: {}\nuf: {}\nemail: {}\ntelefone: {}",
-            self.cnpj, self.inscricao_municipal, self.nome_fantasia, self.razao_social, self.bairro, self.cep, self.codigo_municipio, self.codigo_pais, self.complemento, self.endereco, self.numero, self.uf, self.email, self.telefone
+            "cnpj: {}\ninscricao_municipal: {}\nnome_fantasia: {}\nrazao_social: {}\nendereco: {}\nemail: {}\ntelefone: {}",
+            self.cnpj, self.inscricao_municipal, self.nome_fantasia, self.razao_social, self.endereco, self.email, self.telefone
+        )
+    }
+}
+
+impl Display for Endereco {
+    fn fmt(&self, f: &mut Formatter) -> Result {
+        write!(
+            f,
+            "bairro: {}\ncep: {}\ncodigo_municipio: {}\ncodigo_pais: {}\ncomplemento: {}\nlogradouro: {}\nnumero: {}\nuf: {}",
+            self.bairro, self.cep, self.codigo_municipio, self.codigo_pais, self.complemento, self.logradouro, self.numero, self.uf
         )
     }
 }
@@ -104,12 +114,11 @@ impl Display for Tomador {
     fn fmt(&self, f: &mut Formatter) -> Result {
         write!(
             f,
-            "cnpj: {}\ncpf: {}\nrazao_social: {}\nbairro: {}\ncep: {}\ncodigo_municipio: {}\nendereco: {}\nnumero: {}\nuf: {}\nemail: {}\ntelefone: {}",
-            self.cnpj, self.cpf, self.razao_social, self.bairro, self.cep, self.codigo_municipio, self.endereco, self.numero, self.uf, self.email, self.telefone
+            "cnpj: {}\ncpf: {}\nincricao_municipal: {}\nrazao_social: {}\nendereco: {}\nemail: {}\ntelefone: {}",
+            self.cnpj, self.cpf, self.inscricao_municipal, self.razao_social, self.endereco, self.email, self.telefone
         )
     }
 }
-
 impl Display for Valores {
     fn fmt(&self, f: &mut Formatter) -> Result {
         write!(

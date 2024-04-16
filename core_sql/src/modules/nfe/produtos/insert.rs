@@ -49,7 +49,7 @@ pub async fn insert_produto_sql(
             }
             Err(_) => {
                 let idproduto = sqlx::query!(
-                    r#"INSERT INTO nfe_produto (produto_nitem, produto_cprod, produto_cean, produto_xprod, produto_ncm, produto_cfop, produto_ucom, produto_qcom, produto_vuncom, produto_vprod, produto_ceantrib, produto_utrib, produto_qtrib, produto_vuntrib, produto_indtot, produto_xped, produto_idnfe) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,$15, $16, $17) RETURNING produto_idproduto"#,
+                    r#"INSERT INTO nfe_produto (produto_nitem, produto_cprod, produto_cean, produto_xprod, produto_ncm, produto_cfop, produto_ucom, produto_qcom, produto_vuncom, produto_vprod, produto_ceantrib, produto_utrib, produto_qtrib, produto_vuntrib, produto_indtot, produto_xped, produto_idnfe) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14,$15, $16, $17) RETURNING id"#,
                     p.produto_nitem,
                     p.produto_cprod,
                     p.produto_cean,
@@ -67,7 +67,7 @@ pub async fn insert_produto_sql(
                     p.produto_indtot,
                     p.produto_xped,
                     idnfe,
-                ).fetch_one(pool).await.unwrap().produto_idproduto;
+                ).fetch_one(pool).await.unwrap().id;
 
                 // insert impostos
                 insert_cofins_sql(pool, &p.imposto.imposto_cofins, &idproduto)

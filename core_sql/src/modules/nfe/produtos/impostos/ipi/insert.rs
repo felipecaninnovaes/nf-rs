@@ -18,7 +18,7 @@ pub async fn insert_ipi_sql(
         Err(_) => {
             let ipi_vbc_bigdecimal = BigDecimal::from_str(&imposto.ipi_vbc.to_string()).unwrap();
             let map = sqlx::query!(
-                r#"INSERT INTO nfe_ipi (ipi_cenq, ipi_cst, ipi_vbc, ipi_pipi, ipi_vipi, ipi_idproduto) VALUES ($1, $2, $3, $4, $5, $6) RETURNING ipi_idipi"#,
+                r#"INSERT INTO nfe_ipi (ipi_cenq, ipi_cst, ipi_vbc, ipi_pipi, ipi_vipi, ipi_idproduto) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id"#,
                 imposto.ipi_cenq.to_string(),
                 imposto.ipi_cst.to_string(),
                 parse_value_to_bigdecimal(&imposto.ipi_vbc),
@@ -28,7 +28,7 @@ pub async fn insert_ipi_sql(
             );
             let result = map.fetch_one(pool).await.unwrap();
             Ok(IpiId {
-                ipi_idipi: result.ipi_idipi,
+                ipi_idipi: result.id,
             })
         }
     }

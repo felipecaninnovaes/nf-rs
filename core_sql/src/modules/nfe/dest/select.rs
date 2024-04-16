@@ -6,7 +6,7 @@ pub async fn select_dest_id(
     pool: &sqlx::PgPool,
     cnpj_cpf: &String,
 ) -> Result<DestId, Box<dyn Error>> {
-    let q = "SELECT dest_iddest FROM nfe_dest WHERE dest_cnpjcpf = $1";
+    let q = "SELECT id FROM nfe_dest WHERE dest_cnpjcpf = $1";
     let query: DestId = sqlx::query_as::<_, DestId>(q)
         .bind(cnpj_cpf)
         .fetch_one(pool)

@@ -16,7 +16,7 @@ pub async fn insert_pis_sql(
         Ok(imposto_id) => Ok(imposto_id),
         Err(_) => {
             let map = sqlx::query!(
-                r#"INSERT INTO nfe_pis (pis_cst, pis_vbc, pis_ppis, pis_vpis, pis_idproduto) VALUES ($1, $2, $3, $4, $5) RETURNING pis_idpis"#,
+                r#"INSERT INTO nfe_pis (pis_cst, pis_vbc, pis_ppis, pis_vpis, pis_idproduto) VALUES ($1, $2, $3, $4, $5) RETURNING id"#,
                 imposto.pis_cst.to_string(),
                 parse_value_to_bigdecimal(&imposto.pis_vbc),
                 parse_value_to_bigdecimal(&imposto.pis_ppis),
@@ -25,7 +25,7 @@ pub async fn insert_pis_sql(
             );
             let result = map.fetch_one(pool).await.unwrap();
             Ok(PisId {
-                pis_idpis: result.pis_idpis,
+                pis_idpis: result.id,
             })
         }
     }

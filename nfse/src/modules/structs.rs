@@ -14,19 +14,24 @@ pub struct DadosNfse {
 }
 
 #[derive(Deserialize, Debug, PartialEq)]
-pub struct Prestador {
-    pub cnpj: String,
-    pub inscricao_municipal: String,
-    pub nome_fantasia: String,
-    pub razao_social: String,
+pub struct Endereco {
     pub bairro: String,
     pub cep: String,
     pub codigo_municipio: String,
     pub codigo_pais: String,
     pub complemento: String,
-    pub endereco: String,
+    pub logradouro: String,
     pub numero: String,
     pub uf: String,
+}
+
+#[derive(Deserialize, Debug, PartialEq)]
+pub struct Prestador {
+    pub cnpj: String,
+    pub inscricao_municipal: String,
+    pub nome_fantasia: String,
+    pub razao_social: String,
+    pub endereco: Endereco,
     pub email: String,
     pub telefone: String,
 }
@@ -35,13 +40,9 @@ pub struct Prestador {
 pub struct Tomador {
     pub cnpj: String,
     pub cpf: String,
+    pub inscricao_municipal: String,
     pub razao_social: String,
-    pub bairro: String,
-    pub cep: String,
-    pub codigo_municipio: String,
-    pub endereco: String,
-    pub numero: String,
-    pub uf: String,
+    pub endereco: Endereco,
     pub email: String,
     pub telefone: String,
 }
@@ -97,6 +98,7 @@ pub struct TomadorJson {
 pub struct DadosTomador {
     pub cnpj: Data,
     pub cpf: Data,
+    pub inscricao_municipal: Data,
     pub razao_social: Data,
 }
 
@@ -138,4 +140,19 @@ pub struct Identifier {
 pub struct Data {
     pub field: String,
     pub fieldpath: String,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct EnderecoID {
+    pub endereco_id: i32,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct PrestadorID {
+    pub prestador_id: i32,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct TomadorID {
+    pub tomador_id: i32,
 }

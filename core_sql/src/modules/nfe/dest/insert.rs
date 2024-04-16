@@ -14,7 +14,7 @@ pub async fn insert_dest_sql(pool: &sqlx::PgPool, dest: &Dest) -> Result<DestId,
         Err(_) => {
             let dest_idender: EnderId = insert_ender_sql(pool, &dest.dest_ender).await.unwrap();
             let result = sqlx::query!(
-                r#"INSERT INTO nfe_dest (dest_cnpjcpf, dest_ie, dest_email, dest_indiedest, dest_xnome, dest_idender) VALUES ($1, $2, $3, $4, $5, $6) RETURNING dest_iddest"#,
+                r#"INSERT INTO nfe_dest (dest_cnpjcpf, dest_ie, dest_email, dest_indiedest, dest_xnome, dest_idender) VALUES ($1, $2, $3, $4, $5, $6) RETURNING id"#,
                 dest.dest_cnpjcpf,
                 dest.dest_ie,
                 dest.dest_email,
@@ -23,7 +23,7 @@ pub async fn insert_dest_sql(pool: &sqlx::PgPool, dest: &Dest) -> Result<DestId,
                 dest_idender.ender_idender,
             ).fetch_one(pool).await.unwrap();
             Ok(DestId {
-                dest_iddest: result.dest_iddest,
+                dest_iddest: result.id,
             })
         }
     }

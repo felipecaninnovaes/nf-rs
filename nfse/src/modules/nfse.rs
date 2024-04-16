@@ -2,7 +2,9 @@
 use serde::Deserialize;
 use xml_json::to_json_from_file;
 
-use super::structs::{Config, DadosNfse, Data, Identifier, Nfse, Prestador, Tomador, Valores};
+use super::structs::{
+    Config, DadosNfse, Data, Endereco, Identifier, Nfse, Prestador, Tomador, Valores,
+};
 
 fn get_config(path: &str) -> Config {
     let config = std::fs::read_to_string(path).unwrap();
@@ -35,12 +37,13 @@ fn get_field(data: &Data, nfse_json: &serde_json::Value) -> Option<String> {
         field_value = field;
     }
     match field_value.is_null() {
-        true => None,
+        true => Some("Null".to_string()),
         false => Some(field_value[&data.field].to_string().replace('\"', "")),
     }
 }
 
 fn parse_in_nfse(nfse_json: &serde_json::Value, config: Config) -> Nfse {
+    println!("{:?}", nfse_json);
     let dados_nfse: DadosNfse = {
         DadosNfse {
             numero_da_nota: get_field(&config.dados_nfse[0], nfse_json).unwrap(),
@@ -73,18 +76,23 @@ fn parse_in_nfse(nfse_json: &serde_json::Value, config: Config) -> Nfse {
                 nfse_json,
             )
             .unwrap(),
-            bairro: get_field(&config.prestador_json.endereco.bairro, nfse_json).unwrap(),
-            cep: get_field(&config.prestador_json.endereco.cep, nfse_json).unwrap(),
-            codigo_municipio: get_field(
-                &config.prestador_json.endereco.codigo_municipio,
-                nfse_json,
-            )
-            .unwrap(),
-            codigo_pais: get_field(&config.prestador_json.endereco.codigo_pais, nfse_json).unwrap(),
-            complemento: get_field(&config.prestador_json.endereco.complemento, nfse_json).unwrap(),
-            endereco: get_field(&config.prestador_json.endereco.logradouro, nfse_json).unwrap(),
-            numero: get_field(&config.prestador_json.endereco.numero, nfse_json).unwrap(),
-            uf: get_field(&config.prestador_json.endereco.uf, nfse_json).unwrap(),
+            endereco: Endereco {
+                bairro: get_field(&config.prestador_json.endereco.bairro, nfse_json).unwrap(),
+                cep: get_field(&config.prestador_json.endereco.cep, nfse_json).unwrap(),
+                codigo_municipio: get_field(
+                    &config.prestador_json.endereco.codigo_municipio,
+                    nfse_json,
+                )
+                .unwrap(),
+                codigo_pais: get_field(&config.prestador_json.endereco.codigo_pais, nfse_json)
+                    .unwrap(),
+                complemento: get_field(&config.prestador_json.endereco.complemento, nfse_json)
+                    .unwrap(),
+                logradouro: get_field(&config.prestador_json.endereco.logradouro, nfse_json)
+                    .unwrap(),
+                numero: get_field(&config.prestador_json.endereco.numero, nfse_json).unwrap(),
+                uf: get_field(&config.prestador_json.endereco.uf, nfse_json).unwrap(),
+            },
             email: get_field(&config.prestador_json.contato.email, nfse_json).unwrap(),
             telefone: get_field(&config.prestador_json.contato.telefone, nfse_json).unwrap(),
         }
@@ -94,15 +102,29 @@ fn parse_in_nfse(nfse_json: &serde_json::Value, config: Config) -> Nfse {
         Tomador {
             cnpj: get_field(&config.tomador_json.dados_tomador.cnpj, nfse_json).unwrap(),
             cpf: get_field(&config.tomador_json.dados_tomador.cpf, nfse_json).unwrap(),
+            inscricao_municipal: get_field(
+                &config.tomador_json.dados_tomador.inscricao_municipal,
+                nfse_json,
+            )
+            .unwrap(),
             razao_social: get_field(&config.tomador_json.dados_tomador.razao_social, nfse_json)
                 .unwrap(),
-            bairro: get_field(&config.tomador_json.endereco.bairro, nfse_json).unwrap(),
-            cep: get_field(&config.tomador_json.endereco.cep, nfse_json).unwrap(),
-            codigo_municipio: get_field(&config.tomador_json.endereco.codigo_municipio, nfse_json)
+            endereco: Endereco {
+                bairro: get_field(&config.tomador_json.endereco.bairro, nfse_json).unwrap(),
+                cep: get_field(&config.tomador_json.endereco.cep, nfse_json).unwrap(),
+                codigo_municipio: get_field(
+                    &config.tomador_json.endereco.codigo_municipio,
+                    nfse_json,
+                )
                 .unwrap(),
-            endereco: get_field(&config.tomador_json.endereco.logradouro, nfse_json).unwrap(),
-            numero: get_field(&config.tomador_json.endereco.numero, nfse_json).unwrap(),
-            uf: get_field(&config.tomador_json.endereco.uf, nfse_json).unwrap(),
+                codigo_pais: get_field(&config.tomador_json.endereco.codigo_pais, nfse_json)
+                    .unwrap(),
+                complemento: get_field(&config.tomador_json.endereco.complemento, nfse_json)
+                    .unwrap(),
+                logradouro: get_field(&config.tomador_json.endereco.logradouro, nfse_json).unwrap(),
+                numero: get_field(&config.tomador_json.endereco.numero, nfse_json).unwrap(),
+                uf: get_field(&config.tomador_json.endereco.uf, nfse_json).unwrap(),
+            },
             email: get_field(&config.tomador_json.contato.email, nfse_json).unwrap(),
             telefone: get_field(&config.tomador_json.contato.telefone, nfse_json).unwrap(),
         }

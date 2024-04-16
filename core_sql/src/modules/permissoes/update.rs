@@ -10,7 +10,7 @@ pub async fn update_permissions(
     permission: PermissionsUpdate,
 ) -> Result<(), Box<dyn Error>> {
     sqlx::query!(
-        r#"UPDATE permissions SET permissions_empresa_id  = $1, permissions_user_id = $2, permissions_allowed = $3 WHERE permissions_idpermission = $4"#,
+        r#"UPDATE permissions SET permissions_empresa_id  = $1, permissions_user_id = $2, permissions_allowed = $3 WHERE id = $4"#,
         permission.permissions_empresa_id,
         permission.permissions_user_id,
         permission.permissions_allowed,

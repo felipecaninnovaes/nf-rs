@@ -11,7 +11,7 @@ pub async fn select_nfe_id(
     nnf: &String,
     idemit: &i32,
 ) -> Result<NfeId, Box<dyn Error>> {
-    let q = "SELECT nfe_idnfe FROM nfe WHERE nfe_nnf = $1 AND nfe_idemit = $2";
+    let q = "SELECT id FROM nfe WHERE nfe_nnf = $1 AND nfe_idemit = $2";
     let query = sqlx::query_as::<_, NfeId>(q)
         .bind(nnf)
         .bind(idemit)

@@ -6,7 +6,7 @@ pub async fn select_emit_id(
     pool: &sqlx::PgPool,
     cnpj_cpf: &String,
 ) -> Result<EmitId, Box<dyn Error>> {
-    let q = "SELECT emit_idemit FROM nfe_emit WHERE emit_cnpjcpf = $1";
+    let q = "SELECT id FROM nfe_emit WHERE emit_cnpjcpf = $1";
     let query = sqlx::query_as::<_, EmitId>(q)
         .bind(cnpj_cpf)
         .fetch_one(pool)

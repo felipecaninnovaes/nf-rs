@@ -370,6 +370,7 @@ dependencies = [
  "chrono",
  "dotenv",
  "nfe",
+ "nfse",
  "serde",
  "serde_json",
  "sqlx",

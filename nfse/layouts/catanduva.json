@@ -122,6 +122,10 @@
         "field": "Cpf",
         "fieldpath": "CompNfse/Nfse/InfNfse/DeclaracaoPrestacaoServico/InfDeclaracaoPrestacaoServico/Tomador/IdentificacaoTomador/CpfCnpj"
       },
+      "inscricao_municipal": {
+        "field": "InscricaoMunicipal",
+        "fieldpath": "CompNfse/Nfse/InfNfse/DeclaracaoPrestacaoServico/InfDeclaracaoPrestacaoServico/Tomador/IdentificacaoTomador"
+      },
       "razao_social": {
         "field": "RazaoSocial",
         "fieldpath": "CompNfse/Nfse/InfNfse/DeclaracaoPrestacaoServico/InfDeclaracaoPrestacaoServico/Tomador"

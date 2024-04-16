@@ -17,7 +17,7 @@ pub async fn insert_nfe_sql(pool: &sqlx::PgPool, nfe: &Nfe) -> Result<NfeId, Nfe
         Ok(idnfe) => Ok(idnfe),
         Err(_) => {
             let result = sqlx::query!(
-                r#"INSERT INTO nfe (nfe_cdv, nfe_cmunfg, nfe_cnf, nfe_cuf, nfe_dhemi, nfe_dhsaient, nfe_finnfe, nfe_nfe_iddest, nfe_indfinal, nfe_indintermed, nfe_indpres, nfe_modnfe, nfe_nnf, nfe_natop, nfe_procemi, nfe_serie, nfe_tpamb, nfe_tpemis, nfe_tpimp, nfe_tpnf, nfe_verproc, nfe_nftotal, nfe_idemit, nfe_iddest ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24) RETURNING nfe_idnfe"#,
+                r#"INSERT INTO nfe (nfe_cdv, nfe_cmunfg, nfe_cnf, nfe_cuf, nfe_dhemi, nfe_dhsaient, nfe_finnfe, nfe_nfe_iddest, nfe_indfinal, nfe_indintermed, nfe_indpres, nfe_modnfe, nfe_nnf, nfe_natop, nfe_procemi, nfe_serie, nfe_tpamb, nfe_tpemis, nfe_tpimp, nfe_tpnf, nfe_verproc, nfe_nftotal, nfe_idemit, nfe_iddest ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24) RETURNING id"#,
                 nfe.nfe_cdv,
                 nfe.nfe_cmunfg,
                 nfe.nfe_cnf,
@@ -39,12 +39,12 @@ pub async fn insert_nfe_sql(pool: &sqlx::PgPool, nfe: &Nfe) -> Result<NfeId, Nfe
                 nfe.nfe_tpimp,
                 nfe.nfe_tpnf,
                 nfe.nfe_verproc,
-                nfe.nfe_nftotal.to_string(), // Convert nfe_nftotal to a string
+                nfe.nfe_nftotal.to_string(),
                 idemit.emit_idemit,
                 iddest.dest_iddest,
             ).fetch_one(pool).await.unwrap();
             Ok(NfeId {
-                nfe_idnfe: result.nfe_idnfe,
+                nfe_idnfe: result.id,
             })
         }
     }

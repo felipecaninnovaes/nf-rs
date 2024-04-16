@@ -12,7 +12,7 @@ pub async fn update_user(pool: &PgPool, user: UserModelUpdate) -> Result<(), Box
         return Err("User not found".into());
     }
     sqlx::query!(
-        r#"UPDATE users SET firstname = $1, secondname = $2, email = $3 WHERE iduser = $4"#,
+        r#"UPDATE users SET firstname = $1, secondname = $2, email = $3 WHERE id = $4"#,
         user.firstname,
         user.secondname,
         user.email,

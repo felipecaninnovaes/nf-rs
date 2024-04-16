@@ -16,7 +16,7 @@ pub async fn insert_icms_uf_dest_sql(
         Ok(imposto_id) => Ok(imposto_id),
         Err(_) => {
             let map = sqlx::query!(
-                r#"INSERT INTO nfe_icmsufdest (icms_uf_vbcufdest, icms_uf_vbcfcpufdest, icms_uf_pfcpufdest, icms_uf_picmsufdest, icms_uf_picmsinter, icms_uf_picmsinterpart, icms_uf_vfcpufdest, icms_uf_vicmsufdest, icms_uf_vicmsufremet, icms_uf_idproduto) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING icms_uf_idicmsufdest"#,
+                r#"INSERT INTO nfe_icmsufdest (icms_uf_vbcufdest, icms_uf_vbcfcpufdest, icms_uf_pfcpufdest, icms_uf_picmsufdest, icms_uf_picmsinter, icms_uf_picmsinterpart, icms_uf_vfcpufdest, icms_uf_vicmsufdest, icms_uf_vicmsufremet, icms_uf_idproduto) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id"#,
                 parse_value_to_bigdecimal(&imposto.icms_uf_vbcufdest),
                 parse_value_to_bigdecimal(&imposto.icms_uf_vbcfcpufdest),
                 parse_value_to_bigdecimal(&imposto.icms_uf_pfcpufdest),
@@ -30,7 +30,7 @@ pub async fn insert_icms_uf_dest_sql(
             );
             let result = map.fetch_one(pool).await.unwrap();
             Ok(IcmsUfDestId {
-                icms_uf_idicmsufdest: result.icms_uf_idicmsufdest,
+                icms_uf_idicmsufdest: result.id,
             })
         }
     }
