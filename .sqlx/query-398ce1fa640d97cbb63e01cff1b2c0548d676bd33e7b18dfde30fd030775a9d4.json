@@ -1,11 +1,11 @@
 {
   "db_name": "PostgreSQL",
-  "query": "INSERT INTO nfe_cofins (cofins_cst, cofins_vbc, cofins_pcofins, cofins_vcofins, cofins_idproduto) VALUES ($1, $2, $3, $4, $5) RETURNING cofins_idcofins",
+  "query": "INSERT INTO nfe_pis (pis_cst, pis_vbc, pis_ppis, pis_vpis, pis_idproduto) VALUES ($1, $2, $3, $4, $5) RETURNING id",
   "describe": {
     "columns": [
       {
         "ordinal": 0,
-        "name": "cofins_idcofins",
+        "name": "id",
         "type_info": "Int4"
       }
     ],
@@ -22,5 +22,5 @@
       false
     ]
   },
-  "hash": "64d6b3b1625b6a700515b0bbaea608ec401e988e40aa587d11e2326a608f35ac"
+  "hash": "398ce1fa640d97cbb63e01cff1b2c0548d676bd33e7b18dfde30fd030775a9d4"
 }

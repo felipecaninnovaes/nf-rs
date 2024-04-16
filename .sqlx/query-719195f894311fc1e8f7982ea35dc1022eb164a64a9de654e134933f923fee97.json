@@ -1,0 +1,18 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "INSERT INTO permissions (id, permissions_user_id, permissions_empresa_id, permissions_allowed, permissions_created_at) VALUES ($1, $2, $3, $4, $5)",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Uuid",
+        "Bool",
+        "Date"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "719195f894311fc1e8f7982ea35dc1022eb164a64a9de654e134933f923fee97"
+}

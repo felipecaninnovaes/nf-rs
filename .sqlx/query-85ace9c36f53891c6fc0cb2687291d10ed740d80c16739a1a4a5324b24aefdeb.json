@@ -1,16 +1,18 @@
 {
   "db_name": "PostgreSQL",
-  "query": "INSERT INTO nfe_pis (pis_cst, pis_vbc, pis_ppis, pis_vpis, pis_idproduto) VALUES ($1, $2, $3, $4, $5) RETURNING pis_idpis",
+  "query": "INSERT INTO nfe_icms (icms_orig, icms_cst, icms_modbc, icms_vbc, icms_picms, icms_vicms, icms_idproduto) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
   "describe": {
     "columns": [
       {
         "ordinal": 0,
-        "name": "pis_idpis",
+        "name": "id",
         "type_info": "Int4"
       }
     ],
     "parameters": {
       "Left": [
+        "Varchar",
+        "Varchar",
         "Varchar",
         "Numeric",
         "Numeric",
@@ -22,5 +24,5 @@
       false
     ]
   },
-  "hash": "294a52a9328d12d0b9e39ff274616098ecffac232f1eeec976eb0bfb62c632c2"
+  "hash": "85ace9c36f53891c6fc0cb2687291d10ed740d80c16739a1a4a5324b24aefdeb"
 }

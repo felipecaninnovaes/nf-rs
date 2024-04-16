@@ -1,0 +1,17 @@
+{
+  "db_name": "PostgreSQL",
+  "query": "UPDATE permissions SET permissions_empresa_id  = $1, permissions_user_id = $2, permissions_allowed = $3 WHERE id = $4",
+  "describe": {
+    "columns": [],
+    "parameters": {
+      "Left": [
+        "Uuid",
+        "Uuid",
+        "Bool",
+        "Uuid"
+      ]
+    },
+    "nullable": []
+  },
+  "hash": "e95ba9575b6f90f5db7c77fca2c1b400b876ab4f04574dfce7973214119bc53d"
+}

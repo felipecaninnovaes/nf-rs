@@ -1,11 +1,11 @@
 {
   "db_name": "PostgreSQL",
-  "query": "INSERT INTO nfe_emit (emit_cnpjcpf, emit_crt, emit_ie, emit_iest, emit_xfant, emit_xnome, emit_idender ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING emit_idemit",
+  "query": "INSERT INTO nfe_emit (emit_cnpjcpf, emit_crt, emit_ie, emit_iest, emit_xfant, emit_xnome, emit_idender ) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id",
   "describe": {
     "columns": [
       {
         "ordinal": 0,
-        "name": "emit_idemit",
+        "name": "id",
         "type_info": "Int4"
       }
     ],
@@ -24,5 +24,5 @@
       false
     ]
   },
-  "hash": "cdbbfb462404e0f923c7de11180b3c9d9cfaabbf50fb48bd3bfa93db06a25396"
+  "hash": "8d5904d59269e11d60cf7ecf213657608d78775333075eb8b71f6340c04a1183"
 }
