@@ -156,3 +156,8 @@ pub struct PrestadorID {
 pub struct TomadorID {
     pub tomador_id: i32,
 }
+
+#[derive(Deserialize, Debug)]
+pub struct ValoresID {
+    pub valores_id: i32,
+}
