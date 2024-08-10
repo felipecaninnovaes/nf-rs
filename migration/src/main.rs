@@ -1,5 +1,6 @@
 use dotenv::dotenv;
-use nfe::modules::sql::migration;
+pub mod modules;
+use modules::sql::migration;
 #[tokio::main]
 async fn main() {
     dotenv().ok();

@@ -18,12 +18,12 @@ pub async fn insert_query(
 ) -> Result<(), Box<dyn Error + Sync + Send>> {
     let id_and_current_date: CreateIdAndCurrentDateModel = create_id_and_current_date();
     let result = sqlx::query!(
-        r#"INSERT INTO permissions (permissions_idpermission, permissions_user_id, permissions_empresa_id, permissions_allowed, permissions_created_at) VALUES ($1, $2, $3, $4, $5)"#,
+        r#"INSERT INTO permissions (permissions_idpermission, permissions_user_id, permissions_empresa_id, permissions_allowed) VALUES ($1, $2, $3, $4)"#,
         id_and_current_date.id,
         user_id,
         empresa_id,
         allowed,
-        id_and_current_date.current_date,
+        // id_and_current_date.current_date,
     ).execute(pool).await?;
 
     match result.rows_affected() {

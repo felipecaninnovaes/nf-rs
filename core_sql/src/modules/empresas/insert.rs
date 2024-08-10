@@ -15,7 +15,7 @@ pub async fn insert_empresa(
     let id_and_current_date: CreateIdAndCurrentDateModel = create_id_and_current_date();
 
     let result = sqlx::query!(
-        r#"INSERT INTO empresas (idempresa, nome, nome_fant, cnpj, rua, numero, bairro, cidade, estado, cep, telefone, email, regime_tributario, created_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)"#,
+        r#"INSERT INTO empresas (idempresa, nome, nome_fant, cnpj, rua, numero, bairro, cidade, estado, cep, telefone, email, regime_tributario) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)"#,
         id_and_current_date.id,
         empresa.nome.to_uppercase(),
         empresa.nome_fant.to_uppercase(),
@@ -29,7 +29,7 @@ pub async fn insert_empresa(
         empresa.telefone,
         empresa.email,
         empresa.regime_tributario.to_uppercase(),
-        id_and_current_date.current_date,
+        // id_and_current_date.current_date,
     )
     .execute(pool)
     .await?;
